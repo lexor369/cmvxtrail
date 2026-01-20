@@ -59,16 +59,13 @@
       margin: 10px 0;
       border-radius: 8px;
     }
-    .btn:hover { background: #e6e6e6; }
     .btn-red {
       background: #e60000;
       color: #fff;
     }
-    .btn-red:hover { background: #b30000; }
     .important-text {
-      font-size: 16px;
-      font-weight: bold;
       color: #ff4444;
+      font-weight: bold;
       margin-top: 10px;
     }
   </style>
@@ -89,6 +86,7 @@
              data-shaka-player
              autoplay
              muted
+             controls
              poster="https://i.postimg.cc/HkGLtcJ5/IMG-20260120-192442.png">
       </video>
     </div>
@@ -123,19 +121,19 @@
       player.configure({
         drm: {
           clearKeys: {
-            "48bef83b4c6a3c5189b01b0126210da4":
-            "bd085230b7b09e50954fe0af111a8a9f"
+            "1779c27b9d077a3ba0c9cc1bb9a94b9f":
+            "cc5cf3b7928fb9e0a1ee6a8b566f0a8e"
           }
         }
       });
 
       try {
         await player.load(
-          "https://ev-fast-mpd.starzplayarabia.com/live/eds/CricLife2/DASH/CricLife2.mpd"
+          "https://a201aivottlinear-a.akamaihd.net/OTTB/lhr-nitro/clients/dash/enc/f60kqesunw/out/v1/a435ed7a00f947deb4369b46d8f2fb70/cenc.mpd"
         );
         console.log("✅ Stream loaded successfully");
       } catch (e) {
-        console.error("❌ Error loading stream", e);
+        console.error("❌ Stream error", e);
       }
     }
 
