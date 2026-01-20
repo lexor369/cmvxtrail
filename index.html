@@ -3,26 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shaka DASH Player</title>
+  <title>TG_@cricketmemesverse873</title>
 
   <!-- Shaka Player -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.ui.min.js"
-          crossorigin="anonymous"></script>
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/controls.min.css"
-        crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.ui.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/controls.min.css" crossorigin="anonymous">
 
   <style>
     body {
       margin: 0;
-      background: #000;
-      color: #fff;
+      background-color: #000;
       font-family: Arial, sans-serif;
+      color: white;
       text-align: center;
     }
-    .player-box {
-      max-width: 900px;
-      margin: 20px auto;
+    .header {
+      padding: 10px;
+      margin: 10px;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .header img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 10px;
+    }
+    .video-box {
+      margin: 15px;
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 0 12px rgba(255,255,255,0.2);
@@ -31,53 +38,127 @@
       width: 100%;
       height: auto;
     }
+    .btn-box {
+      margin: 15px auto;
+      padding: 15px;
+      background: #111;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+    }
+    .btn {
+      display: block;
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+      background: #fff;
+      padding: 14px;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+    .btn-red {
+      background: #e60000;
+      color: #fff;
+    }
+    .important-text {
+      color: #ff4444;
+      font-weight: bold;
+      margin-top: 10px;
+    }
   </style>
 </head>
 
 <body>
 
-  <h2>Live Stream</h2>
+  <!-- Header -->
+  <div class="header" onclick="redirectToTelegram()">
+    <img src="https://i.postimg.cc/5t837CNz/IMG-20260113-220813.png" alt="@cricketmemesverse873">
+  </div>
 
-  <div class="player-box">
+  <!-- Video -->
+  <div class="video-box">
     <div data-shaka-player-container>
       <video
         id="video"
         data-shaka-player
         autoplay
         muted
-        controls>
+        controls
+        poster="https://i.postimg.cc/HkGLtcJ5/IMG-20260120-192442.png">
       </video>
     </div>
   </div>
 
+  <!-- Buttons -->
+  <div class="btn-box">
+    <h3>📢 Follow us for Updates!</h3>
+
+    <a href="https://t.me/cricketmemesverse873" class="btn">
+      Click Here To Join Telegram For More Links
+    </a>
+
+    <div class="important-text">❗ IMPORTANT</div>
+
+    <a href="#" onclick="copyLink()" class="btn btn-red">
+      Copy Link & Use in Chrome Browser Only
+    </a>
+
+    <a href="#" onclick="sharePage()" class="btn">
+      Click Here To Share This Page Link ❤️
+    </a>
+  </div>
+
+  <!-- MAIN SCRIPT -->
   <script>
     async function init() {
       const video = document.getElementById("video");
       const ui = video.ui;
       const player = ui.getPlayer();
 
-      // 1️⃣ CONFIGURE DRM (PUT YOUR OWN VALUES)
+      /* ✅ UPDATED DRM KEYS */
       player.configure({
         drm: {
           clearKeys: {
-            "KID_HERE": "KEY_HERE"
+            "9df0c8b99769d568fef60b3f032e7289":
+            "2b82c47c8960fdac95ca1bd24b6a8fd1"
           }
         }
       });
 
       try {
-        // 2️⃣ LOAD DASH MPD (PUT YOUR MPD URL)
+        /* ✅ UPDATED MPD */
         await player.load(
-          "MPD_URL_HERE"
+          "https://a201aivottlinear-a.akamaihd.net/OTTB/lhr-nitro/live/clients/dash/enc/purcvdbrx4/out/v1/b5adb0e7f8b344f89afe08db7d8e8169/cenc.mpd"
         );
-
-        console.log("✅ Stream loaded successfully");
-      } catch (error) {
-        console.error("❌ Error loading stream", error);
+        console.log("✅ Stream loaded");
+      } catch (e) {
+        console.error("❌ Stream error", e);
       }
     }
 
     document.addEventListener("DOMContentLoaded", init);
+
+    function redirectToTelegram() {
+      window.open("https://t.me/cricketmemesverse873", "_blank");
+    }
+
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href)
+        .then(() => alert("✅ Link copied! Open in Chrome"))
+        .catch(() => alert("❌ Copy failed"));
+    }
+
+    function sharePage() {
+      if (navigator.share) {
+        navigator.share({
+          title: "cricketmemesverse873",
+          text: "Watch Live Cricket Now 🚀",
+          url: window.location.href
+        });
+      } else {
+        alert("Sharing not supported");
+      }
+    }
   </script>
 
 </body>
