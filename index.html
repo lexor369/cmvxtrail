@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TG_@cricketmemesverse873</title>
+  <title>Shaka DASH Player</title>
 
-  <!-- Shaka Player with HLS support -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.compiled.js" crossorigin="anonymous"></script>
+  <!-- Shaka Player -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.ui.min.js"
+          crossorigin="anonymous"></script>
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/controls.min.css"
         crossorigin="anonymous">
@@ -14,24 +15,14 @@
   <style>
     body {
       margin: 0;
-      background-color: #000;
+      background: #000;
+      color: #fff;
       font-family: Arial, sans-serif;
-      color: white;
       text-align: center;
     }
-    .header {
-      padding: 10px;
-      margin: 10px;
-      cursor: pointer;
-      display: inline-block;
-    }
-    .header img {
-      width: 100%;
-      max-width: 300px;
-      border-radius: 10px;
-    }
-    .video-box {
-      margin: 15px;
+    .player-box {
+      max-width: 900px;
+      margin: 20px auto;
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 0 12px rgba(255,255,255,0.2);
@@ -40,71 +31,23 @@
       width: 100%;
       height: auto;
     }
-    .btn-box {
-      margin: 15px auto;
-      padding: 15px;
-      background: #111;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 500px;
-    }
-    .btn {
-      display: block;
-      text-decoration: none;
-      color: #000;
-      font-weight: bold;
-      background: #fff;
-      padding: 14px;
-      margin: 10px 0;
-      border-radius: 8px;
-    }
-    .btn-red {
-      background: #e60000;
-      color: #fff;
-    }
-    .important-text {
-      color: #ff4444;
-      font-weight: bold;
-      margin-top: 10px;
-    }
   </style>
 </head>
 
 <body>
 
-  <div class="header" onclick="redirectToTelegram()">
-    <img src="https://i.postimg.cc/5t837CNz/IMG-20260113-220813.png"
-         alt="@cricketmemesverse873">
-  </div>
+  <h2>Live Stream</h2>
 
-  <div class="video-box">
+  <div class="player-box">
     <div data-shaka-player-container>
-      <video id="video"
-             data-shaka-player
-             autoplay
-             muted
-             controls
-             poster="https://i.postimg.cc/HkGLtcJ5/IMG-20260120-192442.png">
+      <video
+        id="video"
+        data-shaka-player
+        autoplay
+        muted
+        controls>
       </video>
     </div>
-  </div>
-
-  <div class="btn-box">
-    <h3>📢 Follow us for Updates!</h3>
-
-    <a href="https://t.me/cricketmemesverse873" class="btn">
-      Click Here To Join Telegram For More Links
-    </a>
-
-    <div class="important-text">❗ IMPORTANT</div>
-
-    <a href="#" onclick="copyLink()" class="btn btn-red">
-      Copy Link & Use in Chrome Browser Only
-    </a>
-
-    <a href="#" onclick="sharePage()" class="btn">
-      Click Here To Share This Page Link ❤️
-    </a>
   </div>
 
   <script>
@@ -113,39 +56,28 @@
       const ui = video.ui;
       const player = ui.getPlayer();
 
+      // 1️⃣ CONFIGURE DRM (PUT YOUR OWN VALUES)
+      player.configure({
+        drm: {
+          clearKeys: {
+            "KID_HERE": "KEY_HERE"
+          }
+        }
+      });
+
       try {
+        // 2️⃣ LOAD DASH MPD (PUT YOUR MPD URL)
         await player.load(
-          "https://in-mc-fdlive.fancode.com/mumbai/138947_english_hls_22f481031d90942_1ta-di_h264/1080p.m3u8"
+          "MPD_URL_HERE"
         );
-        console.log("✅ HLS loaded successfully");
-      } catch (e) {
-        console.error("❌ Failed to load HLS", e);
+
+        console.log("✅ Stream loaded successfully");
+      } catch (error) {
+        console.error("❌ Error loading stream", error);
       }
     }
 
     document.addEventListener("DOMContentLoaded", init);
-
-    function redirectToTelegram() {
-      window.open("https://t.me/cricketmemesverse873", "_blank");
-    }
-
-    function copyLink() {
-      navigator.clipboard.writeText(window.location.href)
-        .then(() => alert("✅ Link copied! Open it in Chrome browser."))
-        .catch(() => alert("❌ Failed to copy link."));
-    }
-
-    function sharePage() {
-      if (navigator.share) {
-        navigator.share({
-          title: "cricketmemesverse873",
-          text: "Watch Live Cricket Now 🚀",
-          url: window.location.href
-        });
-      } else {
-        alert("Sharing not supported. Copy link manually.");
-      }
-    }
   </script>
 
 </body>
