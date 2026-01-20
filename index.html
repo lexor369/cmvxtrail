@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TG_@cricketmemesverse873</title>
+
+  <!-- Shaka Player -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.ui.min.js"
+          crossorigin="anonymous"></script>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/controls.min.css"
+        crossorigin="anonymous">
+
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
+    .header {
+      padding: 10px;
+      margin: 10px;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .header img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 10px;
+    }
+    .video-box {
+      margin: 15px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 12px rgba(255,255,255,0.2);
+    }
+    video {
+      width: 100%;
+      height: auto;
+    }
+    .btn-box {
+      margin: 15px auto;
+      padding: 15px;
+      background: #111;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+    }
+    .btn {
+      display: block;
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+      background: #fff;
+      padding: 14px;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+    .btn:hover { background: #e6e6e6; }
+    .btn-red {
+      background: #e60000;
+      color: #fff;
+    }
+    .btn-red:hover { background: #b30000; }
+    .important-text {
+      font-size: 16px;
+      font-weight: bold;
+      color: #ff4444;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <div class="header" onclick="redirectToTelegram()">
+    <img src="https://i.postimg.cc/5t837CNz/IMG-20260113-220813.png"
+         alt="@cricketmemesverse873">
+  </div>
+
+  <!-- Video -->
+  <div class="video-box">
+    <div data-shaka-player-container>
+      <video id="video"
+             data-shaka-player
+             autoplay
+             muted
+             poster="https://i.postimg.cc/HkGLtcJ5/IMG-20260120-192442.png">
+      </video>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-box">
+    <h3>📢 Follow us for Updates!</h3>
+
+    <a href="https://t.me/cricketmemesverse873" class="btn">
+      Click Here To Join Telegram For More Links
+    </a>
+
+    <div class="important-text">❗ IMPORTANT</div>
+
+    <a href="#" onclick="copyLink()" class="btn btn-red">
+      Copy Link & Use in Chrome Browser Only
+    </a>
+
+    <a href="#" onclick="sharePage()" class="btn">
+      Click Here To Share This Page Link ❤️
+    </a>
+  </div>
+
+  <script>
+    async function init() {
+      const video = document.getElementById("video");
+      const ui = video.ui;
+      const player = ui.getPlayer();
+
+      // ClearKey DRM
+      player.configure({
+        drm: {
+          clearKeys: {
+            "48bef83b4c6a3c5189b01b0126210da4":
+            "bd085230b7b09e50954fe0af111a8a9f"
+          }
+        }
+      });
+
+      try {
+        await player.load(
+          "https://ev-fast-mpd.starzplayarabia.com/live/eds/CricLife2/DASH/CricLife2.mpd"
+        );
+        console.log("✅ Stream loaded successfully");
+      } catch (e) {
+        console.error("❌ Error loading stream", e);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+
+    function redirectToTelegram() {
+      window.open("https://t.me/cricketmemesverse873", "_blank");
+    }
+
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href)
+        .then(() => alert("✅ Link copied! Open it in Chrome browser."))
+        .catch(() => alert("❌ Failed to copy link."));
+    }
+
+    function sharePage() {
+      if (navigator.share) {
+        navigator.share({
+          title: "cricketmemesverse873",
+          text: "Watch Live Cricket Now 🚀",
+          url: window.location.href
+        });
+      } else {
+        alert("Sharing not supported. Copy link manually.");
+      }
+    }
+  </script>
+
+</body>
+</html>
