@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TG_@cricketmemesverse873</title>
 
-  <!-- Shaka Player -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.ui.min.js"
-          crossorigin="anonymous"></script>
+  <!-- Shaka Player with HLS support -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.compiled.js" crossorigin="anonymous"></script>
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/controls.min.css"
         crossorigin="anonymous">
@@ -73,13 +72,11 @@
 
 <body>
 
-  <!-- Header -->
   <div class="header" onclick="redirectToTelegram()">
     <img src="https://i.postimg.cc/5t837CNz/IMG-20260113-220813.png"
          alt="@cricketmemesverse873">
   </div>
 
-  <!-- Video -->
   <div class="video-box">
     <div data-shaka-player-container>
       <video id="video"
@@ -92,7 +89,6 @@
     </div>
   </div>
 
-  <!-- Buttons -->
   <div class="btn-box">
     <h3>📢 Follow us for Updates!</h3>
 
@@ -117,23 +113,13 @@
       const ui = video.ui;
       const player = ui.getPlayer();
 
-      // ClearKey DRM
-      player.configure({
-        drm: {
-          clearKeys: {
-            "1779c27b9d077a3ba0c9cc1bb9a94b9f":
-            "cc5cf3b7928fb9e0a1ee6a8b566f0a8e"
-          }
-        }
-      });
-
       try {
         await player.load(
-          "https://a201aivottlinear-a.akamaihd.net/OTTB/lhr-nitro/clients/dash/enc/f60kqesunw/out/v1/a435ed7a00f947deb4369b46d8f2fb70/cenc.mpd"
+          "https://in-mc-fdlive.fancode.com/mumbai/138947_english_hls_22f481031d90942_1ta-di_h264/1080p.m3u8"
         );
-        console.log("✅ Stream loaded successfully");
+        console.log("✅ HLS loaded successfully");
       } catch (e) {
-        console.error("❌ Stream error", e);
+        console.error("❌ Failed to load HLS", e);
       }
     }
 
