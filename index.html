@@ -1,245 +1,66 @@
-<script type="text/javascript">
-
- atOptions = {
-
-  'key' : '8d22307db9ec88da8122268a55344818',
-
-  'format' : 'iframe',
-
-  'height' : 50,
-
-  'width' : 320,
-
-  'params' : {}
-
- };
-
-</script>
-
-<script type="text/javascript" src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
-
-<script type="text/javascript">
-
- atOptions = {
-
-  'key' : '8d22307db9ec88da8122268a55344818',
-
-  'format' : 'iframe',
-
-  'height' : 50,
-
-  'width' : 320,
-
-  'params' : {}
-
- };
-
-</script>
-
-<script type="text/javascript" src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
-
-<!DOCTYPE html>
-
-<html lang="en">
-
-<head>
-
-    <title>My Live Stream Player</title>
-
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-
-    <meta name="referrer" content="no-referrer">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
-
-    <style>
-
-        body {
-
-            background-color: #000000;
-
-            margin: 0;
-
-            padding: 0;
-
-            overflow: hidden;
-
-        }
-
-        html, body {
-
-            height: 100%;
-
-        }
-
-        video {
-
-            width: 100%;
-
-            max-width: 100%;
-
-            height: auto;
-
-        }
-
-        .plyr {
-
-            height: auto;
-
-        }
-
-    </style>
-
-</head>
-
-<body>
-
-    <video id="player" autoplay muted controls crossorigin playsinline></video>
-
-    <script>
-
-        document.addEventListener('DOMContentLoaded', () => {
-
-            const video = document.getElementById('player');
-
-            const source = "https://amg01269-amg01269c1-sportstribal-emea-5204.playouts.now.amagi.tv/ts-eu-w1-n2/playlist/amg01269-willowtvfast-willowplus-sportstribalemea/playlist.m3u8"; // YOUR M3U8 LINK
-
-            
-
-            if (Hls.isSupported()) {
-
-                const hls = new Hls();
-
-                hls.loadSource(source);
-
-                hls.attachMedia(video);
-
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-
-                    // --- START OF MODIFICATIONS ---
-
-                    // Get the available quality levels from HLS.js
-
-                    const availableQualities = hls.levels.map((level) => level.height);
-
-                    
-
-                    // Add an "Auto" option, which hls.js understands as -1
-
-                    availableQualities.unshift(-1);
-
-                    // Create a new Plyr instance with quality controls
-
-                    const player = new Plyr(video, {
-
-                        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
-
-                        quality: {
-
-                            default: -1, // Default to 'auto'
-
-                            options: availableQualities,
-
-                            forced: true, 
-
-                            onChange: (newQuality) => {
-
-                                // Find the index of the new quality in our array and set it in hls.js
-
-                                hls.currentLevel = availableQualities.indexOf(newQuality) - 1;
-
-                            },
-
-                        },
-
-                        // This adds the "Auto" label to the settings menu for the -1 value
-
-                        i18n: {
-
-                            qualityLabel: {
-
-                                '-1': 'Auto',
-
-                            },
-
-                        },
-
-                    });
-
-                    
-
-                    // --- END OF MODIFICATIONS ---
-
-                });
-
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-
-                video.src = source;
-
-                new Plyr(video);
-
-            } else {
-
-                video.style.display = 'none';
-
-                const errorMessage = document.createElement('p');
-
-                errorMessage.textContent = 'Your browser does not support HLS playback.';
-
-                document.body.appendChild(errorMessage);
-
-            }
-
-        });
-
-    </script>
-
-<script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.min.js"></script>
-
-</body>
-
-</html>
-
-<script type="text/javascript">
-
- atOptions = {
-
-  'key' : '8d22307db9ec88da8122268a55344818',
-
-  'format' : 'iframe',
-
-  'height' : 50,
-
-  'width' : 320,
-
-  'params' : {}
-
- };
-
-</script>
-
-<script type="text/javascript" src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
-
-<script type="text/javascript">
-
- atOptions = {
-
-  'key' : '8d22307db9ec88da8122268a55344818',
-
-  'format' : 'iframe',
-
-  'height' : 50,
-
-  'width' : 320,
-
-  'params' : {}
-
- };
-
-</script>
-
-<script type="text/javascript" src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
-
-<b>🔥 JOIN TELEGRAM CHANNEL FOR MORE LINKS AND UPDATE</b>&nbsp;🔥&nbsp;<script src="//www.highperformanceformat.com/1b21d60d7662c7a217ab6bc7fbbe72ee/invoke.js" type="text/javascript"></script><div class="separator" style="clear: both; text-align: center;"><a href="https://t.me/cricketmemesverse873" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="140" data-original-width="360" height="124" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXEokhW3x2CmtCW0RpLxWGicRcTLcSE702jB78hFiY2JLM3hxePbFhSc8HAtWJruarMofaoO5EhQ1zmrx3T_rBBJVnvQiMdBHQaSzt7Sz77QDcXwyaFDN9xK9HgkdmUGD8h3xlH14I2XG4IXXt_k0Id4tdZGgAIDfwk0QkV1KBG24b0AMmt3jRk9RtYxI/s320/1000073674.jpg" width="320" /></a></div><br /><div><br /></div>
+<style>
+body {
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #111 0%, #000 60%);
+  color:#fff;
+}
+
+.header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 20px;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.logo {
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:2px;
+}
+
+.live {
+  color:#ff3b3b;
+  font-size:14px;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%{opacity:1}
+  50%{opacity:.3}
+  100%{opacity:1}
+}
+
+.player-box {
+  max-width:900px;
+  margin:20px auto;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow: 0 0 40px rgba(255,0,0,0.15);
+}
+
+.footer {
+  text-align:center;
+  padding:20px;
+  font-size:14px;
+  opacity:0.7;
+}
+</style>
+
+<div class="header">
+  <div class="logo">CMV</div>
+  <div class="live">● LIVE</div>
+</div>
+
+<div class="player-box">
+  <!-- KEEP YOUR VIDEO PLAYER HERE -->
+</div>
+
+<div class="footer">
+  © 2026 CMV • Premium Cricket Streaming
+</div>
