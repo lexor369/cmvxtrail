@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
 <title>CMV • Premium Cricket</title>
 
+<!-- SEO -->
+<meta name="description" content="CMV Premium Live Cricket Streaming Platform">
+<meta name="keywords" content="Cricket Live, CMV, Streaming, IPL, Live Match">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#000000">
+
+<!-- PWA Feel -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="referrer" content="no-referrer">
 
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<!-- Plyr -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.min.js"></script>
 
 <style>
+/* ---------------- RESET ---------------- */
+* { box-sizing:border-box; }
 body {
   margin:0;
-  font-family: 'Segoe UI', system-ui;
-  background: radial-gradient(circle at top, #111 0%, #000 60%);
+  font-family: 'Inter', system-ui;
+  background: radial-gradient(circle at top, #0c0f1a, #000);
   color:#fff;
   overflow-x:hidden;
 }
 
+/* ---------------- LOADER ---------------- */
 #loader {
   position:fixed;
   inset:0;
@@ -29,70 +41,137 @@ body {
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:40px;
+  font-size:48px;
   font-weight:700;
-  letter-spacing:4px;
+  letter-spacing:6px;
   z-index:9999;
   animation:pulse 1.5s infinite;
 }
-
 @keyframes pulse {
   0%{opacity:.3}
   50%{opacity:1}
   100%{opacity:.3}
 }
 
-.header {
+/* ---------------- LAYOUT ---------------- */
+.app {
   display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:14px 20px;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter: blur(12px);
-  position:sticky;
-  top:0;
-  z-index:10;
+  min-height:100vh;
 }
 
+/* Sidebar */
+.sidebar {
+  width:220px;
+  background:rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  border-right:1px solid rgba(255,255,255,0.08);
+  padding:20px;
+}
+.sidebar h2 {
+  font-size:18px;
+  margin-bottom:16px;
+}
+.channel {
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:8px;
+  background:rgba(255,255,255,0.03);
+  cursor:pointer;
+  transition:.3s;
+}
+.channel:hover {
+  background:rgba(255,0,0,0.15);
+}
+
+/* Main */
+.main {
+  flex:1;
+  padding:20px;
+}
+
+/* Header */
+.header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 .logo {
-  font-size:22px;
+  font-size:24px;
   font-weight:700;
   letter-spacing:3px;
 }
-
 .live {
   color:#ff3b3b;
-  font-size:14px;
-  animation: blink 1.5s infinite;
+  animation:blink 1.5s infinite;
 }
-
 @keyframes blink {
   0%{opacity:1}
   50%{opacity:.3}
   100%{opacity:1}
 }
 
-.player-box {
-  max-width:900px;
-  margin:20px auto;
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow: 0 0 50px rgba(255,0,0,0.15);
-}
-
-.footer {
-  text-align:center;
+/* Hero */
+.hero {
+  margin-top:20px;
+  height:180px;
+  border-radius:20px;
+  background:
+    linear-gradient(to right, rgba(0,0,0,0.7), transparent),
+    url("https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=crop&w=1400&q=80");
+  background-size:cover;
+  display:flex;
+  align-items:flex-end;
   padding:20px;
-  font-size:14px;
-  opacity:0.7;
+}
+.hero h1 {
+  margin:0;
+  font-size:28px;
 }
 
-body::after {
+/* Stream Info */
+.info-panel {
+  margin:20px 0;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:16px;
+}
+.info-card {
+  padding:14px;
+  border-radius:14px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  box-shadow:0 0 20px rgba(255,0,0,0.1);
+}
+
+/* Player */
+.player-box {
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 0 60px rgba(255,0,0,0.25);
+  position:relative;
+}
+
+/* Neon Overlay */
+.player-box::after {
   content:"";
-  position:fixed;
+  position:absolute;
   inset:0;
   pointer-events:none;
-  box-shadow: inset 0 0 140px #000;
+  box-shadow: inset 0 0 120px rgba(255,0,0,0.25);
+}
+
+/* Footer */
+.footer {
+  margin-top:20px;
+  text-align:center;
+  opacity:0.6;
+  font-size:13px;
+}
+
+/* Mobile */
+@media(max-width:900px){
+  .sidebar { display:none; }
+  .hero { height:140px; }
 }
 </style>
 </head>
@@ -101,36 +180,63 @@ body::after {
 
 <div id="loader">CMV</div>
 
-<div class="header">
-  <div class="logo">CMV</div>
-  <div class="live">● LIVE</div>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>Channels</h2>
+    <div class="channel">Willow Cricket</div>
+    <div class="channel">Star Sports</div>
+    <div class="channel">Sony Sports</div>
+    <div class="channel">Sky Sports</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <div class="header">
+      <div class="logo">CMV</div>
+      <div class="live">● LIVE</div>
+    </div>
+
+    <div class="hero">
+      <h1>India vs Australia</h1>
+    </div>
+
+    <div class="info-panel">
+      <div class="info-card">
+        <b>Status</b><br>Live Match
+      </div>
+      <div class="info-card">
+        <b>Score</b><br>IND 176/3
+      </div>
+      <div class="info-card">
+        <b>Overs</b><br>18.2
+      </div>
+      <div class="info-card">
+        <b>Quality</b><br>Auto / 1080p
+      </div>
+    </div>
+
+    <!-- PLAYER -->
+    <div class="player-box">
+      <video id="player" controls playsinline></video>
+    </div>
+
+    <div class="footer">
+      © 2026 CMV • Premium Cricket Streaming
+    </div>
+
+  </div>
 </div>
 
-<center style="margin-top:10px;font-size:15px;opacity:0.8">
-Now Streaming: <b>International Cricket Live</b>
-</center>
-
-<!-- TOP AD -->
 <script>
-atOptions = {
- 'key' : '8d22307db9ec88da8122268a55344818',
- 'format' : 'iframe',
- 'height' : 50,
- 'width' : 320,
- 'params' : {}
-};
-</script>
-<script src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
-
-<div class="player-box">
-  <video id="player" controls playsinline></video>
-</div>
-
-<script>
+/* Loader */
 window.onload = () => {
   document.getElementById("loader").style.display="none";
 };
 
+/* HLS + PLYR */
 const source = "https://amg01269-amg01269c1-sportstribal-emea-5204.playouts.now.amagi.tv/ts-eu-w1-n2/playlist/amg01269-willowtvfast-willowplus-sportstribalemea/playlist.m3u8";
 const video = document.getElementById("player");
 
@@ -145,36 +251,24 @@ if (Hls.isSupported()) {
 
     new Plyr(video, {
       quality: {
-        default: -1,
-        options: qualities,
-        forced: true,
-        onChange: q => {
+        default:-1,
+        options:qualities,
+        forced:true,
+        onChange:q=>{
           hls.currentLevel = q === -1 ? -1 : qualities.indexOf(q) - 1;
         }
       },
-      i18n: { qualityLabel: { '-1': 'Auto' } }
+      controls:[
+        'play-large','play','progress','current-time',
+        'mute','volume','settings','fullscreen'
+      ]
     });
   });
-
 } else {
   video.src = source;
   new Plyr(video);
 }
 </script>
-
-<!-- BOTTOM AD -->
-<script src="//www.highperformanceformat.com/1b21d60d7662c7a217ab6bc7fbbe72ee/invoke.js"></script>
-
-<center style="margin-top:20px">
-<b>🔥 JOIN TELEGRAM</b><br>
-<a href="https://t.me/cricketmemesverse873">
-<img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXEokhW3x2CmtCW0RpLxWGicRcTLcSE702jB78hFiY2JLM3hxePbFhSc8HAtWJruarMofaoO5EhQ1zmrx3T_rBBJVnvQiMdBHQaSzt7Sz77QDcXwyaFDN9xK9HgkdmUGD8h3xlH14I2XG4IXXt_k0Id4tdZGgAIDfwk0QkV1KBG24b0AMmt3jRk9RtYxI/s320/1000073674.jpg" width="280">
-</a>
-</center>
-
-<div class="footer">
-© 2026 CMV • Premium Cricket Streaming
-</div>
 
 </body>
 </html>
