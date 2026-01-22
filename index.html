@@ -1,9 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CMV • Premium Cricket</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="referrer" content="no-referrer">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.min.js"></script>
+
 <style>
 body {
   margin:0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', system-ui;
   background: radial-gradient(circle at top, #111 0%, #000 60%);
   color:#fff;
+  overflow-x:hidden;
+}
+
+#loader {
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  font-weight:700;
+  letter-spacing:4px;
+  z-index:9999;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%{opacity:.3}
+  50%{opacity:1}
+  100%{opacity:.3}
 }
 
 .header {
@@ -12,7 +48,7 @@ body {
   justify-content:space-between;
   padding:14px 20px;
   background:rgba(0,0,0,0.6);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   position:sticky;
   top:0;
   z-index:10;
@@ -21,7 +57,7 @@ body {
 .logo {
   font-size:22px;
   font-weight:700;
-  letter-spacing:2px;
+  letter-spacing:3px;
 }
 
 .live {
@@ -41,7 +77,7 @@ body {
   margin:20px auto;
   border-radius:16px;
   overflow:hidden;
-  box-shadow: 0 0 40px rgba(255,0,0,0.15);
+  box-shadow: 0 0 50px rgba(255,0,0,0.15);
 }
 
 .footer {
@@ -50,17 +86,95 @@ body {
   font-size:14px;
   opacity:0.7;
 }
+
+body::after {
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  box-shadow: inset 0 0 140px #000;
+}
 </style>
+</head>
+
+<body>
+
+<div id="loader">CMV</div>
 
 <div class="header">
   <div class="logo">CMV</div>
   <div class="live">● LIVE</div>
 </div>
 
+<center style="margin-top:10px;font-size:15px;opacity:0.8">
+Now Streaming: <b>International Cricket Live</b>
+</center>
+
+<!-- TOP AD -->
+<script>
+atOptions = {
+ 'key' : '8d22307db9ec88da8122268a55344818',
+ 'format' : 'iframe',
+ 'height' : 50,
+ 'width' : 320,
+ 'params' : {}
+};
+</script>
+<script src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
+
 <div class="player-box">
-  <!-- KEEP YOUR VIDEO PLAYER HERE -->
+  <video id="player" controls playsinline></video>
 </div>
 
+<script>
+window.onload = () => {
+  document.getElementById("loader").style.display="none";
+};
+
+const source = "https://amg01269-amg01269c1-sportstribal-emea-5204.playouts.now.amagi.tv/ts-eu-w1-n2/playlist/amg01269-willowtvfast-willowplus-sportstribalemea/playlist.m3u8";
+const video = document.getElementById("player");
+
+if (Hls.isSupported()) {
+  const hls = new Hls();
+  hls.loadSource(source);
+  hls.attachMedia(video);
+
+  hls.on(Hls.Events.MANIFEST_PARSED, () => {
+    const qualities = hls.levels.map(l => l.height);
+    qualities.unshift(-1);
+
+    new Plyr(video, {
+      quality: {
+        default: -1,
+        options: qualities,
+        forced: true,
+        onChange: q => {
+          hls.currentLevel = q === -1 ? -1 : qualities.indexOf(q) - 1;
+        }
+      },
+      i18n: { qualityLabel: { '-1': 'Auto' } }
+    });
+  });
+
+} else {
+  video.src = source;
+  new Plyr(video);
+}
+</script>
+
+<!-- BOTTOM AD -->
+<script src="//www.highperformanceformat.com/1b21d60d7662c7a217ab6bc7fbbe72ee/invoke.js"></script>
+
+<center style="margin-top:20px">
+<b>🔥 JOIN TELEGRAM</b><br>
+<a href="https://t.me/cricketmemesverse873">
+<img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXEokhW3x2CmtCW0RpLxWGicRcTLcSE702jB78hFiY2JLM3hxePbFhSc8HAtWJruarMofaoO5EhQ1zmrx3T_rBBJVnvQiMdBHQaSzt7Sz77QDcXwyaFDN9xK9HgkdmUGD8h3xlH14I2XG4IXXt_k0Id4tdZGgAIDfwk0QkV1KBG24b0AMmt3jRk9RtYxI/s320/1000073674.jpg" width="280">
+</a>
+</center>
+
 <div class="footer">
-  © 2026 CMV • Premium Cricket Streaming
+© 2026 CMV • Premium Cricket Streaming
 </div>
+
+</body>
+</html>
