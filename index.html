@@ -8,6 +8,19 @@
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous"> 
  <link rel="stylesheet" href="https://livecrichdofficial.pages.dev/livecrichd2.css">
  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        background: #000 !important;
+        color: white;
+        font-family: Arial, sans-serif;
+        overflow-x: hidden;
+    }
+    
     .popup {
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
@@ -76,17 +89,25 @@
     
     .btn-joined:hover { background-color: #a8c0ff; color: #112d4e; }
     
+    /* Scrollable Main Container */
+    #main-content {
+        min-height: 200vh; /* Makes page scrollable */
+        background: #000;
+        padding: 20px;
+        display: none;
+    }
+    
     /* Stream Switcher - ABOVE PLAYER */
     .stream-switcher {
-        position: relative; /* Changed from fixed */
-        margin: 20px auto;
+        position: relative;
+        margin: 30px auto;
         width: fit-content;
         background: rgba(17, 45, 78, 0.95);
         border-radius: 15px;
-        padding: 15px 20px;
+        padding: 20px 25px;
         border: 2px solid #ffd700;
         backdrop-filter: blur(10px);
-        display: none; /* Hidden initially */
+        display: none;
         z-index: 100;
     }
     
@@ -98,42 +119,70 @@
         background: linear-gradient(45deg, #ffd700, #ffed4a);
         color: #112d4e;
         border: none;
-        padding: 12px 24px;
+        padding: 14px 28px;
         border-radius: 25px;
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         cursor: pointer;
         transition: all 0.3s;
-        margin: 0 8px;
-        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        margin: 0 10px;
+        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
     }
     
     .switch-btn.active {
         background: linear-gradient(45deg, #ff6b35, #f7931e);
         color: white;
-        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
+        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
     }
     
     .switch-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+    }
+    
+    /* Player Section */
+    .player-section {
+        background: #111;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 30px auto;
+        max-width: 1200px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
     }
     
     #player-container.hide { display: none; }
     
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #1a1a1a;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #ffd700;
+        border-radius: 6px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #ffed4a;
+    }
+    
     @media (max-width: 600px) {
         .popup-content { padding: 25px 20px; }
         .btn-telegram { font-size: 1.1rem; padding: 14px 16px; }
-        .stream-switcher { 
-            margin: 15px auto;
-            padding: 12px 16px;
-        }
+        .stream-switcher { margin: 20px auto; padding: 15px 20px; }
         .switch-btn { 
-            padding: 10px 20px;
-            font-size: 1rem;
-            margin: 0 4px;
-            width: 110px;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            margin: 0 6px;
+            display: block;
+            width: 140px;
+            margin: 8px auto;
         }
+        .player-section { margin: 20px 10px; padding: 15px; }
     }
  </style>
 </head>
@@ -155,29 +204,37 @@
   </div>
 </div>
 
-<!-- MAIN CONTENT AREA -->
-<div id="main-content" style="display: none;">
-  <!-- Stream Switcher - Positioned ABOVE Player -->
+<!-- SCROLLABLE MAIN CONTENT -->
+<div id="main-content">
+  <!-- Stream Switcher -->
   <div id="stream-switcher" class="stream-switcher">
     <button class="switch-btn active" onclick="switchStream(1)">TNT - 1</button>
     <button class="switch-btn" onclick="switchStream(2)">TNT - 2</button>
   </div>
 
-  <!-- Player Container -->
-  <div id="player-container" class="hide">
-    <div data-shaka-player-container="" class="shaka-video-container shaka-mobile" shaka-controls="true">
-      <video autoplay="" data-shaka-player="" id="video" class="shaka-video" poster="#"></video>
-      <canvas class="shaka-canvas-container"></canvas>
-      <div class="shaka-controls-container" shown="true">...</div>
-      <div class="shaka-client-side-ad-container shaka-hidden"></div>
-      <div class="shaka-spinner-container shaka-hidden">
-        <div class="shaka-spinner">
-          <svg class="shaka-spinner-svg" viewBox="0 0 30 30">
-            <circle class="shaka-spinner-path" cx="15" cy="15" r="14.5" fill="none" stroke-width="1" stroke-miterlimit="10"></circle>
-          </svg>
+  <!-- Player Section -->
+  <div class="player-section">
+    <div id="player-container" class="hide">
+      <div data-shaka-player-container="" class="shaka-video-container shaka-mobile" shaka-controls="true">
+        <video autoplay="" data-shaka-player="" id="video" class="shaka-video" poster="#" style="width:100%; height:auto;"></video>
+        <canvas class="shaka-canvas-container"></canvas>
+        <div class="shaka-controls-container" shown="true">...</div>
+        <div class="shaka-client-side-ad-container shaka-hidden"></div>
+        <div class="shaka-spinner-container shaka-hidden">
+          <div class="shaka-spinner">
+            <svg class="shaka-spinner-svg" viewBox="0 0 30 30">
+              <circle class="shaka-spinner-path" cx="15" cy="15" r="14.5" fill="none" stroke-width="1" stroke-miterlimit="10"></circle>
+            </svg>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Extra scrollable space -->
+  <div style="height: 100vh; background: #000; text-align: center; padding: 50px;">
+    <h3 style="color: #ffd700;">📱 Join Telegram for more streams!</h3>
+    <p style="color: #888; max-width: 600px; margin: 20px auto;">Scroll up to switch streams or down for more content...</p>
   </div>
 </div>
 
@@ -208,21 +265,19 @@
   function startStream() {
     document.getElementById("popup").classList.add("hide");
     document.getElementById("main-content").style.display = "block";
-    document.getElementById("player-container").classList.remove("hide");
-    document.getElementById("stream-switcher").classList.add("show");
-    
-    // Small delay to ensure DOM is ready
-    setTimeout(initPlayer, 100);
+    setTimeout(() => {
+      document.getElementById("player-container").classList.remove("hide");
+      document.getElementById("stream-switcher").classList.add("show");
+      initPlayer();
+    }, 200);
   }
 
   function switchStream(streamId) {
     if (currentStream === streamId) return;
-    
     currentStream = streamId;
     document.querySelectorAll('.switch-btn').forEach((btn, i) => {
       btn.classList.toggle('active', i + 1 === streamId);
     });
-    
     if (player) loadStream(streamId);
   }
 
@@ -253,7 +308,7 @@
 
   // Clean iframe protection
   if (window.top !== window.self) {
-    document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);color:white;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:9999;">Direct access required</div>';
+    document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:9999;">Direct access required</div>';
   }
 </script>
 
