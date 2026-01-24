@@ -1,273 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>CMV • Premium Cricket</title>
-
-<!-- SEO -->
-<meta name="description" content="CMV Premium Live Cricket Streaming Platform">
-<meta name="keywords" content="Cricket Live, CMV, Streaming, IPL, Live Match">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#000000">
-
-<!-- PWA Feel -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<!-- Plyr -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css">
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.min.js"></script>
-
-<style>
-/* ---------------- RESET ---------------- */
-* { box-sizing:border-box; }
-body {
-  margin:0;
-  font-family: 'Inter', system-ui;
-  background: radial-gradient(circle at top, #0c0f1a, #000);
-  color:#fff;
-  overflow-x:hidden;
-}
-
-/* ---------------- LOADER ---------------- */
-#loader {
-  position:fixed;
-  inset:0;
-  background:#000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:48px;
-  font-weight:700;
-  letter-spacing:6px;
-  z-index:9999;
-  animation:pulse 1.5s infinite;
-}
-@keyframes pulse {
-  0%{opacity:.3}
-  50%{opacity:1}
-  100%{opacity:.3}
-}
-
-/* ---------------- LAYOUT ---------------- */
-.app {
-  display:flex;
-  min-height:100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  width:220px;
-  background:rgba(255,255,255,0.04);
-  backdrop-filter: blur(20px);
-  border-right:1px solid rgba(255,255,255,0.08);
-  padding:20px;
-}
-.sidebar h2 {
-  font-size:18px;
-  margin-bottom:16px;
-}
-.channel {
-  padding:10px;
-  border-radius:10px;
-  margin-bottom:8px;
-  background:rgba(255,255,255,0.03);
-  cursor:pointer;
-  transition:.3s;
-}
-.channel:hover {
-  background:rgba(255,0,0,0.15);
-}
-
-/* Main */
-.main {
-  flex:1;
-  padding:20px;
-}
-
-/* Header */
-.header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.logo {
-  font-size:24px;
-  font-weight:700;
-  letter-spacing:3px;
-}
-.live {
-  color:#ff3b3b;
-  animation:blink 1.5s infinite;
-}
-@keyframes blink {
-  0%{opacity:1}
-  50%{opacity:.3}
-  100%{opacity:1}
-}
-
-/* Hero */
-.hero {
-  margin-top:20px;
-  height:180px;
-  border-radius:20px;
-  background:
-    linear-gradient(to right, rgba(0,0,0,0.7), transparent),
-    url("https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=crop&w=1400&q=80");
-  background-size:cover;
-  display:flex;
-  align-items:flex-end;
-  padding:20px;
-}
-.hero h1 {
-  margin:0;
-  font-size:28px;
-}
-
-/* Stream Info */
-.info-panel {
-  margin:20px 0;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:16px;
-}
-.info-card {
-  padding:14px;
-  border-radius:14px;
-  background:rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
-  box-shadow:0 0 20px rgba(255,0,0,0.1);
-}
-
-/* Player */
-.player-box {
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:0 0 60px rgba(255,0,0,0.25);
-  position:relative;
-}
-
-/* Neon Overlay */
-.player-box::after {
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  box-shadow: inset 0 0 120px rgba(255,0,0,0.25);
-}
-
-/* Footer */
-.footer {
-  margin-top:20px;
-  text-align:center;
-  opacity:0.6;
-  font-size:13px;
-}
-
-/* Mobile */
-@media(max-width:900px){
-  .sidebar { display:none; }
-  .hero { height:140px; }
-}
-</style>
+<head> 
+ <meta charset="UTF-8"> 
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ <meta name="referrer" content="no-referrer"> 
+ <title>Willow FHD - TNT Switcher</title> 
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous"> 
+ <link rel="stylesheet" href="https://livecrichdofficial.pages.dev/livecrichd2.css">
+ <style>
+    .popup {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(10, 25, 47, 0.95);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        padding: 0;
+    }
+    .popup.hide { display: none; }
+    
+    .popup-content {
+        background: #112d4e;
+        border-radius: 20px;
+        padding: 40px 35px;
+        max-width: 420px;
+        width: 90vw;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        color: #e1e8f0;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+    
+    .popup-content h2 {
+        margin-top: 0;
+        font-size: 2rem;
+        color: #ffd700;
+        margin-bottom: 18px;
+        text-shadow: 1px 1px 5px rgba(255, 215, 0, 0.8);
+        font-weight: 700;
+    }
+    
+    .btn-telegram {
+        display: block;
+        background-color: #fff;
+        color: #007bff;
+        font-weight: 700;
+        font-size: 1.4rem;
+        padding: 18px 20px;
+        border-radius: 12px;
+        border: 3px solid #007bff;
+        text-decoration: none;
+        margin: 0 auto 25px;
+        max-width: 320px;
+        transition: all 0.3s;
+        box-shadow: 0 6px 15px rgba(0, 123, 255, 0.5);
+    }
+    
+    .btn-telegram:hover { background-color: #007bff; color: #fff; }
+    
+    .btn-joined {
+        background: transparent;
+        color: #a8c0ff;
+        font-size: 1.1rem;
+        padding: 12px 24px;
+        border: 2px solid #a8c0ff;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 600;
+    }
+    
+    .btn-joined:hover { background-color: #a8c0ff; color: #112d4e; }
+    
+    /* Stream Switcher */
+    .stream-switcher {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: rgba(17, 45, 78, 0.95);
+        border-radius: 15px;
+        padding: 15px;
+        border: 2px solid #ffd700;
+    }
+    
+    .switch-btn {
+        background: linear-gradient(45deg, #ffd700, #ffed4a);
+        color: #112d4e;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 140px;
+        margin: 5px;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    }
+    
+    .switch-btn.active {
+        background: linear-gradient(45deg, #ff6b35, #f7931e);
+        color: white;
+    }
+    
+    #player-container.hide { display: none; }
+    
+    @media (max-width: 600px) {
+        .stream-switcher { 
+            top: 10px; right: 10px; left: 10px; 
+            display: flex; justify-content: center; 
+        }
+        .switch-btn { width: 120px; }
+    }
+ </style>
 </head>
-
 <body>
 
-<div id="loader">CMV</div>
+<!-- Top Ads -->
+<script type="text/javascript">
+ atOptions = { 'key' : '8d22307db9ec88da8122268a55344818', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
 
-<div class="app">
-
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <h2>Channels</h2>
-    <div class="channel">Willow Cricket</div>
-    <div class="channel">Star Sports</div>
-    <div class="channel">Sony Sports</div>
-    <div class="channel">Sky Sports</div>
-  </div>
-
-  <!-- MAIN -->
-  <div class="main">
-
-    <div class="header">
-      <div class="logo">CMV</div>
-      <div class="live">● LIVE</div>
-    </div>
-
-    <div class="hero">
-      <h1>India vs Australia</h1>
-    </div>
-
-    <div class="info-panel">
-      <div class="info-card">
-        <b>Status</b><br>Live Match
-      </div>
-      <div class="info-card">
-        <b>Score</b><br>IND 176/3
-      </div>
-      <div class="info-card">
-        <b>Overs</b><br>18.2
-      </div>
-      <div class="info-card">
-        <b>Quality</b><br>Auto / 1080p
-      </div>
-    </div>
-
-    <!-- PLAYER -->
-    <div class="player-box">
-      <video id="player" controls playsinline></video>
-    </div>
-
-    <div class="footer">
-      © 2026 CMV • Premium Cricket Streaming
-    </div>
-
+<!-- Telegram Popup -->
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <h2>Stay Updated with Our Telegram Channel</h2>
+    <p>Join our Telegram for instant match updates, scores, and exclusive content!</p>
+    <a href="https://t.me/cricketmemesverse873" target="_blank" class="btn-telegram">Join Telegram Channel</a>
+    <button class="btn-joined" onclick="startStream()">Already Joined</button>
   </div>
 </div>
 
+<!-- Stream Switcher -->
+<div id="stream-switcher" class="stream-switcher hide">
+  <button class="switch-btn active" onclick="switchStream(1)">TNT - 1</button>
+  <button class="switch-btn" onclick="switchStream(2)">TNT - 2</button>
+</div>
+
+<!-- Player Container -->
+<div id="player-container" class="hide">
+  <div data-shaka-player-container="" class="shaka-video-container shaka-mobile" shaka-controls="true">
+    <video autoplay="" data-shaka-player="" id="video" class="shaka-video" poster="#"></video>
+    <canvas class="shaka-canvas-container"></canvas>
+    <div class="shaka-controls-container" shown="true">...</div>
+    <div class="shaka-client-side-ad-container shaka-hidden"></div>
+    <div class="shaka-spinner-container shaka-hidden">
+      <div class="shaka-spinner">
+        <svg class="shaka-spinner-svg" viewBox="0 0 30 30">
+          <circle class="shaka-spinner-path" cx="15" cy="15" r="14.5" fill="none" stroke-width="1" stroke-miterlimit="10"></circle>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Ads -->
+<script type="text/javascript">
+ atOptions = { 'key' : '8d22307db9ec88da8122268a55344818', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js" crossorigin="anonymous"></script>
 <script>
-/* Loader */
-window.onload = () => {
-  document.getElementById("loader").style.display="none";
-};
+  const streams = {
+    1: {
+      manifestUri: "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/dash/enc/bsaaetko8v/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd",
+      drmKeyId: "d0f2e5c39e70c18f29bf77768a1ad89a",
+      drmKey: "d6853c51fcf37a18905f0609972395d7"
+    },
+    2: {
+      manifestUri: "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/dash/enc/enniazhzls/out/v1/f8fa17f087564f51aa4d5c700be43ec4/cenc.mpd",
+      drmKeyId: "9f51f3dc6313ac8bc668e2d9d1c04dfa",
+      drmKey: "74bc63e5a193454a91ca494975db33f9"
+    }
+  };
 
-/* HLS + PLYR */
-const source = "https://amg01269-amg01269c1-sportstribal-emea-5204.playouts.now.amagi.tv/ts-eu-w1-n2/playlist/amg01269-willowtvfast-willowplus-sportstribalemea/playlist.m3u8";
-const video = document.getElementById("player");
+  let currentStream = 1;
+  let player = null;
 
-if (Hls.isSupported()) {
-  const hls = new Hls();
-  hls.loadSource(source);
-  hls.attachMedia(video);
+  function startStream() {
+    document.getElementById("popup").classList.add("hide");
+    document.getElementById("player-container").classList.remove("hide");
+    document.getElementById("stream-switcher").classList.remove("hide");
+    initPlayer();
+  }
 
-  hls.on(Hls.Events.MANIFEST_PARSED, () => {
-    const qualities = hls.levels.map(l => l.height);
-    qualities.unshift(-1);
-
-    new Plyr(video, {
-      quality: {
-        default:-1,
-        options:qualities,
-        forced:true,
-        onChange:q=>{
-          hls.currentLevel = q === -1 ? -1 : qualities.indexOf(q) - 1;
-        }
-      },
-      controls:[
-        'play-large','play','progress','current-time',
-        'mute','volume','settings','fullscreen'
-      ]
+  function switchStream(streamId) {
+    if (currentStream === streamId) return;
+    currentStream = streamId;
+    document.querySelectorAll('.switch-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', i + 1 === streamId);
     });
-  });
-} else {
-  video.src = source;
-  new Plyr(video);
-}
+    if (player) loadStream(streamId);
+  }
+
+  async function initPlayer() {
+    const video = document.getElementById('video');
+    const ui = video['ui'];
+    const controls = ui.getControls();
+    player = controls.getPlayer();
+    player.addEventListener('error', e => console.error('Player error:', e.detail));
+    controls.addEventListener('error', e => console.error('UI error:', e.detail));
+    await loadStream(currentStream);
+  }
+
+  async function loadStream(streamId) {
+    const stream = streams[streamId];
+    player.configure({
+      drm: { "clearKeys": { [stream.drmKeyId]: stream.drmKey } }
+    });
+    await player.load(stream.manifestUri);
+    console.log(`Stream ${streamId} loaded`);
+  }
+
+  // Anti-iframe protection (clean message)
+  if (window.top !== window.self) {
+    document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);color:white;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:9999;">Direct access required</div>';
+  }
 </script>
 
 </body>
