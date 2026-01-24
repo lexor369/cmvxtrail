@@ -4,168 +4,104 @@
  <meta charset="UTF-8"> 
  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
  <meta name="referrer" content="no-referrer"> 
- <title>Willow FHD - TNT Switcher</title> 
+ <title>LaLiga FHD - PRIME + LaLiga</title> 
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous"> 
  <link rel="stylesheet" href="https://livecrichdofficial.pages.dev/livecrichd2.css">
  <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     
     html, body {
         height: 100%;
-        overflow-y: auto !important; /* FORCE SCROLLING */
+        overflow-y: auto !important;
         background: #000 !important;
         color: white;
         font-family: Arial, sans-serif;
     }
     
-    body {
-        min-height: 300vh; /* EXTRA TALL FOR SCROLLING */
-        padding-bottom: 200px;
-    }
+    body { min-height: 300vh; padding-bottom: 200px; }
     
     .popup {
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        width: 100vw;
-        height: 100vh;
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        width: 100vw; height: 100vh;
         background: rgba(10, 25, 47, 0.95);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: flex; justify-content: center; align-items: center;
         z-index: 9999;
     }
     .popup.hide { display: none; }
     
     .popup-content {
-        background: #112d4e;
-        border-radius: 20px;
-        padding: 40px 35px;
-        max-width: 420px;
-        width: 90vw;
+        background: #112d4e; border-radius: 20px;
+        padding: 40px 35px; max-width: 420px; width: 90vw;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        text-align: center;
-        color: #e1e8f0;
-        font-weight: 600;
+        text-align: center; color: #e1e8f0; font-weight: 600;
     }
     
     .popup-content h2 {
-        font-size: 2rem;
-        color: #ffd700;
-        margin-bottom: 18px;
+        font-size: 2rem; color: #ffd700; margin-bottom: 18px;
         text-shadow: 1px 1px 5px rgba(255, 215, 0, 0.8);
         font-weight: 700;
     }
     
     .btn-telegram {
-        display: block;
-        background: #fff;
-        color: #007bff;
-        font-weight: 700;
-        font-size: 1.4rem;
-        padding: 18px 20px;
-        border-radius: 12px;
-        border: 3px solid #007bff;
-        text-decoration: none;
-        margin: 0 auto 25px;
-        max-width: 320px;
-        transition: all 0.3s;
-        box-shadow: 0 6px 15px rgba(0, 123, 255, 0.5);
+        display: block; background: #fff; color: #007bff;
+        font-weight: 700; font-size: 1.4rem; padding: 18px 20px;
+        border-radius: 12px; border: 3px solid #007bff;
+        text-decoration: none; margin: 0 auto 25px; max-width: 320px;
+        transition: all 0.3s; box-shadow: 0 6px 15px rgba(0, 123, 255, 0.5);
     }
     .btn-telegram:hover { background: #007bff; color: #fff; }
     
     .btn-joined {
-        background: transparent;
-        color: #a8c0ff;
-        font-size: 1.1rem;
-        padding: 12px 24px;
-        border: 2px solid #a8c0ff;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s;
+        background: transparent; color: #a8c0ff; font-size: 1.1rem;
+        padding: 12px 24px; border: 2px solid #a8c0ff;
+        border-radius: 10px; cursor: pointer; transition: all 0.3s;
         font-weight: 600;
     }
     .btn-joined:hover { background: #a8c0ff; color: #112d4e; }
     
-    /* MAIN CONTENT */
-    #main-content {
-        display: none;
-        padding: 80px 20px 200px;
-        min-height: 300vh;
-        background: #000;
-    }
+    #main-content { display: none; padding: 80px 20px 200px; min-height: 300vh; background: #000; }
     
     .stream-switcher {
-        position: relative;
-        margin: 40px auto;
-        width: fit-content;
-        background: rgba(17, 45, 78, 0.95);
-        border-radius: 15px;
-        padding: 20px 30px;
-        border: 3px solid #ffd700;
-        backdrop-filter: blur(10px);
-        display: none;
+        position: relative; margin: 40px auto; width: fit-content;
+        background: rgba(17, 45, 78, 0.95); border-radius: 15px;
+        padding: 20px 30px; border: 3px solid #ffd700;
+        backdrop-filter: blur(10px); display: none;
     }
     .stream-switcher.show { display: block; }
     
     .switch-btn {
-        background: linear-gradient(45deg, #ffd700, #ffed4a);
-        color: #112d4e;
-        border: none;
-        padding: 15px 30px;
-        border-radius: 30px;
-        font-weight: 700;
-        font-size: 1.2rem;
-        cursor: pointer;
-        transition: all 0.3s;
-        margin: 0 12px;
+        background: linear-gradient(45deg, #ffd700, #ffed4a); color: #112d4e;
+        border: none; padding: 15px 30px; border-radius: 30px;
+        font-weight: 700; font-size: 1.2rem; cursor: pointer;
+        transition: all 0.3s; margin: 0 12px;
         box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
     }
     .switch-btn.active {
-        background: linear-gradient(45deg, #ff6b35, #f7931e);
-        color: white;
+        background: linear-gradient(45deg, #ff6b35, #f7931e); color: white;
         box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
     }
     .switch-btn:hover { transform: translateY(-3px); }
     
-    /* PLAYER CONTAINER - FIXED HEIGHT */
     .player-section {
-        max-width: 1200px;
-        margin: 60px auto;
-        padding: 30px;
-        background: #111;
-        border-radius: 20px;
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
-        height: 600px; /* FIXED HEIGHT */
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        max-width: 1200px; margin: 60px auto; padding: 30px;
+        background: #111; border-radius: 20px;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8); height: 600px;
+        display: flex; align-items: center; justify-content: center;
     }
     
     .shaka-video-container {
-        width: 100% !important;
-        height: 500px !important;
-        max-height: 500px !important;
+        width: 100% !important; height: 500px !important; max-height: 500px !important;
         overflow: hidden !important;
     }
     
     #player-container.hide { display: none; }
     
-    /* EXTRA SCROLL CONTENT */
     .scroll-content {
-        max-width: 800px;
-        margin: 100px auto;
-        text-align: center;
-        padding: 60px 20px;
-        background: rgba(17, 17, 17, 0.8);
-        border-radius: 20px;
-        border: 1px solid #333;
+        max-width: 800px; margin: 100px auto; text-align: center;
+        padding: 60px 20px; background: rgba(17, 17, 17, 0.8);
+        border-radius: 20px; border: 1px solid #333;
     }
     
-    /* SCROLLBAR */
     ::-webkit-scrollbar { width: 12px; }
     ::-webkit-scrollbar-track { background: #1a1a1a; }
     ::-webkit-scrollbar-thumb { background: #ffd700; border-radius: 6px; }
@@ -174,21 +110,11 @@
     @media (max-width: 768px) {
         .player-section { height: 400px; padding: 20px; margin: 40px 10px; }
         .shaka-video-container { height: 350px !important; }
-        .switch-btn { 
-            display: block; 
-            width: 160px; 
-            margin: 10px auto; 
-        }
+        .switch-btn { display: block; width: 160px; margin: 10px auto; }
     }
  </style>
 </head>
 <body>
-
-<!-- TOP ADS -->
-<script type="text/javascript">
- atOptions = { 'key' : '8d22307db9ec88da8122268a55344818', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
-</script>
-<script src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
 
 <!-- TELEGRAM POPUP -->
 <div id="popup" class="popup">
@@ -202,10 +128,10 @@
 
 <!-- SCROLLABLE MAIN CONTENT -->
 <div id="main-content">
-  <!-- STREAM SWITCHER -->
+  <!-- STREAM SWITCHER: PRIME + LALIGA -->
   <div id="stream-switcher" class="stream-switcher">
-    <button class="switch-btn active" onclick="switchStream(1)">TNT - 1</button>
-    <button class="switch-btn" onclick="switchStream(2)">TNT - 2</button>
+    <button class="switch-btn active" onclick="switchStream(1)">🟡 PRIME</button>
+    <button class="switch-btn" onclick="switchStream(2)">⚽ LALIGA</button>
   </div>
 
   <!-- PLAYER SECTION -->
@@ -241,24 +167,18 @@
   </div>
 </div>
 
-<!-- BOTTOM ADS -->
-<script type="text/javascript">
- atOptions = { 'key' : '8d22307db9ec88da8122268a55344818', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
-</script>
-<script src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js" crossorigin="anonymous"></script>
 <script>
   const streams = {
-    1: {
-      manifestUri: "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/dash/enc/bsaaetko8v/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd",
-      drmKeyId: "d0f2e5c39e70c18f29bf77768a1ad89a",
-      drmKey: "d6853c51fcf37a18905f0609972395d7"
+    1: { // PRIME (unchanged)
+      manifestUri: "https://otte.live.fly.ww.aiv-cdn.net/iad-nitro/live/dash/enc/rlisfyx9vd/out/v1/61b8f61b22ac469297cbd4f1224f0ec8/cenc.mpd",
+      drmKeyId: "f159241d40e659d58e81bc17ca30da31",
+      drmKey: "6b7fe24f7a16343bd447b0b30f68b7b2"
     },
-    2: {
-      manifestUri: "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/dash/enc/enniazhzls/out/v1/f8fa17f087564f51aa4d5c700be43ec4/cenc.mpd",
-      drmKeyId: "9f51f3dc6313ac8bc668e2d9d1c04dfa",
-      drmKey: "74bc63e5a193454a91ca494975db33f9"
+    2: { // LALIGA (new)
+      manifestUri: "https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd",
+      drmKeyId: "620e51b82596475517a27aa425c52280",
+      drmKey: "2b9ba811e9c5aeafc8ae1b71cdca4d6a"
     }
   };
 
@@ -296,7 +216,7 @@
       const stream = streams[streamId];
       player.configure({ drm: { clearKeys: { [stream.drmKeyId]: stream.drmKey } } });
       await player.load(stream.manifestUri);
-      console.log(`TNT-${streamId} loaded`);
+      console.log(`Stream ${streamId} loaded: ${streamId === 1 ? 'PRIME' : 'LALIGA'}`);
     } catch (e) { console.error('Stream error:', e); }
   }
 
@@ -304,5 +224,6 @@
     document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:9999;">Direct access required</div>';
   }
 </script>
+
 </body>
 </html>
