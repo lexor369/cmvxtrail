@@ -14,11 +14,17 @@
         box-sizing: border-box;
     }
     
-    body {
+    html, body {
+        height: 100%;
+        overflow-y: auto !important; /* FORCE SCROLLING */
         background: #000 !important;
         color: white;
         font-family: Arial, sans-serif;
-        overflow-x: hidden;
+    }
+    
+    body {
+        min-height: 300vh; /* EXTRA TALL FOR SCROLLING */
+        padding-bottom: 200px;
     }
     
     .popup {
@@ -31,7 +37,6 @@
         justify-content: center;
         align-items: center;
         z-index: 9999;
-        padding: 0;
     }
     .popup.hide { display: none; }
     
@@ -45,11 +50,9 @@
         text-align: center;
         color: #e1e8f0;
         font-weight: 600;
-        line-height: 1.5;
     }
     
     .popup-content h2 {
-        margin-top: 0;
         font-size: 2rem;
         color: #ffd700;
         margin-bottom: 18px;
@@ -59,7 +62,7 @@
     
     .btn-telegram {
         display: block;
-        background-color: #fff;
+        background: #fff;
         color: #007bff;
         font-weight: 700;
         font-size: 1.4rem;
@@ -72,8 +75,7 @@
         transition: all 0.3s;
         box-shadow: 0 6px 15px rgba(0, 123, 255, 0.5);
     }
-    
-    .btn-telegram:hover { background-color: #007bff; color: #fff; }
+    .btn-telegram:hover { background: #007bff; color: #fff; }
     
     .btn-joined {
         background: transparent;
@@ -86,144 +88,138 @@
         transition: all 0.3s;
         font-weight: 600;
     }
+    .btn-joined:hover { background: #a8c0ff; color: #112d4e; }
     
-    .btn-joined:hover { background-color: #a8c0ff; color: #112d4e; }
-    
-    /* Scrollable Main Container */
+    /* MAIN CONTENT */
     #main-content {
-        min-height: 200vh; /* Makes page scrollable */
-        background: #000;
-        padding: 20px;
         display: none;
+        padding: 80px 20px 200px;
+        min-height: 300vh;
+        background: #000;
     }
     
-    /* Stream Switcher - ABOVE PLAYER */
     .stream-switcher {
         position: relative;
-        margin: 30px auto;
+        margin: 40px auto;
         width: fit-content;
         background: rgba(17, 45, 78, 0.95);
         border-radius: 15px;
-        padding: 20px 25px;
-        border: 2px solid #ffd700;
+        padding: 20px 30px;
+        border: 3px solid #ffd700;
         backdrop-filter: blur(10px);
         display: none;
-        z-index: 100;
     }
-    
-    .stream-switcher.show {
-        display: block;
-    }
+    .stream-switcher.show { display: block; }
     
     .switch-btn {
         background: linear-gradient(45deg, #ffd700, #ffed4a);
         color: #112d4e;
         border: none;
-        padding: 14px 28px;
-        border-radius: 25px;
+        padding: 15px 30px;
+        border-radius: 30px;
         font-weight: 700;
         font-size: 1.2rem;
         cursor: pointer;
         transition: all 0.3s;
-        margin: 0 10px;
+        margin: 0 12px;
         box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
     }
-    
     .switch-btn.active {
         background: linear-gradient(45deg, #ff6b35, #f7931e);
         color: white;
         box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
     }
+    .switch-btn:hover { transform: translateY(-3px); }
     
-    .switch-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+    /* PLAYER CONTAINER - FIXED HEIGHT */
+    .player-section {
+        max-width: 1200px;
+        margin: 60px auto;
+        padding: 30px;
+        background: #111;
+        border-radius: 20px;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+        height: 600px; /* FIXED HEIGHT */
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
-    /* Player Section */
-    .player-section {
-        background: #111;
-        border-radius: 15px;
-        padding: 20px;
-        margin: 30px auto;
-        max-width: 1200px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+    .shaka-video-container {
+        width: 100% !important;
+        height: 500px !important;
+        max-height: 500px !important;
+        overflow: hidden !important;
     }
     
     #player-container.hide { display: none; }
     
-    /* Scrollbar Styling */
-    ::-webkit-scrollbar {
-        width: 12px;
+    /* EXTRA SCROLL CONTENT */
+    .scroll-content {
+        max-width: 800px;
+        margin: 100px auto;
+        text-align: center;
+        padding: 60px 20px;
+        background: rgba(17, 17, 17, 0.8);
+        border-radius: 20px;
+        border: 1px solid #333;
     }
     
-    ::-webkit-scrollbar-track {
-        background: #1a1a1a;
-    }
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 12px; }
+    ::-webkit-scrollbar-track { background: #1a1a1a; }
+    ::-webkit-scrollbar-thumb { background: #ffd700; border-radius: 6px; }
+    ::-webkit-scrollbar-thumb:hover { background: #ffed4a; }
     
-    ::-webkit-scrollbar-thumb {
-        background: #ffd700;
-        border-radius: 6px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-        background: #ffed4a;
-    }
-    
-    @media (max-width: 600px) {
-        .popup-content { padding: 25px 20px; }
-        .btn-telegram { font-size: 1.1rem; padding: 14px 16px; }
-        .stream-switcher { margin: 20px auto; padding: 15px 20px; }
+    @media (max-width: 768px) {
+        .player-section { height: 400px; padding: 20px; margin: 40px 10px; }
+        .shaka-video-container { height: 350px !important; }
         .switch-btn { 
-            padding: 12px 20px;
-            font-size: 1.1rem;
-            margin: 0 6px;
-            display: block;
-            width: 140px;
-            margin: 8px auto;
+            display: block; 
+            width: 160px; 
+            margin: 10px auto; 
         }
-        .player-section { margin: 20px 10px; padding: 15px; }
     }
  </style>
 </head>
 <body>
 
-<!-- Top Ads -->
+<!-- TOP ADS -->
 <script type="text/javascript">
  atOptions = { 'key' : '8d22307db9ec88da8122268a55344818', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
 </script>
-<script type="text/javascript" src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
+<script src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
 
-<!-- Telegram Popup -->
+<!-- TELEGRAM POPUP -->
 <div id="popup" class="popup">
   <div class="popup-content">
     <h2>🔥 Stay Updated!</h2>
-    <p>Join our Telegram for instant match updates, scores, and exclusive content!</p>
-    <a href="https://t.me/cricketmemesverse873" target="_blank" class="btn-telegram">Join Telegram Channel</a>
+    <p>Join our Telegram for instant match updates & exclusive content!</p>
+    <a href="https://t.me/cricketmemesverse873" target="_blank" class="btn-telegram">Join Telegram</a>
     <button class="btn-joined" onclick="startStream()">Already Joined</button>
   </div>
 </div>
 
 <!-- SCROLLABLE MAIN CONTENT -->
 <div id="main-content">
-  <!-- Stream Switcher -->
+  <!-- STREAM SWITCHER -->
   <div id="stream-switcher" class="stream-switcher">
     <button class="switch-btn active" onclick="switchStream(1)">TNT - 1</button>
     <button class="switch-btn" onclick="switchStream(2)">TNT - 2</button>
   </div>
 
-  <!-- Player Section -->
+  <!-- PLAYER SECTION -->
   <div class="player-section">
     <div id="player-container" class="hide">
       <div data-shaka-player-container="" class="shaka-video-container shaka-mobile" shaka-controls="true">
-        <video autoplay="" data-shaka-player="" id="video" class="shaka-video" poster="#" style="width:100%; height:auto;"></video>
+        <video autoplay data-shaka-player id="video" class="shaka-video" poster="#" playsinline></video>
         <canvas class="shaka-canvas-container"></canvas>
-        <div class="shaka-controls-container" shown="true">...</div>
+        <div class="shaka-controls-container">...</div>
         <div class="shaka-client-side-ad-container shaka-hidden"></div>
         <div class="shaka-spinner-container shaka-hidden">
           <div class="shaka-spinner">
             <svg class="shaka-spinner-svg" viewBox="0 0 30 30">
-              <circle class="shaka-spinner-path" cx="15" cy="15" r="14.5" fill="none" stroke-width="1" stroke-miterlimit="10"></circle>
+              <circle class="shaka-spinner-path" cx="15" cy="15" r="14.5" fill="none" stroke-width="1"></circle>
             </svg>
           </div>
         </div>
@@ -231,18 +227,25 @@
     </div>
   </div>
 
-  <!-- Extra scrollable space -->
-  <div style="height: 100vh; background: #000; text-align: center; padding: 50px;">
-    <h3 style="color: #ffd700;">📱 Join Telegram for more streams!</h3>
-    <p style="color: #888; max-width: 600px; margin: 20px auto;">Scroll up to switch streams or down for more content...</p>
+  <!-- EXTRA SCROLL SPACE -->
+  <div class="scroll-content">
+    <h2 style="color: #ffd700; margin-bottom: 20px;">📺 More Live Streams Available!</h2>
+    <p style="color: #ccc; line-height: 1.6;">Join our <strong>Telegram Channel</strong> for:</p>
+    <ul style="text-align: left; max-width: 500px; margin: 20px auto; color: #aaa;">
+      <li>🔴 Live match links</li>
+      <li>⚡ Instant updates</li>
+      <li>📱 Mobile optimized</li>
+      <li>🎯 HD quality streams</li>
+    </ul>
+    <a href="https://t.me/cricketmemesverse873" target="_blank" class="btn-telegram" style="max-width: 280px; margin: 0 auto;">Join Now →</a>
   </div>
 </div>
 
-<!-- Bottom Ads -->
+<!-- BOTTOM ADS -->
 <script type="text/javascript">
  atOptions = { 'key' : '8d22307db9ec88da8122268a55344818', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
 </script>
-<script type="text/javascript" src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
+<script src="//www.highperformanceformat.com/8d22307db9ec88da8122268a55344818/invoke.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js" crossorigin="anonymous"></script>
 <script>
@@ -259,17 +262,16 @@
     }
   };
 
-  let currentStream = 1;
-  let player = null;
+  let currentStream = 1, player = null;
 
   function startStream() {
     document.getElementById("popup").classList.add("hide");
     document.getElementById("main-content").style.display = "block";
     setTimeout(() => {
-      document.getElementById("player-container").classList.remove("hide");
       document.getElementById("stream-switcher").classList.add("show");
+      document.getElementById("player-container").classList.remove("hide");
       initPlayer();
-    }, 200);
+    }, 300);
   }
 
   function switchStream(streamId) {
@@ -284,33 +286,23 @@
   async function initPlayer() {
     const video = document.getElementById('video');
     const ui = video['ui'];
-    const controls = ui.getControls();
-    player = controls.getPlayer();
-    
-    player.addEventListener('error', e => console.error('Player error:', e.detail));
-    controls.addEventListener('error', e => console.error('UI error:', e.detail));
-    
+    player = ui.getControls().getPlayer();
+    player.addEventListener('error', e => console.error('Error:', e.detail));
     await loadStream(currentStream);
   }
 
   async function loadStream(streamId) {
     try {
       const stream = streams[streamId];
-      player.configure({
-        drm: { "clearKeys": { [stream.drmKeyId]: stream.drmKey } }
-      });
+      player.configure({ drm: { clearKeys: { [stream.drmKeyId]: stream.drmKey } } });
       await player.load(stream.manifestUri);
-      console.log(`Stream ${streamId} loaded successfully`);
-    } catch (error) {
-      console.error('Load error:', error);
-    }
+      console.log(`TNT-${streamId} loaded`);
+    } catch (e) { console.error('Stream error:', e); }
   }
 
-  // Clean iframe protection
   if (window.top !== window.self) {
     document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:9999;">Direct access required</div>';
   }
 </script>
-
 </body>
 </html>
