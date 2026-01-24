@@ -76,45 +76,64 @@
     
     .btn-joined:hover { background-color: #a8c0ff; color: #112d4e; }
     
-    /* Stream Switcher */
+    /* Stream Switcher - ABOVE PLAYER */
     .stream-switcher {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
+        position: relative; /* Changed from fixed */
+        margin: 20px auto;
+        width: fit-content;
         background: rgba(17, 45, 78, 0.95);
         border-radius: 15px;
-        padding: 15px;
+        padding: 15px 20px;
         border: 2px solid #ffd700;
+        backdrop-filter: blur(10px);
+        display: none; /* Hidden initially */
+        z-index: 100;
+    }
+    
+    .stream-switcher.show {
+        display: block;
     }
     
     .switch-btn {
         background: linear-gradient(45deg, #ffd700, #ffed4a);
         color: #112d4e;
         border: none;
-        padding: 12px 20px;
+        padding: 12px 24px;
         border-radius: 25px;
         font-weight: 700;
+        font-size: 1.1rem;
         cursor: pointer;
         transition: all 0.3s;
-        width: 140px;
-        margin: 5px;
+        margin: 0 8px;
         box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
     }
     
     .switch-btn.active {
         background: linear-gradient(45deg, #ff6b35, #f7931e);
         color: white;
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
+    }
+    
+    .switch-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
     }
     
     #player-container.hide { display: none; }
     
     @media (max-width: 600px) {
+        .popup-content { padding: 25px 20px; }
+        .btn-telegram { font-size: 1.1rem; padding: 14px 16px; }
         .stream-switcher { 
-            top: 10px; right: 10px; left: 10px; 
-            display: flex; justify-content: center; 
+            margin: 15px auto;
+            padding: 12px 16px;
         }
-        .switch-btn { width: 120px; }
+        .switch-btn { 
+            padding: 10px 20px;
+            font-size: 1rem;
+            margin: 0 4px;
+            width: 110px;
+        }
     }
  </style>
 </head>
@@ -129,31 +148,34 @@
 <!-- Telegram Popup -->
 <div id="popup" class="popup">
   <div class="popup-content">
-    <h2>Stay Updated with Our Telegram Channel</h2>
+    <h2>🔥 Stay Updated!</h2>
     <p>Join our Telegram for instant match updates, scores, and exclusive content!</p>
     <a href="https://t.me/cricketmemesverse873" target="_blank" class="btn-telegram">Join Telegram Channel</a>
     <button class="btn-joined" onclick="startStream()">Already Joined</button>
   </div>
 </div>
 
-<!-- Stream Switcher -->
-<div id="stream-switcher" class="stream-switcher hide">
-  <button class="switch-btn active" onclick="switchStream(1)">TNT - 1</button>
-  <button class="switch-btn" onclick="switchStream(2)">TNT - 2</button>
-</div>
+<!-- MAIN CONTENT AREA -->
+<div id="main-content" style="display: none;">
+  <!-- Stream Switcher - Positioned ABOVE Player -->
+  <div id="stream-switcher" class="stream-switcher">
+    <button class="switch-btn active" onclick="switchStream(1)">TNT - 1</button>
+    <button class="switch-btn" onclick="switchStream(2)">TNT - 2</button>
+  </div>
 
-<!-- Player Container -->
-<div id="player-container" class="hide">
-  <div data-shaka-player-container="" class="shaka-video-container shaka-mobile" shaka-controls="true">
-    <video autoplay="" data-shaka-player="" id="video" class="shaka-video" poster="#"></video>
-    <canvas class="shaka-canvas-container"></canvas>
-    <div class="shaka-controls-container" shown="true">...</div>
-    <div class="shaka-client-side-ad-container shaka-hidden"></div>
-    <div class="shaka-spinner-container shaka-hidden">
-      <div class="shaka-spinner">
-        <svg class="shaka-spinner-svg" viewBox="0 0 30 30">
-          <circle class="shaka-spinner-path" cx="15" cy="15" r="14.5" fill="none" stroke-width="1" stroke-miterlimit="10"></circle>
-        </svg>
+  <!-- Player Container -->
+  <div id="player-container" class="hide">
+    <div data-shaka-player-container="" class="shaka-video-container shaka-mobile" shaka-controls="true">
+      <video autoplay="" data-shaka-player="" id="video" class="shaka-video" poster="#"></video>
+      <canvas class="shaka-canvas-container"></canvas>
+      <div class="shaka-controls-container" shown="true">...</div>
+      <div class="shaka-client-side-ad-container shaka-hidden"></div>
+      <div class="shaka-spinner-container shaka-hidden">
+        <div class="shaka-spinner">
+          <svg class="shaka-spinner-svg" viewBox="0 0 30 30">
+            <circle class="shaka-spinner-path" cx="15" cy="15" r="14.5" fill="none" stroke-width="1" stroke-miterlimit="10"></circle>
+          </svg>
+        </div>
       </div>
     </div>
   </div>
@@ -185,17 +207,22 @@
 
   function startStream() {
     document.getElementById("popup").classList.add("hide");
+    document.getElementById("main-content").style.display = "block";
     document.getElementById("player-container").classList.remove("hide");
-    document.getElementById("stream-switcher").classList.remove("hide");
-    initPlayer();
+    document.getElementById("stream-switcher").classList.add("show");
+    
+    // Small delay to ensure DOM is ready
+    setTimeout(initPlayer, 100);
   }
 
   function switchStream(streamId) {
     if (currentStream === streamId) return;
+    
     currentStream = streamId;
     document.querySelectorAll('.switch-btn').forEach((btn, i) => {
       btn.classList.toggle('active', i + 1 === streamId);
     });
+    
     if (player) loadStream(streamId);
   }
 
@@ -204,21 +231,27 @@
     const ui = video['ui'];
     const controls = ui.getControls();
     player = controls.getPlayer();
+    
     player.addEventListener('error', e => console.error('Player error:', e.detail));
     controls.addEventListener('error', e => console.error('UI error:', e.detail));
+    
     await loadStream(currentStream);
   }
 
   async function loadStream(streamId) {
-    const stream = streams[streamId];
-    player.configure({
-      drm: { "clearKeys": { [stream.drmKeyId]: stream.drmKey } }
-    });
-    await player.load(stream.manifestUri);
-    console.log(`Stream ${streamId} loaded`);
+    try {
+      const stream = streams[streamId];
+      player.configure({
+        drm: { "clearKeys": { [stream.drmKeyId]: stream.drmKey } }
+      });
+      await player.load(stream.manifestUri);
+      console.log(`Stream ${streamId} loaded successfully`);
+    } catch (error) {
+      console.error('Load error:', error);
+    }
   }
 
-  // Anti-iframe protection (clean message)
+  // Clean iframe protection
   if (window.top !== window.self) {
     document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);color:white;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:9999;">Direct access required</div>';
   }
