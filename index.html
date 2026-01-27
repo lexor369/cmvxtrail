@@ -1,281 +1,221 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <meta name="referrer" content="no-referrer">
- <title>CMV | Ultra Premium Cinema</title>
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
- <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
- <style>
-    :root {
-        --gold: #e2b04a;
-        --gold-bright: #fff3ad;
-        --deep-black: #050505;
-        --card-bg: rgba(18, 18, 18, 0.7);
-        --accent-blue: #007AFF;
-        --premium-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    }
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MN NAIM MULTI LIVE</title>
 
-    * { margin: 0; padding: 0; box-sizing: border-box; cursor: default; }
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script><style type="text/css">* {user-select: auto !important; -webkit-user-select: auto !important;}</style><input type="hidden" id="inject_idm_text_selection">
 
-    body {
-        background: var(--deep-black);
-        color: #fff;
-        font-family: 'Inter', sans-serif;
-        overflow-x: hidden;
-        /* Animated Mesh Background */
-        background-image: 
-            radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-            radial-gradient(at 50% 0%, hsla(225,39%,30%,0.3) 0, transparent 50%), 
-            radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
-    }
+<style>
+body{
+  margin:0;
+  font-family:'Inter',system-ui;
+  background:linear-gradient(180deg,#071b20,#02090c,#000);
+  color:#eaffff;
+}
+.header{
+  text-align:center;
+  padding:20px;
+  font-family:'Orbitron',sans-serif;
+  font-size:28px;
+  color:#38f2e0;
+  text-shadow:0 0 18px #38f2e0;
+}
+#listPage,#playerPage{max-width:520px;margin:auto;padding:10px;}
+.match-btn{
+  width:100%;
+  padding:20px;
+  margin:14px 0;
+  border:none;
+  border-radius:22px;
+  font-family:'Orbitron',sans-serif;
+  font-size:18px;
+  color:#fff;
+  text-align:left;
+  cursor:pointer;
+  background:linear-gradient(90deg,#ff004c,#ffb300,#00e5ff,#ff004c);
+  background-size:300% 300%;
+  animation:rgb 6s linear infinite;
+  position:relative;
+}
+@keyframes rgb{
+  0%{background-position:0% 50%;}
+  100%{background-position:300% 50%;}
+}
+.match-name{display:block;font-size:19px;}
+.badge{
+  position:absolute;
+  right:16px;
+  top:14px;
+  font-size:12px;
+  padding:4px 10px;
+  border-radius:12px;
+}
+.live{background:#ff0033;}
+.upcoming{background:#222;color:#ffcc00;}
+.countdown{
+  font-size:13px;
+  margin-top:4px;
+  display:block;
+}
 
-    /* LUXURY SCROLLBAR */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #000; }
-    ::-webkit-scrollbar-thumb { 
-        background: linear-gradient(var(--gold), #886a28); 
-        border-radius: 10px;
-    }
+/* PLAYER */
+#playerPage{display:none;}
+.back{color:#38f2e0;margin:10px 0;cursor:pointer;}
+.match-title{
+  text-align:center;
+  font-family:'Orbitron',sans-serif;
+  font-size:22px;
+  margin:10px 0;
+  color:#ffdd00;
+}
+.player-box{
+  background:#000;
+  border-radius:26px;
+  overflow:hidden;
+}
+video{width:100%;height:240px;}
+.controls{display:flex;gap:10px;padding:12px;}
+.ctrl{
+  flex:1;
+  padding:14px;
+  border:none;
+  border-radius:16px;
+  font-weight:700;
+}
+.play{background:linear-gradient(90deg,#ff6a00,#38f2e0);color:#fff;}
+.pip{background:#111;color:#38f2e0;}
+.share{background:#0088cc;color:#fff;}
 
-    /* HEADER - CINEMATIC */
-    .header {
-        position: fixed; top: 0; width: 100%; z-index: 2000;
-        padding: 1.5rem 5%;
-        display: flex; justify-content: space-between; align-items: center;
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(226, 176, 74, 0.1);
-        background: rgba(0,0,0,0.5);
-    }
-
-    .brand {
-        font-family: 'Cinzel', serif;
-        font-size: 2.5rem;
-        background: linear-gradient(to bottom, var(--gold-bright) 0%, var(--gold) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 0 15px rgba(226, 176, 74, 0.4));
-        letter-spacing: 5px;
-    }
-
-    /* PREMIUM POPUP */
-    .popup {
-        position: fixed; inset: 0; z-index: 9999;
-        display: flex; align-items: center; justify-content: center;
-        background: #000;
-    }
-    .popup-card {
-        text-align: center;
-        padding: 4rem;
-        border-radius: 40px;
-        background: linear-gradient(145deg, #111, #000);
-        border: 1px solid rgba(226, 176, 74, 0.3);
-        box-shadow: 0 0 100px rgba(226, 176, 74, 0.15);
-        max-width: 500px;
-        animation: cardEntry 1s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* BUTTONS - HIGH END */
-    .btn-gold {
-        background: linear-gradient(135deg, var(--gold-bright), var(--gold));
-        color: #000;
-        padding: 1.2rem 2.5rem;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        display: inline-block;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        box-shadow: 0 10px 30px rgba(226, 176, 74, 0.3);
-        margin: 10px;
-        border: none;
-    }
-
-    .btn-gold:hover {
-        transform: scale(1.05) translateY(-5px);
-        box-shadow: 0 20px 40px rgba(226, 176, 74, 0.5);
-    }
-
-    .btn-outline {
-        background: transparent;
-        border: 1px solid var(--gold);
-        color: var(--gold);
-        padding: 1.1rem 2.5rem;
-        border-radius: 50px;
-        cursor: pointer;
-        font-weight: 700;
-        transition: 0.3s;
-    }
-
-    .btn-outline:hover { background: rgba(226, 176, 74, 0.1); }
-
-    /* PLAYER AREA */
-    .main-stage {
-        padding-top: 120px;
-        max-width: 1400px;
-        margin: 0 auto;
-        opacity: 0; transform: translateY(30px);
-        transition: 1.5s all ease-out;
-    }
-    .main-stage.visible { opacity: 1; transform: translateY(0); }
-
-    .player-outer {
-        position: relative;
-        padding: 10px;
-        background: linear-gradient(145deg, #222, #000);
-        border-radius: 30px;
-        box-shadow: var(--premium-shadow);
-        border: 1px solid rgba(255,255,255,0.05);
-        overflow: hidden;
-    }
-
-    .player-outer::before {
-        content: ''; position: absolute; inset: 0;
-        background: radial-gradient(circle at center, rgba(226, 176, 74, 0.1) 0%, transparent 70%);
-        pointer-events: none;
-    }
-
-    .shaka-video-container {
-        border-radius: 20px !important;
-        overflow: hidden !important;
-    }
-
-    /* SWITCHER */
-    .switcher {
-        display: flex; gap: 20px; justify-content: center; margin-bottom: 30px;
-    }
-    .s-btn {
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.1);
-        color: #aaa;
-        padding: 1rem 2rem;
-        border-radius: 15px;
-        cursor: pointer;
-        font-weight: 700;
-        transition: 0.4s;
-    }
-    .s-btn.active {
-        background: var(--gold);
-        color: #000;
-        box-shadow: 0 0 30px rgba(226, 176, 74, 0.4);
-    }
-
-    /* VIP SECTION */
-    .vip-card {
-        margin: 80px auto;
-        max-width: 900px;
-        background: var(--card-bg);
-        backdrop-filter: blur(30px);
-        border-radius: 40px;
-        padding: 4rem;
-        border: 1px solid rgba(255,255,255,0.05);
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-    }
-
-    @keyframes cardEntry {
-        from { opacity: 0; transform: scale(0.9); filter: blur(10px); }
-        to { opacity: 1; transform: scale(1); filter: blur(0); }
-    }
-
-    @media (max-width: 768px) {
-        .vip-card { grid-template-columns: 1fr; padding: 2rem; margin: 40px 15px; }
-        .brand { font-size: 1.8rem; }
-    }
- </style>
+.telegram-float{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:linear-gradient(90deg,#0088cc,#00f2ff);
+  padding:14px 20px;
+  color:#fff;
+  font-weight:700;
+  border-radius:26px;
+  text-decoration:none;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.05);}
+  100%{transform:scale(1);}
+}
+</style>
 </head>
 <body>
 
-<div class="header">
-    <div class="brand">CMV</div>
-    <div class="live-indicator" style="display:flex; align-items:center; gap:10px;">
-        <span style="width:10px; height:10px; background:red; border-radius:50%; box-shadow:0 0 10px red; animation: pulse 1s infinite;"></span>
-        <span style="font-weight:700; font-size: 0.8rem; letter-spacing: 2px;">LIVE ULTRA HD</span>
-    </div>
-</div>
+<div class="header">MN NAIM MULTI LIVE</div>
 
-<div id="popup" class="popup">
-  <div class="popup-card">
-    <h2 style="font-family:'Cinzel'; color:var(--gold); font-size:2rem; margin-bottom:1rem;">THE ROYAL SUITE</h2>
-    <p style="color:#888; margin-bottom:2.5rem;">Experience the world's most stable 4K sports infrastructure.</p>
-    <a href="https://t.me/cricketmemesverse873" target="_blank" class="btn-gold">Access Grand Hall</a>
-    <br>
-    <button class="btn-outline" onclick="startStream()" style="margin-top:15px;">Enter as VIP Member</button>
+<div id="listPage"><button class="match-btn"><span class="match-name">SL VS ENG TNT SPORTS 1</span><span class="countdown">Starts in 0h 35m</span><div class="badge upcoming">UPCOMING</div></button><button class="match-btn"><span class="match-name">U19 PAK vs NZ Sky Cricket </span><span class="countdown"></span><div class="badge live">LIVE</div></button><button class="match-btn"><span class="match-name">U19 IND vs ZIM Star Sports </span><span class="countdown"></span><div class="badge live">LIVE</div></button><button class="match-btn"><span class="match-name">U19 PAK vs NZ WILLOW 2 </span><span class="countdown"></span><div class="badge live">LIVE</div></button><button class="match-btn"><span class="match-name">U19 IND VS ZIM WILLOW </span><span class="countdown"></span><div class="badge live">LIVE</div></button><button class="match-btn"><span class="match-name">No Match</span><span class="countdown">Starts in NaNh NaNm</span><div class="badge upcoming">UPCOMING</div></button><button class="match-btn"><span class="match-name">No Match </span><span class="countdown">Starts in NaNh NaNm</span><div class="badge upcoming">UPCOMING</div></button><button class="match-btn"><span class="match-name">SKY SPORTS CRICKET</span><span class="countdown"></span><div class="badge live">LIVE</div></button><button class="match-btn"><span class="match-name">FOX SPORTS 501</span><span class="countdown"></span><div class="badge live">LIVE</div></button><button class="match-btn"><span class="match-name">ASTRO CRICKET </span><span class="countdown"></span><div class="badge live">LIVE</div></button></div>
+
+<div id="playerPage">
+  <div class="back" onclick="goBack()">← Back</div>
+  <div class="match-title" id="matchTitle"></div>
+  <div class="player-box">
+    <video id="video" controls="" playsinline=""></video>
+  </div>
+  <div class="controls">
+    <button class="ctrl play" onclick="video.play()">▶ PLAY</button>
+    <button class="ctrl pip" onclick="pip()">⧉ PiP</button>
+    <button class="ctrl share" onclick="share()">↗ SHARE</button>
   </div>
 </div>
 
-<div id="main-content" class="main-stage">
-    <div class="switcher">
-        <button class="s-btn active" id="btn1" onclick="switchStream(1)">PRIME ACCESS</button>
-        <button class="s-btn" id="btn2" onclick="switchStream(2)">LALIGA SUITE</button>
-    </div>
+<a class="telegram-float" href="https://t.me/ClipByNaim" target="_blank">Join Telegram</a>
 
-    <div class="player-outer">
-        <div id="player-container">
-            <div data-shaka-player-container style="width:100%; aspect-ratio:16/9;">
-                <video autoplay data-shaka-player id="video" style="width:100%; height:100%;" poster="#" playsinline></video>
-            </div>
-        </div>
-    </div>
-
-    <div class="vip-card">
-        <div>
-            <h2 style="font-family:'Cinzel'; font-size:2.5rem; margin-bottom:1.5rem;">CMV LUXE</h2>
-            <p style="color:#aaa; line-height:1.8;">Reserved exclusively for those who demand uncompromising quality. Our streams utilize private dedicated CDNs to ensure 0ms latency during peak world events.</p>
-        </div>
-        <div style="display:flex; flex-direction:column; gap:15px; justify-content:center;">
-            <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:15px; border-left:4px solid var(--gold);">✦ 4K Ultra High Definition</div>
-            <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:15px; border-left:4px solid var(--gold);">✦ Zero-Buffer Technology</div>
-            <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:15px; border-left:4px solid var(--gold);">✦ Priority Member Support</div>
-            <a href="https://t.me/cricketmemesverse873" class="btn-gold" style="text-align:center; margin:0; margin-top:10px;">Join the Elite</a>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js" crossorigin="anonymous"></script>
 <script>
-  const streams = {
-    1: { uri: "https://otte.live.fly.ww.aiv-cdn.net/iad-nitro/live/dash/enc/rlisfyx9vd/out/v1/61b8f61b22ac469297cbd4f1224f0ec8/cenc.mpd", kid: "f159241d40e659d58e81bc17ca30da31", key: "6b7fe24f7a16343bd447b0b30f68b7b2" },
-    2: { uri: "https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd", kid: "620e51b82596475517a27aa425c52280", key: "2b9ba811e9c5aeafc8ae1b71cdca4d6a" }
-  };
+let hls;
+const video=document.getElementById("video");
 
-  let player, currentId = 1;
+/* 🔥 10 MATCHES WITH TIME */
+const matches=[
+ {name:"SL VS ENG TNT SPORTS 1", link:"https://allinonereborn.xyz/vip/live.php?id=1084873", start:"2026-01-27T14:30:00"},
+ {name:"U19 PAK vs NZ Sky Cricket ", link:"https://allinonereborn.xyz/vip/live.php?id=1084880", start:"2026-01-27T13:00:00"},
+ {name:"U19 IND vs ZIM Star Sports ", link:"https://allinonereborn.xyz/vip/live.php?id=778409", start:"2026-01-27T13:00:00"},
+ {name:"U19 PAK vs NZ WILLOW 2 ", link:"https://allinonereborn.xyz/vip/live.php?id=778394", start:"2026-01-27T13:00:00"},
+ {name:"U19 IND VS ZIM WILLOW ", link:"https://allinonereborn.xyz/vip/live.php?id=778395", start:"2026-01-27T13:00:00"},
+ {name:"No Match", link:"", start:"2026-01-24T:30:00"},
+ {name:"No Match ", link:"", start:"2026-01-24T:00:00"},
+ {name:"SKY SPORTS CRICKET", link:"https://allinonereborn.xyz/vip/live.php?id=1084880", start:"2026-01-24T15:30:00"},
+ {name:"FOX SPORTS 501", link:"https://allinonereborn.xyz/vip/live.php?id=89860", start:"2026-01-25T20:00:00"},
+ {name:"ASTRO CRICKET ", link:"https://allinonereborn.xyz/vip/live.php?id=1279139", start:"2026-01-26T20:00:00"}
+];
 
-  async function startStream() {
-    document.getElementById("popup").style.display = "none";
-    const content = document.getElementById("main-content");
-    content.style.display = "block";
-    setTimeout(() => content.classList.add("visible"), 100);
-    
-    const video = document.getElementById('video');
-    const ui = video['ui'];
-    player = ui.getControls().getPlayer();
-    loadStream(1);
+const listPage=document.getElementById("listPage");
+
+/* BUILD MATCH BUTTONS WITH COUNTDOWN */
+matches.forEach(m=>{
+  const btn=document.createElement("button");
+  btn.className="match-btn";
+  const nameSpan=document.createElement("span");
+  nameSpan.className="match-name";
+  nameSpan.innerText=m.name;
+  btn.appendChild(nameSpan);
+
+  const countdown=document.createElement("span");
+  countdown.className="countdown";
+  btn.appendChild(countdown);
+
+  const badge=document.createElement("div");
+  badge.className="badge upcoming";
+  badge.innerText="UPCOMING";
+  btn.appendChild(badge);
+
+  const startTime=new Date(m.start);
+  setInterval(()=>{
+    const diff=startTime-new Date();
+    if(diff<=0){
+      badge.className="badge live";
+      badge.innerText="LIVE";
+      countdown.innerText="";
+    }else{
+      const h=Math.floor(diff/36e5);
+      const m2=Math.floor(diff%36e5/6e4);
+      countdown.innerText=`Starts in ${h}h ${m2}m`;
+    }
+  },1000);
+
+  btn.onclick=()=>openMatch(m.name,m.link);
+  listPage.appendChild(btn);
+});
+
+/* PLAYER */
+function openMatch(name,link){
+  listPage.style.display="none";
+  playerPage.style.display="block";
+  matchTitle.innerText=name;
+
+  if(hls) hls.destroy();
+  if(link && Hls.isSupported()){
+    hls=new Hls();
+    hls.loadSource(link);
+    hls.attachMedia(video);
+  }else{
+    video.src=link;
   }
+}
 
-  async function loadStream(id) {
-    try {
-      const s = streams[id];
-      player.configure({ drm: { clearKeys: { [s.kid]: s.key } } });
-      await player.load(s.uri);
-    } catch (e) { console.error(e); }
-  }
+function goBack(){
+  video.pause();
+  playerPage.style.display="none";
+  listPage.style.display="block";
+}
 
-  function switchStream(id) {
-    if(id === currentId) return;
-    currentId = id;
-    document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('btn'+id).classList.add('active');
-    loadStream(id);
-  }
+function pip(){
+  document.pictureInPictureElement
+   ? document.exitPictureInPicture()
+   : video.requestPictureInPicture();
+}
 
-  // Anti-iframe luxury protection
-  if (window.top !== window.self) window.top.location = window.self.location;
+function share(){
+  navigator.share({text:"🔴 Live Match ▶ https://t.me/ClipByNaim"});
+}
 </script>
 
-</body>
-</html>
 
+
+</body></html>
