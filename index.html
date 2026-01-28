@@ -13,14 +13,12 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: #000;
             color: #fff;
             overflow-x: hidden;
         }
-
         .header {
             background: linear-gradient(135deg, #1a1a1a, #000);
             padding: 15px 20px;
@@ -29,7 +27,6 @@
             z-index: 100;
             box-shadow: 0 2px 10px rgba(255,255,255,0.1);
         }
-
         .channel-name {
             font-size: 24px;
             font-weight: bold;
@@ -39,7 +36,6 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .channels-selector {
             display: flex;
             justify-content: center;
@@ -47,7 +43,6 @@
             margin-top: 15px;
             flex-wrap: wrap;
         }
-
         .channel-btn {
             background: #333;
             color: #fff;
@@ -61,7 +56,6 @@
             min-width: 80px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
-
         .channel-btn:hover, .channel-btn.active {
             background: linear-gradient(45deg, #ff4500, #ff6347);
             border-color: #ff4500;
@@ -69,7 +63,6 @@
             box-shadow: 0 6px 20px rgba(255,69,0,0.4);
             color: #fff;
         }
-
         .stream-container {
             position: relative;
             max-width: 1200px;
@@ -80,13 +73,11 @@
             box-shadow: 0 20px 40px rgba(255,255,255,0.1);
             background: #111;
         }
-
         #video {
             width: 100%;
             height: 100%;
             background: #000;
         }
-
         .stream-info {
             position: absolute;
             bottom: 20px;
@@ -98,25 +89,21 @@
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.1);
         }
-
         .stream-title {
             font-size: 22px;
             font-weight: bold;
             margin-bottom: 8px;
         }
-
         .stream-status {
             color: #00ff88;
             font-size: 16px;
             font-weight: 500;
         }
-
         .quality-info {
             color: #aaa;
             font-size: 14px;
             margin-top: 5px;
         }
-
         .actions {
             display: flex;
             gap: 15px;
@@ -124,7 +111,6 @@
             margin: 30px 0;
             flex-wrap: wrap;
         }
-
         .btn {
             background: linear-gradient(45deg, #ff4500, #ff6347);
             color: #fff;
@@ -141,12 +127,10 @@
             gap: 10px;
             box-shadow: 0 6px 20px rgba(255,69,0,0.3);
         }
-
         .btn:hover {
             transform: translateY(-4px);
             box-shadow: 0 10px 30px rgba(255,69,0,0.5);
         }
-
         .telegram-popup {
             position: fixed;
             top: 50%;
@@ -162,23 +146,19 @@
             text-align: center;
             border: 1px solid rgba(255,69,0,0.3);
         }
-
         .telegram-popup.active {
             display: block;
             animation: popupSlide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-
         @keyframes popupSlide {
             from { opacity: 0; transform: translate(-50%, -60%) scale(0.95); }
             to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
-
         .telegram-popup h3 {
             margin-bottom: 20px;
             color: #ff4500;
             font-size: 24px;
         }
-
         .telegram-link {
             font-size: 20px;
             word-break: break-all;
@@ -188,7 +168,6 @@
             border-radius: 10px;
             border: 1px solid rgba(255,255,255,0.1);
         }
-
         .overlay {
             position: fixed;
             top: 0;
@@ -199,11 +178,9 @@
             z-index: 150;
             display: none;
         }
-
         .overlay.active {
             display: block;
         }
-
         .loading {
             position: absolute;
             top: 50%;
@@ -213,49 +190,54 @@
             font-size: 18px;
             z-index: 10;
         }
-
+        #message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 1001;
+        }
         @media (max-width: 768px) {
             .channel-name {
                 font-size: 20px;
             }
-
             .channels-selector {
                 gap: 6px;
             }
-
             .channel-btn {
                 padding: 8px 12px;
                 font-size: 13px;
                 min-width: 70px;
             }
-
             .stream-container {
                 height: 60vh;
                 margin: 10px;
                 border-radius: 10px;
             }
-
             .stream-info {
                 left: 15px;
                 right: 15px;
                 bottom: 15px;
                 padding: 15px;
             }
-
             .stream-title {
                 font-size: 18px;
             }
-
             .actions {
                 flex-direction: column;
                 align-items: center;
             }
-
             .btn {
                 width: 280px;
                 justify-content: center;
             }
-
             .telegram-popup {
                 padding: 25px;
                 margin: 20px;
@@ -264,6 +246,9 @@
     </style>
 </head>
 <body>
+    <!-- Anti-iframe protection -->
+    <div id="message" style="display: none;">Ab to copy mat kar chutiye</div>
+
     <div class="header">
         <div class="channel-name">TNT Sports</div>
         <div class="channels-selector">
@@ -273,37 +258,36 @@
             <button class="channel-btn" data-channel="tnt4">TNT 4</button>
         </div>
     </div>
-
+    
     <div class="stream-container">
-        <div class="loading" id="loading">🔴 Loading Stream...</div>
-        <video id="video" 
-               controls 
-               width="100%" 
-               height="100%" 
-               disablePictureInPicture 
-               disableRemotePlayback>
-        </video>
-        <shaka-ui-container id="container" width="100%" height="100%">
-            <shaka-ui-main id="main" width="100%" height="100%">
-                <shaka-ui-overflow id="overflow"></shaka-ui-overflow>
-                <shaka-ui-video-container id="videocontainer">
-                    <video id="videoplayer" playsinline></video>
-                </shaka-ui-video-container>
-            </shaka-ui-main>
-        </shaka-ui-container>
+        <div class="loading" id="loading"> Loading Stream...</div>
+        <video id="video" controls width="100%" height="100%" disablePictureInPicture disableRemotePlayback></video>
+        <div data-shaka-player-container="" class="shaka-video-container">
+            <canvas class="shaka-canvas-container"></canvas>
+            <div class="shaka-controls-container" shown="true"></div>
+            <div class="shaka-client-side-ad-container shaka-hidden"></div>
+            <div class="shaka-spinner-container shaka-hidden">
+                <div class="shaka-spinner">
+                    <svg class="shaka-spinner-svg" viewbox="0 0 30 30">
+                        <circle class="shaka-spinner-path" cx="15" cy="15" r="14.5" fill="none" stroke-width="1" stroke-miterlimit="10"></circle>
+                    </svg>
+                </div>
+            </div>
+            <div class="shaka-text-container" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;"></div>
+        </div>
         <div class="stream-info">
             <div class="stream-title" id="streamTitle">TNT Sports 1 - Live</div>
             <div class="stream-status">● LIVE NOW</div>
             <div class="quality-info" id="qualityInfo"></div>
         </div>
     </div>
-
+    
     <div class="actions">
-        <a href="#" class="btn" onclick="showTelegram()">📱 Follow Updates</a>
-        <a href="#" class="btn" onclick="toggleFullScreen()">📺 Full Screen</a>
-        <a href="#" class="btn" onclick="refreshStream()">🔄 Refresh Stream</a>
+        <a href="#" class="btn" onclick="showTelegram()"> Follow Updates</a>
+        <a href="#" class="btn" onclick="toggleFullScreen()"> Full Screen</a>
+        <a href="#" class="btn" onclick="refreshStream()"> Refresh Stream</a>
     </div>
-
+    
     <div class="overlay" id="overlay" onclick="hideTelegram()"></div>
     <div class="telegram-popup" id="telegramPopup">
         <h3>Follow TNT Sports</h3>
@@ -313,6 +297,12 @@
     </div>
 
     <script>
+        // Anti-iframe protection
+        if (window.top !== window.self) {
+            document.getElementById('message').style.display = 'flex';
+            document.body.innerHTML = '';
+        }
+
         const channels = {
             tnt1: {
                 name: 'TNT Sports 1',
@@ -348,22 +338,36 @@
         let player;
         let ui;
 
+        function onPlayerErrorEvent(errorEvent) {
+            onPlayerError(errorEvent.detail);
+        }
+
+        function onPlayerError(error) {
+            console.error('Error code', error.code, 'object', error);
+            document.getElementById('loading').textContent = 'Stream Error - Try Refresh';
+        }
+
+        function onUIErrorEvent(errorEvent) {
+            onPlayerError(errorEvent.detail);
+        }
+
         async function initShakaPlayer(manifestUri, drmConfig) {
             const video = document.getElementById('video');
-            video['ui'] = document.getElementById('container');
+            const container = video.parentNode.querySelector('[data-shaka-player-container]');
             
             shaka.polyfill.installAll();
             
             if (shaka.Player.isBrowserSupported()) {
                 try {
                     player = new shaka.Player(video);
-                    ui = new shaka.ui.Overlay(video, document.getElementById('container'), player);
+                    ui = new shaka.ui.Overlay(video, container, player);
                     
                     player.configure({
                         drm: drmConfig
                     });
 
-                    ui.getControls().getButtonPanel().addEventListener('click', () => {});
+                    player.addEventListener('error', onPlayerErrorEvent);
+                    ui.getControls().addEventListener('error', onUIErrorEvent);
                     
                     await player.load(manifestUri);
                     console.log('Stream loaded successfully');
@@ -380,7 +384,7 @@
                     
                 } catch (error) {
                     console.error('Error loading stream:', error);
-                    document.getElementById('loading').textContent = '❌ Stream Error - Try Refresh';
+                    document.getElementById('loading').textContent = 'Stream Error - Try Refresh';
                 }
             } else {
                 console.error('Shaka Player not supported');
@@ -391,18 +395,17 @@
             currentChannelKey = channelKey;
             document.querySelectorAll('.channel-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-
             const channel = channels[channelKey];
             document.getElementById('streamTitle').textContent = `${channel.name} - Live`;
             document.getElementById('telegramLink').textContent = channel.telegram;
             document.getElementById('loading').style.display = 'block';
-            document.getElementById('loading').textContent = '🔄 Switching Stream...';
-
+            document.getElementById('loading').textContent = 'Switching Stream...';
+            
             // Destroy current player
             if (player) {
                 player.destroy();
             }
-
+            
             // Load new stream
             initShakaPlayer(channel.manifest, {
                 clearKeys: {
@@ -458,4 +461,3 @@
     </script>
 </body>
 </html>
-
