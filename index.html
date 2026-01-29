@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="referrer" content="no-referrer">
-    <title>CMV PREMIUM | Elite Streaming</title>
+    <title>CMV | Elite Streaming</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
@@ -31,18 +31,15 @@
             min-height: 100vh;
         }
 
-        /* --- THE SPINNER FIX --- */
-        /* This hides the spinner by default when the video is active */
-        .shaka-spinner-container {
-            display: none !important;
-        }
-        
-        /* If you still see a ghost loading bar/circle, this targets the inner SVG */
-        .shaka-spinner {
+        /* --- THE LOADING SPINNER REMOVAL --- */
+        /* Forces the loading circle to be hidden even when the player wants to show it */
+        .shaka-spinner-container, .shaka-spinner {
             display: none !important;
             visibility: hidden !important;
+            opacity: 0 !important;
         }
 
+        /* --- Player Styling --- */
         .shaka-video-container { border-radius: 16px; overflow: hidden; }
         .shaka-controls-container {
             background: linear-gradient(transparent, rgba(0,0,0,0.7)) !important;
@@ -52,7 +49,7 @@
             --shaka-main-theme-color: var(--gold) !important;
         }
 
-        /* --- Layout --- */
+        /* --- Header Section --- */
         .header {
             padding: 15px 20px;
             text-align: center;
@@ -63,7 +60,7 @@
         }
 
         .brand-logo {
-            font-size: 2rem; font-weight: 900; letter-spacing: -1.5px;
+            font-size: 2.2rem; font-weight: 900; letter-spacing: -1.5px;
             background: linear-gradient(to bottom, #fff 40%, var(--gold));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
@@ -75,18 +72,21 @@
             border: 1px solid rgba(255, 215, 0, 0.15);
         }
 
+        /* --- Popup Overlay --- */
         .popup-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.96);
+            position: fixed; inset: 0; background: rgba(0,0,0,0.98);
             display: flex; align-items: center; justify-content: center;
-            z-index: 9999; backdrop-filter: blur(15px);
+            z-index: 9999; backdrop-filter: blur(20px);
         }
 
         .popup-card {
             background: #000; padding: 40px; border-radius: 28px;
             border: 1px solid rgba(255,215,0,0.2); text-align: center;
             max-width: 380px; width: 90%;
+            box-shadow: 0 0 50px rgba(0,0,0,1);
         }
 
+        /* --- Buttons --- */
         .btn-main {
             display: block; width: 100%; padding: 14px; border-radius: 12px;
             font-size: 0.95rem; font-weight: 700; cursor: pointer;
@@ -95,6 +95,7 @@
         .btn-gold { background: var(--gold); color: #000; border: none; }
         .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.15); }
 
+        /* --- Content Layout --- */
         .main-wrapper { max-width: 1000px; margin: 0 auto; padding: 15px; display: none; }
         
         .video-container-box {
@@ -118,15 +119,16 @@
 <body>
 
 <header class="header">
-    <h1 class="brand-logo">CMV PREMIUM</h1>
-    <a href="https://t.me/cricketmemesverse873" class="tg-badge">@cricketmemesverse873</a>
+    <h1 class="brand-logo">CMV</h1>
+    <a href="https://t.me/cricketmemesverse873" class="tg-badge">JOIN TELEGRAM</a>
 </header>
 
 <div id="popup" class="popup-overlay">
     <div class="popup-card">
-        <h2 style="margin-bottom: 8px;">VIP Access</h2>
-        <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 20px;">Join Telegram for HD streams.</p>
-        <a href="https://t.me/cricketmemesverse873" class="btn-main btn-gold">JOIN CHANNEL</a>
+        <div style="font-size: 3rem; margin-bottom: 15px;">🏆</div>
+        <h2 style="margin-bottom: 8px; font-weight: 900; letter-spacing: -0.5px;">Watch All Live matches</h2>
+        <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 25px;">Exclusive 4K Streams for Telegram Members</p>
+        <a href="https://t.me/cricketmemesverse873" class="btn-main btn-gold">JOIN FOR LIVE LINKS</a>
         <button class="btn-main btn-outline" onclick="unlockSite()">ALREADY JOINED</button>
     </div>
 </div>
@@ -164,12 +166,6 @@
         ui = video['ui'];
         player = ui.getControls().getPlayer();
         
-        // Listen for the playing event to ensure the UI is clean
-        video.addEventListener('playing', () => {
-            const loaders = document.querySelectorAll('.shaka-spinner-container, .shaka-spinner');
-            loaders.forEach(el => el.style.display = 'none');
-        });
-
         loadStream(1);
     }
 
