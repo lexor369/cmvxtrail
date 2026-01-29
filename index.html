@@ -12,7 +12,6 @@
     <style>
         :root {
             --gold: #FFD700;
-            --gold-glow: rgba(255, 215, 0, 0.4);
             --bg-dark: #05070a;
             --card-bg: rgba(255, 255, 255, 0.04);
             --text-main: #ffffff;
@@ -24,159 +23,111 @@
 
         body {
             background-color: var(--bg-dark);
-            background-image: radial-gradient(circle at top right, #1a1a2e, transparent),
-                              radial-gradient(circle at bottom left, #0d1117, transparent);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* --- FIX: LOADING SPINNER & PLAY BUTTON --- */
-        .shaka-spinner-container, .shaka-spinner {
+        /* --- MOBILE BUTTON FIXES --- */
+        .shaka-spinner-container { display: none !important; }
+
+        /* Hide the big central play button when video is playing */
+        [data-shaka-player-container][paused="false"] .shaka-play-button-container {
+            display: none !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        /* Force controls to hide on mobile */
+        .shaka-controls-container[shown="false"] {
             display: none !important;
         }
 
-        /* Force play button to disappear when video starts */
-        [data-shaka-player-container][paused="false"] .shaka-play-button-container {
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none;
-        }
-
-        /* --- Player Styling --- */
-        .shaka-video-container { border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
-        .shaka-controls-container { background: linear-gradient(transparent, rgba(0,0,0,0.8)) !important; }
-        .shaka-bottom-controls { padding: 0 10px 10px 10px !important; }
-        .shaka-seek-bar-container .shaka-range-element { --shaka-main-theme-color: var(--gold) !important; }
-        
-        /* --- FIX: Quality Menu Visibility & Scrollability --- */
+        /* --- QUALITY MENU MOBILE SCROLL FIX --- */
         .shaka-overflow-menu, .shaka-settings-menu {
             background: rgba(10, 10, 15, 0.98) !important;
             border: 1px solid rgba(255, 215, 0, 0.3) !important;
             border-radius: 12px !important;
-            color: white !important;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            /* Important for vertical scrolling */
-            max-height: 250px !important; 
-            overflow-y: auto !important;
-            position: absolute !important;
+            max-height: 220px !important; /* Constrain height */
+            overflow-y: auto !important; /* Enable scroll */
             bottom: 60px !important;
         }
 
-        /* Ensure the inner list allows scrolling */
         .shaka-settings-menu div {
             overflow-y: auto !important;
-            display: flex;
-            flex-direction: column;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .shaka-overflow-menu button, .shaka-settings-menu button { 
-            color: white !important; 
-            padding: 12px !important;
-            min-height: 48px; /* Bigger touch target */
-            width: 100%;
-            text-align: left;
-        }
-        .shaka-active-button { color: var(--gold) !important; }
+        /* --- Styling --- */
+        .shaka-video-container { border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .shaka-seek-bar-container .shaka-range-element { --shaka-main-theme-color: var(--gold) !important; }
 
-        /* --- Header Section --- */
         .header {
             padding: 20px; text-align: center; backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
             position: sticky; top: 0; z-index: 100; background: rgba(5, 7, 10, 0.85);
         }
 
         .brand-logo {
-            font-size: 2.5rem; font-weight: 900; letter-spacing: -1.5px;
+            font-size: 2.5rem; font-weight: 900; 
             background: linear-gradient(to bottom, #fff 40%, var(--gold));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
         }
 
         .tg-badge {
-            display: inline-flex; align-items: center; background: rgba(255,255,255,0.05);
+            display: inline-flex; background: rgba(255,255,255,0.05);
             padding: 8px 20px; border-radius: 50px; text-decoration: none;
-            color: var(--gold); font-size: 0.8rem; font-weight: 800;
-            border: 1px solid rgba(255, 215, 0, 0.2); transition: var(--transition);
-            text-transform: uppercase; letter-spacing: 1px;
+            color: var(--gold); font-size: 0.8rem; border: 1px solid rgba(255, 215, 0, 0.2);
         }
-        .tg-badge:hover { background: var(--gold); color: #000; transform: scale(1.05); }
 
-        /* --- Popup Overlay --- */
         .popup-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.98);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 9999; backdrop-filter: blur(20px);
+            display: flex; align-items: center; justify-content: center; z-index: 9999;
         }
 
         .popup-card {
             background: #000; padding: 40px; border-radius: 28px;
-            border: 1px solid rgba(255,215,0,0.2); text-align: center;
-            max-width: 380px; width: 90%;
+            border: 1px solid rgba(255,215,0,0.2); text-align: center; width: 90%; max-width: 380px;
         }
 
         .btn-main {
             display: block; width: 100%; padding: 14px; border-radius: 12px;
-            font-size: 0.95rem; font-weight: 700; cursor: pointer;
-            transition: var(--transition); margin-top: 12px; text-decoration: none;
+            font-size: 0.95rem; font-weight: 700; cursor: pointer; margin-top: 12px;
         }
         .btn-gold { background: var(--gold); color: #000; border: none; }
         .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.15); }
 
-        /* --- Content Layout --- */
         .main-wrapper { max-width: 1000px; margin: 0 auto; padding: 15px; display: none; }
-       
-        .video-container-box {
-            position: relative; width: 100%; padding-top: 56.25%;
-            background: #000; border-radius: 16px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px;
-        }
-
+        .video-container-box { position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 16px; overflow: hidden; }
         #player-container { position: absolute; top: 0; left: 0; bottom: 0; right: 0; }
 
-        .switcher {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 10px; margin-bottom: 20px;
-        }
+        .switcher { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .s-btn { padding: 12px 8px; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08); color: #fff; border-radius: 10px; cursor: pointer; }
+        .s-btn.active { border-color: var(--gold); color: var(--gold); }
 
-        .s-btn {
-            padding: 12px 8px; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08);
-            color: #fff; border-radius: 10px; font-weight: 600; font-size: 0.85rem;
-            cursor: pointer; transition: var(--transition);
-        }
-
-        .s-btn.active { background: rgba(255, 215, 0, 0.1); border-color: var(--gold); color: var(--gold); }
-
-        @media (max-width: 480px) {
-            .switcher { grid-template-columns: 1fr 1fr; }
-            .shaka-settings-menu { max-height: 200px !important; }
-        }
+        @media (max-width: 480px) { .switcher { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
 
 <header class="header">
     <h1 class="brand-logo">CMV</h1>
-    <a href="https://t.me/cricketmemesverse873" target="_blank" rel="noopener noreferrer" class="tg-badge">Join Channel</a>
+    <a href="https://t.me/cricketmemesverse873" class="tg-badge">Join Channel</a>
 </header>
 
 <div id="popup" class="popup-overlay">
     <div class="popup-card">
-        <div style="font-size: 3rem; margin-bottom: 15px;">🏆</div>
-        <h2 style="margin-bottom: 8px; font-weight: 900;">Watch All Live matches</h2>
-        <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 25px;">Elite 4K Sports Hub</p>
-        <a href="https://t.me/cricketmemesverse873" target="_blank" rel="noopener noreferrer" class="btn-main btn-gold">JOIN FOR LIVE LINKS</a>
+        <h2>Watch Live Matches</h2>
+        <a href="https://t.me/cricketmemesverse873" class="btn-main btn-gold">JOIN FOR LIVE LINKS</a>
         <button class="btn-main btn-outline" id="unlock-btn">ALREADY JOINED</button>
     </div>
 </div>
 
 <div id="content" class="main-wrapper">
     <div class="switcher" id="switcher-container"></div>
-
     <div class="video-container-box">
-        <div data-shaka-player-container id="player-container" style="width:100%;height:100%">
-            <video autoplay data-shaka-player id="video" playsinline style="width:100%;height:100%"></video>
+        <div data-shaka-player-container id="player-container">
+            <video autoplay data-shaka-player id="video" playsinline></video>
         </div>
     </div>
 </div>
@@ -187,9 +138,7 @@
         prime: { name: 'PRIME HD', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/iad-nitro/live/dash/enc/rlisfyx9vd/out/v1/61b8f61b22ac469297cbd4f1224f0ec8/cenc.mpd', drmKeyId: 'f159241d40e659d58e81bc17ca30da31', drmKey: '6b7fe24f7a16343bd447b0b30f68b7b2' },
         laliga: { name: 'LALIGA 4K', manifest: 'https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd', drmKeyId: '620e51b82596475517a27aa425c52280', drmKey: '2b9ba811e9c5aeafc8ae1b71cdca4d6a' },
         tnt1: { name: 'TNT Sports 1', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/bsaaetko8v/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd', drmKeyId: 'd0f2e5c39e70c18f29bf77768a1ad89a', drmKey: 'd6853c51fcf37a18905f0609972395d7' },
-        tnt2: { name: 'TNT Sports 2', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/enniazhzls/out/v1/f8fa17f087564f51aa4d5c700be43ec4/cenc.mpd', drmKeyId: '9f51f3dc6313ac8bc668e2d9d1c04dfa', drmKey: '74bc63e5a193454a91ca494975db33f9' },
-        tnt3: { name: 'TNT Sports 3', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/lsdasbvglv/out/v1/bb548a3626cd4708afbb94a58d71dce9/cenc.mpd', drmKeyId: 'a93c1cbfdccd23233bac13540c693e7f', drmKey: '2f6ab2e6693eb847eff3c9da8f9d01fc' },
-        tnt4: { name: 'TNT Sports 4', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/i2pcjr4pe5/out/v1/912e9db56d75403b8a9ac0a719110f36/cenc.mpd', drmKeyId: '192b1115da041585c77200128549efa1', drmKey: '634e10efe4abbb14be400a3ccbac0258' }
+        tnt2: { name: 'TNT Sports 2', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/enniazhzls/out/v1/f8fa17f087564f51aa4d5c700be43ec4/cenc.mpd', drmKeyId: '9f51f3dc6313ac8bc668e2d9d1c04dfa', drmKey: '74bc63e5a193454a91ca494975db33f9' }
     };
 
     let player, ui, video;
@@ -204,35 +153,33 @@
         switcher.appendChild(btn);
     });
 
-    document.getElementById('unlock-btn').addEventListener('click', function() {
+    document.getElementById('unlock-btn').onclick = () => {
         document.getElementById('popup').style.display = 'none';
         document.getElementById('content').style.display = 'block';
         initApp();
-    });
+    };
 
     async function initApp() {
         video = document.getElementById('video');
         const container = document.getElementById('player-container');
-        
         player = new shaka.Player(video);
         ui = new shaka.ui.Overlay(player, container, video);
 
-        const uiConfig = {
-            'controlPanelElements': ['play_pause', 'time_and_duration', 'spacer', 'mute', 'volume', 'overflow_menu', 'fullscreen'],
-            'overflowMenuButtons' : ['quality', 'playback_rate', 'language'],
+        ui.configure({
+            'controlPanelElements': ['play_pause', 'time_and_duration', 'spacer', 'quality', 'fullscreen'],
             'addQualityView': true,
-            'enableTooltips': true,
-            'fadeDelay': 3
-        };
-        ui.configure(uiConfig);
+            'fadeDelay': 2
+        });
+
+        // Mobile Fix: Hide controls on play
+        video.addEventListener('play', () => {
+            setTimeout(() => { ui.getControls().hideControls(); }, 2000);
+        });
 
         player.configure({
-            abr: { enabled: true, defaultBandwidthEstimate: 10000000 },
-            streaming: { bufferingGoal: 30, rebufferingGoal: 2 },
             manifest: { dash: { filterByHardwareCapabilities: false } }
         });
 
-        player.addEventListener('error', onPlayerError);
         loadStream('prime');
     }
 
@@ -241,7 +188,7 @@
         try {
             await player.configure({ drm: { clearKeys: { [s.drmKeyId]: s.drmKey } } });
             await player.load(s.manifest);
-        } catch (e) { onPlayerError(e); }
+        } catch (e) { console.error(e); }
     }
 
     function switchStream(id) {
@@ -249,10 +196,6 @@
         document.getElementById(`btn-${id}`).classList.add('active');
         loadStream(id);
     }
-
-    function onPlayerError(error) { console.error('Error code', error.code, 'object', error); }
-
-    document.addEventListener('shaka-ui-loaded', () => { console.log("UI Library Ready"); });
 </script>
 </body>
 </html>
