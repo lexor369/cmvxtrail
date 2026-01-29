@@ -46,12 +46,9 @@
 
         /* --- Header Section --- */
         .header {
-            padding: 20px;
-            text-align: center;
-            backdrop-filter: blur(15px);
+            padding: 20px; text-align: center; backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(5, 7, 10, 0.85);
+            position: sticky; top: 0; z-index: 100; background: rgba(5, 7, 10, 0.85);
         }
 
         .brand-logo {
@@ -65,10 +62,8 @@
             display: inline-flex; align-items: center; background: rgba(255,255,255,0.05);
             padding: 8px 20px; border-radius: 50px; text-decoration: none;
             color: var(--gold); font-size: 0.8rem; font-weight: 800;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            transition: var(--transition);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            border: 1px solid rgba(255, 215, 0, 0.2); transition: var(--transition);
+            text-transform: uppercase; letter-spacing: 1px;
         }
         .tg-badge:hover { background: var(--gold); color: #000; transform: scale(1.05); }
 
@@ -85,7 +80,6 @@
             max-width: 380px; width: 90%;
         }
 
-        /* --- Buttons --- */
         .btn-main {
             display: block; width: 100%; padding: 14px; border-radius: 12px;
             font-size: 0.95rem; font-weight: 700; cursor: pointer;
@@ -108,8 +102,7 @@
         .switcher { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
-            gap: 10px; 
-            margin-bottom: 20px; 
+            gap: 10px; margin-bottom: 20px; 
         }
 
         .s-btn {
@@ -118,17 +111,12 @@
             cursor: pointer; transition: var(--transition);
         }
 
-        .s-btn.active { 
-            background: rgba(255, 215, 0, 0.1); 
-            border-color: var(--gold); 
-            color: var(--gold); 
-        }
+        .s-btn.active { background: rgba(255, 215, 0, 0.1); border-color: var(--gold); color: var(--gold); }
 
         .hidden { display: none !important; }
         
         @media (max-width: 480px) {
             .switcher { grid-template-columns: 1fr 1fr; }
-            .brand-logo { font-size: 2.2rem; }
         }
     </style>
 </head>
@@ -162,42 +150,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js"></script>
 <script>
     const channels = {
-        prime: {
-            name: 'PRIME HD',
-            manifest: 'https://otte.live.fly.ww.aiv-cdn.net/iad-nitro/live/dash/enc/rlisfyx9vd/out/v1/61b8f61b22ac469297cbd4f1224f0ec8/cenc.mpd',
-            drmKeyId: 'f159241d40e659d58e81bc17ca30da31',
-            drmKey: '6b7fe24f7a16343bd447b0b30f68b7b2'
-        },
-        laliga: {
-            name: 'LALIGA 4K',
-            manifest: 'https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd',
-            drmKeyId: '620e51b82596475517a27aa425c52280',
-            drmKey: '2b9ba811e9c5aeafc8ae1b71cdca4d6a'
-        },
-        tnt1: {
-            name: 'TNT Sports 1',
-            manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/bsaaetko8v/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd',
-            drmKeyId: 'd0f2e5c39e70c18f29bf77768a1ad89a',
-            drmKey: 'd6853c51fcf37a18905f0609972395d7'
-        },
-        tnt2: {
-            name: 'TNT Sports 2',
-            manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/enniazhzls/out/v1/f8fa17f087564f51aa4d5c700be43ec4/cenc.mpd',
-            drmKeyId: '9f51f3dc6313ac8bc668e2d9d1c04dfa',
-            drmKey: '74bc63e5a193454a91ca494975db33f9'
-        },
-        tnt3: {
-            name: 'TNT Sports 3',
-            manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/lsdasbvglv/out/v1/bb548a3626cd4708afbb94a58d71dce9/cenc.mpd',
-            drmKeyId: 'a93c1cbfdccd23233bac13540c693e7f',
-            drmKey: '2f6ab2e6693eb847eff3c9da8f9d01fc'
-        },
-        tnt4: {
-            name: 'TNT Sports 4',
-            manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/i2pcjr4pe5/out/v1/912e9db56d75403b8a9ac0a719110f36/cenc.mpd',
-            drmKeyId: '192b1115da041585c77200128549efa1',
-            drmKey: '634e10efe4abbb14be400a3ccbac0258'
-        }
+        prime: { name: 'PRIME HD', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/iad-nitro/live/dash/enc/rlisfyx9vd/out/v1/61b8f61b22ac469297cbd4f1224f0ec8/cenc.mpd', drmKeyId: 'f159241d40e659d58e81bc17ca30da31', drmKey: '6b7fe24f7a16343bd447b0b30f68b7b2' },
+        laliga: { name: 'LALIGA 4K', manifest: 'https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd', drmKeyId: '620e51b82596475517a27aa425c52280', drmKey: '2b9ba811e9c5aeafc8ae1b71cdca4d6a' },
+        tnt1: { name: 'TNT Sports 1', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/bsaaetko8v/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd', drmKeyId: 'd0f2e5c39e70c18f29bf77768a1ad89a', drmKey: 'd6853c51fcf37a18905f0609972395d7' },
+        tnt2: { name: 'TNT Sports 2', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/enniazhzls/out/v1/f8fa17f087564f51aa4d5c700be43ec4/cenc.mpd', drmKeyId: '9f51f3dc6313ac8bc668e2d9d1c04dfa', drmKey: '74bc63e5a193454a91ca494975db33f9' },
+        tnt3: { name: 'TNT Sports 3', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/lsdasbvglv/out/v1/bb548a3626cd4708afbb94a58d71dce9/cenc.mpd', drmKeyId: 'a93c1cbfdccd23233bac13540c693e7f', drmKey: '2f6ab2e6693eb847eff3c9da8f9d01fc' },
+        tnt4: { name: 'TNT Sports 4', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/i2pcjr4pe5/out/v1/912e9db56d75403b8a9ac0a719110f36/cenc.mpd', drmKeyId: '192b1115da041585c77200128549efa1', drmKey: '634e10efe4abbb14be400a3ccbac0258' }
     };
 
     let player, ui, video;
@@ -222,6 +180,22 @@
         video = document.getElementById('video');
         ui = video['ui'];
         player = ui.getControls().getPlayer();
+
+        // FULL QUALITY CONFIGURATION
+        player.configure({
+            abr: {
+                enabled: true,
+                defaultBandwidthEstimate: 10000000, // 10Mbps start
+                switchInterval: 1, // Faster switching
+                restrictToMaxBitrate: false
+            },
+            streaming: {
+                bufferingGoal: 30,
+                rebufferingGoal: 2,
+                alwaysStreamText: true
+            }
+        });
+        
         loadStream('prime');
     }
 
@@ -230,7 +204,7 @@
         try {
             await player.configure({ drm: { clearKeys: { [s.drmKeyId]: s.drmKey } } });
             await player.load(s.manifest);
-        } catch (e) { console.error('Stream Error:', e); }
+        } catch (e) { console.error('Error', e); }
     }
 
     function switchStream(id) {
