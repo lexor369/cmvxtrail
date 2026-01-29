@@ -31,11 +31,16 @@
             min-height: 100vh;
         }
 
-        /* --- LOADING SPINNER REMOVAL --- */
+        /* --- FIX: LOADING SPINNER & PLAY BUTTON --- */
         .shaka-spinner-container, .shaka-spinner {
             display: none !important;
-            visibility: hidden !important;
+        }
+
+        /* Force play button to disappear when video starts */
+        [data-shaka-player-container][paused="false"] .shaka-play-button-container {
             opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none;
         }
 
         /* --- Player Styling --- */
@@ -44,20 +49,33 @@
         .shaka-bottom-controls { padding: 0 10px 10px 10px !important; }
         .shaka-seek-bar-container .shaka-range-element { --shaka-main-theme-color: var(--gold) !important; }
         
-        /* FIX: Quality Menu Visibility & Scrollability */
+        /* --- FIX: Quality Menu Visibility & Scrollability --- */
         .shaka-overflow-menu, .shaka-settings-menu {
             background: rgba(10, 10, 15, 0.98) !important;
             border: 1px solid rgba(255, 215, 0, 0.3) !important;
             border-radius: 12px !important;
             color: white !important;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            max-height: 70vh !important; /* Prevents cutting off on vertical mobile */
+            /* Important for vertical scrolling */
+            max-height: 250px !important; 
             overflow-y: auto !important;
+            position: absolute !important;
+            bottom: 60px !important;
         }
+
+        /* Ensure the inner list allows scrolling */
+        .shaka-settings-menu div {
+            overflow-y: auto !important;
+            display: flex;
+            flex-direction: column;
+        }
+
         .shaka-overflow-menu button, .shaka-settings-menu button { 
             color: white !important; 
             padding: 12px !important;
-            min-height: 44px; /* Better touch target for mobile */
+            min-height: 48px; /* Bigger touch target */
+            width: 100%;
+            text-align: left;
         }
         .shaka-active-button { color: var(--gold) !important; }
 
@@ -132,6 +150,7 @@
 
         @media (max-width: 480px) {
             .switcher { grid-template-columns: 1fr 1fr; }
+            .shaka-settings-menu { max-height: 200px !important; }
         }
     </style>
 </head>
@@ -175,7 +194,6 @@
 
     let player, ui, video;
 
-    // Build the channel switcher
     const switcher = document.getElementById('switcher-container');
     Object.keys(channels).forEach((id, index) => {
         const btn = document.createElement('button');
@@ -186,7 +204,6 @@
         switcher.appendChild(btn);
     });
 
-    // UNLOCK LOGIC
     document.getElementById('unlock-btn').addEventListener('click', function() {
         document.getElementById('popup').style.display = 'none';
         document.getElementById('content').style.display = 'block';
@@ -204,28 +221,15 @@
             'controlPanelElements': ['play_pause', 'time_and_duration', 'spacer', 'mute', 'volume', 'overflow_menu', 'fullscreen'],
             'overflowMenuButtons' : ['quality', 'playback_rate', 'language'],
             'addQualityView': true,
-            'enableTooltips': true
+            'enableTooltips': true,
+            'fadeDelay': 3
         };
         ui.configure(uiConfig);
 
         player.configure({
-            abr: {
-                enabled: true,
-                defaultBandwidthEstimate: 10000000, 
-                switchInterval: 1, 
-                restrictToMaxBitrate: false
-            },
-            streaming: {
-                bufferingGoal: 30,
-                rebufferingGoal: 2,
-                alwaysStreamText: true
-            },
-            manifest: {
-                dash: {
-                    // FIX: This prevents Shaka from hiding 1080p on small mobile screens
-                    filterByHardwareCapabilities: false 
-                }
-            }
+            abr: { enabled: true, defaultBandwidthEstimate: 10000000 },
+            streaming: { bufferingGoal: 30, rebufferingGoal: 2 },
+            manifest: { dash: { filterByHardwareCapabilities: false } }
         });
 
         player.addEventListener('error', onPlayerError);
@@ -235,11 +239,7 @@
     async function loadStream(id) {
         const s = channels[id];
         try {
-            await player.configure({ 
-                drm: { 
-                    clearKeys: { [s.drmKeyId]: s.drmKey } 
-                } 
-            });
+            await player.configure({ drm: { clearKeys: { [s.drmKeyId]: s.drmKey } } });
             await player.load(s.manifest);
         } catch (e) { onPlayerError(e); }
     }
@@ -250,13 +250,9 @@
         loadStream(id);
     }
 
-    function onPlayerError(error) {
-        console.error('Error code', error.code, 'object', error);
-    }
+    function onPlayerError(error) { console.error('Error code', error.code, 'object', error); }
 
-    document.addEventListener('shaka-ui-loaded', () => {
-        console.log("UI Library Ready");
-    });
+    document.addEventListener('shaka-ui-loaded', () => { console.log("UI Library Ready"); });
 </script>
 </body>
 </html>
