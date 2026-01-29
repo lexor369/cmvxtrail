@@ -58,14 +58,23 @@
             font-size: 2.2rem; font-weight: 900; letter-spacing: -1.5px;
             background: linear-gradient(to bottom, #fff 40%, var(--gold));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .brand-sub {
+            font-size: 0.7rem; color: var(--gold); font-weight: 800;
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
         }
 
         .tg-badge {
             display: inline-flex; align-items: center; background: rgba(255,255,255,0.05);
-            padding: 5px 12px; border-radius: 50px; text-decoration: none;
-            color: var(--gold); font-size: 0.75rem; font-weight: 600;
+            padding: 6px 15px; border-radius: 50px; text-decoration: none;
+            color: var(--gold); font-size: 0.75rem; font-weight: 700;
             border: 1px solid rgba(255, 215, 0, 0.15);
+            transition: var(--transition);
         }
+        .tg-badge:hover { background: var(--gold); color: #000; }
 
         /* --- Popup Overlay --- */
         .popup-overlay {
@@ -87,6 +96,7 @@
             transition: var(--transition); margin-top: 12px; text-decoration: none;
         }
         .btn-gold { background: var(--gold); color: #000; border: none; }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--gold-glow); }
         .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.15); }
 
         /* --- Content Layout --- */
@@ -112,14 +122,12 @@
             padding: 12px 8px; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08);
             color: #fff; border-radius: 10px; font-weight: 600; font-size: 0.85rem; 
             cursor: pointer; transition: var(--transition);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
         .s-btn.active { 
             background: rgba(255, 215, 0, 0.1); 
             border-color: var(--gold); 
             color: var(--gold); 
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
         }
 
         .hidden { display: none !important; }
@@ -133,7 +141,8 @@
 
 <header class="header">
     <h1 class="brand-logo">CMV</h1>
-    <a href="https://t.me/cricketmemesverse873" class="tg-badge">TELEGRAM VIP</a>
+    <div class="brand-sub">CMV</div>
+    <a href="https://t.me/cricketmemesverse873" target="_blank" rel="noopener noreferrer" class="tg-badge">Join Channel</a>
 </header>
 
 <div id="popup" class="popup-overlay">
@@ -141,14 +150,13 @@
         <div style="font-size: 3rem; margin-bottom: 15px;">🏆</div>
         <h2 style="margin-bottom: 8px; font-weight: 900;">Watch All Live matches</h2>
         <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 25px;">Elite 4K Sports Hub</p>
-        <a href="https://t.me/cricketmemesverse873" class="btn-main btn-gold">GET LIVE LINKS</a>
+        <a href="https://t.me/cricketmemesverse873" target="_blank" rel="noopener noreferrer" class="btn-main btn-gold">JOIN FOR LIVE LINKS</a>
         <button class="btn-main btn-outline" onclick="unlockSite()">ALREADY JOINED</button>
     </div>
 </div>
 
 <div id="content" class="main-wrapper">
-    <div class="switcher" id="switcher-container">
-        </div>
+    <div class="switcher" id="switcher-container"></div>
 
     <div class="video-container-box">
         <div data-shaka-player-container id="player-container">
@@ -200,7 +208,6 @@
 
     let player, ui, video;
 
-    // Generate Buttons Dynamically
     const switcher = document.getElementById('switcher-container');
     Object.keys(channels).forEach((id, index) => {
         const btn = document.createElement('button');
