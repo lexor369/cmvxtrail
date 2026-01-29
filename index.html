@@ -1,313 +1,471 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <meta name="referrer" content="no-referrer">
- <title>CMV Premium Streams</title>
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
- <link rel="stylesheet" href="https://livecrichdofficial.pages.dev/livecrichd2.css">
- <style> make this site better premium should look like worlds best site and should look good in both mobile and pc
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>SportsStream Elite - Premium Live Sports</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
+  <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
    
     :root {
-        --primary-gold: #D4AF37;
-        --primary-dark: #0F1419;
-        --secondary-dark: #1A2332;
-        --accent-blue: #1E90FF;
-        --text-light: #E8ECEF;
-        --text-muted: #A8B2CC;
-        --glass-bg: rgba(26, 35, 50, 0.85);
-        --shadow-light: 0 8px 32px rgba(0,0,0,0.4);
-        --shadow-hover: 0 16px 48px rgba(212, 175, 55, 0.4);
+        --primary-gold: #FFD700;
+        --primary-dark: #0A0E17;
+        --secondary-dark: #1A1F2E;
+        --accent-red: #FF4444;
+        --accent-blue: #1E3A8A;
+        --accent-green: #10B981;
+        --text-light: #F8FAFC;
+        --text-muted: #94A3B8;
+        --glass-bg: rgba(26, 31, 46, 0.92);
+        --shadow-light: 0 8px 32px rgba(0,0,0,0.5);
+        --shadow-hover: 0 20px 60px rgba(255, 215, 0, 0.3);
+        --gradient-main: linear-gradient(135deg, #0A0E17 0%, #1A1F2E 50%, #000 100%);
     }
    
     html, body {
         height: 100%;
         overflow-y: auto;
-        background: linear-gradient(135deg, var(--primary-dark) 0%, #000 100%);
+        background: var(--gradient-main);
         color: var(--text-light);
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         line-height: 1.6;
         scroll-behavior: smooth;
     }
    
     body { min-height: 300vh; }
    
-    /* PREMIUM HEADER - CMV BRANDING */
+    /* ELITE HEADER */
     .header {
         position: sticky; top: 0; z-index: 1000;
-        background: linear-gradient(180deg, rgba(15,20,25,0.98), rgba(0,0,0,0.95));
-        backdrop-filter: blur(30px); border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        background: linear-gradient(180deg, rgba(10,14,23,0.98), rgba(0,0,0,0.97));
+        backdrop-filter: blur(40px); 
+        border-bottom: 1px solid rgba(255, 215, 0, 0.15);
         padding: clamp(1rem, 4vw, 2rem) clamp(1rem, 5vw, 3rem);
         text-align: center;
     }
    
-    .channel-logo {
-        display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-        animation: glowPulse 2s ease-in-out infinite alternate;
+    .elite-logo {
+        display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+        animation: eliteGlow 2.5s ease-in-out infinite alternate;
     }
    
-    .channel-name {
-        font-size: clamp(2rem, 8vw, 4rem);
-        font-weight: 900; letter-spacing: -0.05em;
-        background: linear-gradient(45deg, var(--primary-gold), #FAD02C, #FFD700);
+    .elite-title {
+        font-size: clamp(2.2rem, 8vw, 4.5rem);
+        font-weight: 900; letter-spacing: -0.03em;
+        background: linear-gradient(45deg, var(--primary-gold), #FFA500, #FF6B35);
         -webkit-background-clip: text; background-clip: text;
         -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
+        text-shadow: 0 0 50px rgba(255, 215, 0, 0.7);
         margin: 0;
         position: relative;
     }
    
-    .channel-name::after {
-        content: ''; position: absolute; bottom: -8px; left: 50%;
-        transform: translateX(-50%); width: 60px; height: 3px;
-        background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
-        border-radius: 2px; animation: shimmer 3s infinite;
+    .elite-subtitle {
+        font-size: clamp(0.85rem, 2.5vw, 1rem);
+        color: var(--text-muted);
+        font-weight: 500;
+        letter-spacing: 0.05em;
     }
    
-    .telegram-handle {
-        font-size: clamp(0.9rem, 3vw, 1.2rem);
+    .telegram-elite {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
         font-weight: 600; color: var(--text-muted);
         display: flex; align-items: center; gap: 0.5rem;
-        padding: 0.5rem 1.5rem; background: rgba(30, 144, 255, 0.15);
-        border: 1px solid rgba(30, 144, 255, 0.3); border-radius: 25px;
-        backdrop-filter: blur(10px); transition: all 0.3s ease;
-        animation: float 3s ease-in-out infinite;
+        padding: 0.75rem 1.75rem; 
+        background: rgba(255, 215, 0, 0.1);
+        border: 1px solid rgba(255, 215, 0, 0.3); 
+        border-radius: 50px;
+        backdrop-filter: blur(20px); 
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        animation: eliteFloat 4s ease-in-out infinite;
+        text-decoration: none;
     }
    
-    .telegram-handle:hover {
-        background: rgba(30, 144, 255, 0.25); border-color: var(--accent-blue);
-        transform: translateY(-2px); box-shadow: 0 8px 25px rgba(30, 144, 255, 0.2);
+    .telegram-elite:hover {
+        background: rgba(255, 215, 0, 0.2); 
+        border-color: var(--primary-gold);
+        transform: translateY(-3px); 
+        box-shadow: 0 12px 35px rgba(255, 215, 0, 0.3);
         color: var(--text-light);
     }
    
-    .telegram-icon { font-size: 1.3em; }
-   
-    /* Popup */
-    .popup {
+    /* ELITE POPUP */
+    .elite-popup {
         position: fixed; inset: 0;
-        background: linear-gradient(135deg, rgba(15,20,25,0.97), rgba(0,0,0,0.98));
-        backdrop-filter: blur(25px);
-
+        background: linear-gradient(135deg, rgba(10,14,23,0.98), rgba(0,0,0,0.99));
+        backdrop-filter: blur(30px);
         display: flex; justify-content: center; align-items: center;
         z-index: 9999; padding: 1rem;
     }
-    .popup.hide { display: none; }
+    .elite-popup.hide { display: none; }
    
     .popup-content {
         background: linear-gradient(145deg, var(--secondary-dark), var(--glass-bg));
-        backdrop-filter: blur(30px); border-radius: 28px;
-        padding: clamp(2rem, 6vw, 3rem); max-width: 450px; width: 92vw;
-        box-shadow: var(--shadow-light), inset 0 1px 0 rgba(255,255,255,0.08);
-        border: 1px solid rgba(212, 175, 55, 0.25);
+        backdrop-filter: blur(40px); 
+        border-radius: 32px;
+        padding: clamp(2.5rem, 7vw, 4rem); 
+        max-width: 500px; width: 92vw;
+        box-shadow: var(--shadow-light), inset 0 1px 0 rgba(255,255,255,0.1);
+        border: 1px solid rgba(255, 215, 0, 0.3);
         text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+   
+    .popup-content::before {
+        content: ''; position: absolute; top: -50%; left: -50%; 
+        width: 200%; height: 200%;
+        background: radial-gradient(circle, rgba(255,215,0,0.03) 0%, transparent 70%);
+        animation: rotate 20s linear infinite;
     }
    
     .popup-content h2 {
-        font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 800;
-        background: linear-gradient(45deg, var(--primary-gold), #FAD02C);
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        margin-bottom: 1.5rem; letter-spacing: -0.02em;
+        font-size: clamp(2rem, 6vw, 3rem); 
+        font-weight: 900;
+        background: linear-gradient(45deg, var(--primary-gold), #FFA500);
+        -webkit-background-clip: text; 
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem; 
+        letter-spacing: -0.02em;
+        position: relative; z-index: 1;
     }
    
-    /* Premium Buttons */
-    .btn-premium {
-        display: block; background: linear-gradient(145deg, #fff, #f8f9fa);
-        color: var(--accent-blue); font-weight: 700; font-size: clamp(1rem, 3vw, 1.2rem);
-        padding: 1.2rem 2rem; border-radius: 20px; border: 2px solid var(--accent-blue);
-        text-decoration: none; margin: 0 auto 1.5rem; max-width: 340px;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: var(--shadow-light); position: relative; overflow: hidden;
+    .popup-content p {
+        color: var(--text-muted); 
+        font-size: clamp(1.1rem, 3vw, 1.25rem);
+        margin-bottom: 2.5rem; 
+        line-height: 1.7;
+        position: relative; z-index: 1;
     }
-    .btn-premium::before {
-        content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+   
+    /* ELITE BUTTONS */
+    .btn-elite {
+        display: inline-block; 
+        background: linear-gradient(145deg, #fff, #f0f2f5);
+        color: var(--accent-red); 
+        font-weight: 800; 
+        font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+        padding: 1.4rem 3rem; 
+        border-radius: 25px; 
+        border: 3px solid var(--accent-red);
+        text-decoration: none; 
+        margin: 0 auto 1.5rem; 
+        max-width: 380px;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: var(--shadow-light); 
+        position: relative; 
+        overflow: hidden;
+        z-index: 1;
+    }
+   
+    .btn-elite::before {
+        content: ''; 
+        position: absolute; 
+        top: 0; left: -100%; 
+        width: 100%; height: 100%;
         background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-        transition: left 0.7s;
+        transition: left 0.8s;
     }
-    .btn-premium:hover::before { left: 100%; }
-    .btn-premium:hover {
-        background: var(--accent-blue); color: white; transform: translateY(-4px);
+   
+    .btn-elite:hover::before { left: 100%; }
+    .btn-elite:hover {
+        background: var(--accent-red); 
+        color: white; 
+        transform: translateY(-6px) scale(1.02);
         box-shadow: var(--shadow-hover);
     }
    
-    .btn-secondary {
-        background: transparent; color: var(--primary-gold); font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-        padding: 1rem 2rem; border: 2px solid var(--primary-gold); border-radius: 16px;
-        cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        font-weight: 700; backdrop-filter: blur(15px);
+    .btn-elite-secondary {
+        background: transparent; 
+        color: var(--primary-gold); 
+        font-size: clamp(1rem, 3vw, 1.15rem);
+        padding: 1.2rem 2.5rem; 
+        border: 2px solid var(--primary-gold); 
+        border-radius: 20px;
+        cursor: pointer; 
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 700; 
+        backdrop-filter: blur(20px);
     }
-    .btn-secondary:hover {
-        background: var(--primary-gold); color: var(--primary-dark); transform: translateY(-3px);
+   
+    .btn-elite-secondary:hover {
+        background: var(--primary-gold); 
+        color: var(--primary-dark); 
+        transform: translateY(-4px);
         box-shadow: var(--shadow-hover);
     }
    
-    /* Stream Switcher */
-    .stream-switcher {
-        position: relative; margin: clamp(2rem, 6vw, 4rem) auto 0; width: min(95vw, 550px);
-        background: linear-gradient(145deg, var(--glass-bg), rgba(15,20,25,0.9));
-        backdrop-filter: blur(35px); border-radius: 28px;
-        padding: clamp(1.5rem, 4vw, 2rem) clamp(2rem, 6vw, 3rem);
-        border: 1px solid rgba(212, 175, 55, 0.3); box-shadow: var(--shadow-light);
+    /* SPORTS STREAM SELECTOR */
+    .sports-selector {
+        position: relative; 
+        margin: clamp(3rem, 8vw, 5rem) auto 0; 
+        width: min(95vw, 800px);
+        background: linear-gradient(145deg, var(--glass-bg), rgba(10,14,23,0.95));
+        backdrop-filter: blur(45px); 
+        border-radius: 32px;
+        padding: clamp(2rem, 5vw, 3rem) clamp(2.5rem, 7vw, 4rem);
+        border: 1px solid rgba(255, 215, 0, 0.4); 
+        box-shadow: var(--shadow-light);
         display: none;
     }
-    .stream-switcher.show { display: block; }
    
-    .switcher-container {
-        display: flex; gap: clamp(1rem, 3vw, 1.5rem); justify-content: center; flex-wrap: wrap;
-    }
+    .sports-selector.show { display: block; }
    
-    .switch-btn {
-        flex: 1; min-width: clamp(130px, 35vw, 160px);
-        background: linear-gradient(145deg, var(--primary-gold), #FAD02C);
-        color: var(--primary-dark); border: none; padding: clamp(1rem, 3vw, 1.25rem) 1.75rem;
-        border-radius: 24px; font-weight: 800; font-size: clamp(1rem, 3vw, 1.15rem);
-        cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4); position: relative;
-    }
-    .switch-btn.active {
-        background: linear-gradient(145deg, #FF6B35, #FF8C42); color: white;
-        box-shadow: 0 16px 50px rgba(255, 107, 53, 0.6); transform: scale(1.05);
-    }
-    .switch-btn:hover:not(.active) {
-        transform: translateY(-4px); box-shadow: 0 16px 50px rgba(212, 175, 55, 0.6);
+    .selector-grid {
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: clamp(1rem, 2.5vw, 1.5rem); 
+        justify-content: center;
     }
    
-    /* Player */
-    .player-section {
-        max-width: min(95vw, 1400px); margin: clamp(3rem, 8vw, 5rem) auto;
-        padding: clamp(1.5rem, 4vw, 2.5rem);
-        background: linear-gradient(145deg, #1A2332, #11161F);
-        border-radius: 32px; box-shadow: var(--shadow-light);
-        border: 1px solid rgba(212, 175, 55, 0.15);
-        height: clamp(420px, 65vh, 750px); display: flex; align-items: center; justify-content: center;
+    .sport-btn {
+        background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+        color: var(--text-light); 
+        border: 2px solid rgba(255, 215, 0, 0.3); 
+        padding: clamp(1.2rem, 4vw, 1.5rem) 1.5rem;
+        border-radius: 24px; 
+        font-weight: 700; 
+        font-size: clamp(0.95rem, 2.8vw, 1.1rem);
+        cursor: pointer; 
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(20px);
+        position: relative;
+        overflow: hidden;
+    }
+   
+    .sport-btn::before {
+        content: attr(data-sport-icon); 
+        display: block; 
+        font-size: 2em; 
+        margin-bottom: 0.5rem;
+    }
+   
+    .sport-btn.active {
+        background: linear-gradient(145deg, var(--primary-gold), #FFA500);
+        color: var(--primary-dark); 
+        border-color: var(--primary-gold);
+        box-shadow: 0 20px 60px rgba(255, 215, 0, 0.5); 
+        transform: scale(1.08);
+    }
+   
+    .sport-btn:hover:not(.active) {
+        transform: translateY(-5px); 
+        border-color: var(--primary-gold);
+        box-shadow: 0 15px 45px rgba(255, 215, 0, 0.3);
+    }
+   
+    /* ELITE PLAYER */
+    .player-arena {
+        max-width: min(98vw, 1600px); 
+        margin: clamp(4rem, 10vw, 6rem) auto;
+        padding: clamp(2rem, 5vw, 3rem);
+        background: linear-gradient(145deg, #1A1F2E, #11151D);
+        border-radius: 40px; 
+        box-shadow: var(--shadow-light);
+        border: 2px solid rgba(255, 215, 0, 0.2);
+        height: clamp(450px, 70vh, 850px); 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        position: relative;
+    }
+   
+    .player-arena::before {
+        content: ''; 
+        position: absolute; 
+        inset: 0; 
+        border-radius: 40px;
+        padding: 4px; 
+        background: linear-gradient(45deg, var(--primary-gold), #FFA500, var(--accent-red), var(--accent-green), var(--primary-gold));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+        animation: borderRotate 3s linear infinite;
     }
    
     .shaka-video-container {
-        width: 100% !important; height: 100% !important; max-height: 100% !important;
-        border-radius: 24px; overflow: hidden !important;
-        box-shadow: 0 25px 75px rgba(0,0,0,0.7);
+        width: 100% !important; 
+        height: 100% !important; 
+        max-height: 100% !important;
+        border-radius: 28px; 
+        overflow: hidden !important;
+        box-shadow: 0 30px 90px rgba(0,0,0,0.8);
     }
    
-    #main-content { display: none; padding-top: clamp(1rem, 3vw, 2rem); min-height: 300vh; }
+    #main-content { display: none; padding-top: clamp(1.5rem, 4vw, 3rem); min-height: 300vh; }
     #player-container.hide { display: none; }
    
-    /* Scroll Content */
-    .scroll-content {
-        max-width: min(90vw, 750px); margin: clamp(4rem, 10vw, 8rem) auto;
-        padding: clamp(2.5rem, 6vw, 4rem) clamp(2rem, 5vw, 3rem);
-        background: linear-gradient(145deg, var(--glass-bg), rgba(15,20,25,0.85));
-        backdrop-filter: blur(30px); border-radius: 28px;
-        border: 1px solid rgba(212, 175, 55, 0.25); box-shadow: var(--shadow-light);
+    /* ELITE FEATURES */
+    .elite-features {
+        max-width: min(92vw, 900px); 
+        margin: clamp(5rem, 12vw, 8rem) auto;
+        padding: clamp(3rem, 8vw, 5rem) clamp(2.5rem, 6vw, 4rem);
+        background: linear-gradient(145deg, var(--glass-bg), rgba(10,14,23,0.9));
+        backdrop-filter: blur(40px); 
+        border-radius: 36px;
+        border: 1px solid rgba(255, 215, 0, 0.3); 
+        box-shadow: var(--shadow-light);
     }
    
-    .scroll-content h2 {
-        font-size: clamp(1.8rem, 5vw, 2.5rem); margin-bottom: 1.8rem;
-        background: linear-gradient(45deg, var(--primary-gold), #FAD02C);
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        font-weight: 800;
+    .elite-features h2 {
+        font-size: clamp(2.2rem, 6vw, 3.2rem); 
+        margin-bottom: 2.5rem;
+        background: linear-gradient(45deg, var(--primary-gold), #FFA500);
+        -webkit-background-clip: text; 
+        -webkit-text-fill-color: transparent;
+        font-weight: 900;
+        text-align: center;
     }
    
-    .scroll-content ul {
-        text-align: left; max-width: 550px; margin: 2rem auto; list-style: none;
-        color: var(--text-muted);
+    .features-grid {
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2.5rem; 
+        margin-top: 3rem;
     }
-    .scroll-content li {
-        padding: 1rem 0; padding-left: 2.5rem; font-size: clamp(1rem, 2.5vw, 1.15rem);
+   
+    .feature-card {
+        background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 24px; 
+        padding: 2.5rem 2rem; 
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(20px);
         position: relative;
-    }
-    .scroll-content li::before {
-        content: '✦'; position: absolute; left: 0; color: var(--primary-gold);
-        font-size: 1.4rem; font-weight: bold;
+        overflow: hidden;
     }
    
-    /* Luxury Scrollbar */
-    ::-webkit-scrollbar { width: clamp(10px, 3vw, 16px); }
+    .feature-card::before {
+        content: attr(data-icon); 
+        font-size: 3.5rem; 
+        display: block; 
+        margin-bottom: 1.5rem;
+        background: linear-gradient(45deg, var(--primary-gold), #FFA500);
+        -webkit-background-clip: text; 
+        -webkit-text-fill-color: transparent;
+    }
+   
+    .feature-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        border-color: var(--primary-gold);
+        box-shadow: var(--shadow-hover);
+    }
+   
+    .feature-card h3 {
+        font-size: 1.4rem; 
+        font-weight: 700; 
+        margin-bottom: 1rem;
+        color: var(--text-light);
+    }
+   
+    /* LUXURY SCROLLBAR */
+    ::-webkit-scrollbar { width: clamp(12px, 4vw, 20px); }
     ::-webkit-scrollbar-track {
-        background: rgba(26,35,50,0.6); border-radius: 12px; backdrop-filter: blur(15px);
+        background: rgba(26,31,46,0.7); 
+        border-radius: 16px; 
+        backdrop-filter: blur(20px);
     }
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(145deg, var(--primary-gold), #FAD02C); border-radius: 12px;
-        border: 2px solid var(--primary-dark); box-shadow: var(--shadow-light);
+        background: linear-gradient(145deg, var(--primary-gold), #FFA500); 
+        border-radius: 16px;
+        border: 3px solid var(--primary-dark); 
+        box-shadow: var(--shadow-light);
     }
     ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(145deg, #FF6B35, #FF8C42); transform: scale(1.1);
+        background: linear-gradient(145deg, #FF6B35, var(--accent-red)); 
+        transform: scale(1.1);
     }
    
-    /* ANIMATIONS */
-    @keyframes glowPulse {
-        0%, 100% { text-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
-        50% { text-shadow: 0 0 40px rgba(212, 175, 55, 0.8), 0 0 60px rgba(212, 175, 55, 0.4); }
+    /* ELITE ANIMATIONS */
+    @keyframes eliteGlow {
+        0%, 100% { text-shadow: 0 0 25px rgba(255, 215, 0, 0.6); }
+        50% { text-shadow: 0 0 50px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.5); }
     }
    
-    @keyframes shimmer {
-        0%, 100% { opacity: 0.7; transform: translateX(-50%) scaleX(1); }
-        50% { opacity: 1; transform: translateX(-50%) scaleX(1.2); }
-    }
-   
-    @keyframes float {
+    @keyframes eliteFloat {
         0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-3px); }
+        50% { transform: translateY(-4px); }
     }
    
-    /* Mobile Optimizations */
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+   
+    @keyframes borderRotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+   
+    /* RESPONSIVE PERFECTION */
     @media (max-width: 768px) {
-        .header { padding: clamp(1.2rem, 5vw, 1.8rem) 1.5rem; }
-        .player-section { margin: clamp(2rem, 6vw, 3rem) 1rem; }
-        .switcher-container { flex-direction: column; gap: clamp(1rem, 4vw, 1.5rem); }
-        .switch-btn { min-width: unset; padding: clamp(1.1rem, 4vw, 1.4rem) 2rem; }
-        .stream-switcher { margin: clamp(2rem, 6vw, 3rem) 1rem 0; }
-        .scroll-content { margin: clamp(3rem, 8vw, 5rem) 1rem; }
+        .header { padding: clamp(1.5rem, 5vw, 2rem) 1.5rem; }
+        .player-arena { margin: clamp(2.5rem, 7vw, 4rem) 1rem; height: clamp(400px, 65vh, 500px); }
+        .selector-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+        .sport-btn { padding: clamp(1rem, 4vw, 1.3rem) 1.2rem; }
+        .sports-selector { margin: clamp(2.5rem, 7vw, 4rem) 1rem 0; }
+        .elite-features { margin: clamp(4rem, 10vw, 6rem) 1rem; }
+        .features-grid { grid-template-columns: 1fr; gap: 2rem; }
     }
    
     @media (max-width: 480px) {
-        .header { padding: 1.5rem 1.2rem; }
-        .player-section { padding: clamp(1.2rem, 4vw, 1.8rem); }
+        .header { padding: 1.8rem 1.2rem; }
+        .player-arena { padding: clamp(1.5rem, 5vw, 2rem); border-radius: 24px; }
+        .popup-content { padding: clamp(2rem, 8vw, 2.5rem); }
     }
- </style>
+  </style>
 </head>
 <body>
 
-<!-- CMV PREMIUM HEADER -->
+<!-- SPORTS ELITE HEADER -->
 <div class="header">
-  <div class="channel-logo">
-    <h1 class="channel-name">CMV</h1>
-    <a href="https://t.me/cricketmemesverse873" target="_blank" class="telegram-handle" rel="noopener noreferrer">
-      <span class="telegram-icon">📱</span> @cricketmemesverse873
+  <div class="elite-logo">
+    <div>
+      <h1 class="elite-title">SportsStream</h1>
+      <div class="elite-subtitle">Elite Live Sports</div>
+    </div>
+    <a href="https://t.me/sportsstreamelite" target="_blank" class="telegram-elite" rel="noopener noreferrer">
+      📱 Join Elite Sports Channel
     </a>
   </div>
 </div>
 
-<!-- PREMIUM TELEGRAM POPUP -->
-
-<div id="popup" class="popup">
+<!-- ELITE ACCESS POPUP -->
+<div id="popup" class="elite-popup">
   <div class="popup-content">
-    <h2>⚡ Premium Live Streams</h2>
-    <p>Join CMV VIP for instant HD streams & exclusive match updates</p>
-    <a href="https://t.me/cricketmemesverse873" target="_blank" rel="noopener noreferrer" class="btn-premium">Join CMV VIP</a>
-    <button class="btn-secondary" onclick="startStream()">Already VIP</button>
+    <h2>🏆 Elite Sports Access</h2>
+    <p>Unlock 4K live streams of Premier League, LaLiga, UCL, NBA, NFL & 500+ channels worldwide</p>
+    <a href="https://t.me/sportsstreamelite" target="_blank" rel="noopener noreferrer" class="btn-elite">Join Elite VIP</a>
+    <button class="btn-elite-secondary" onclick="unlockSports()">Already Elite</button>
   </div>
 </div>
 
-<!-- PREMIUM SCROLLABLE CONTENT -->
+<!-- ELITE SPORTS CONTENT -->
 <div id="main-content">
-  <!-- LUXURY STREAM SWITCHER -->
-  <div id="stream-switcher" class="stream-switcher">
-    <div class="switcher-container">
-      <button class="switch-btn active" onclick="switchStream(1)">🟡 PRIME</button>
-      <button class="switch-btn" onclick="switchStream(2)">⚽ LALIGA</button>
+  <!-- SPORTS STREAM SELECTOR -->
+  <div id="sports-selector" class="sports-selector">
+    <div class="selector-grid">
+      <button class="sport-btn active" data-sport-icon="⚽" onclick="switchSport(1)" data-sport="Premier League">Premier League</button>
+      <button class="sport-btn" data-sport-icon="🇪🇸" onclick="switchSport(2)" data-sport="LaLiga">LaLiga</button>
+      <button class="sport-btn" data-sport-icon="🏆" onclick="switchSport(3)" data-sport="Champions League">UCL</button>
+      <button class="sport-btn" data-sport-icon="🏀" onclick="switchSport(4)" data-sport="NBA">NBA</button>
+      <button class="sport-btn" data-sport-icon="🏈" onclick="switchSport(5)" data-sport="NFL">NFL</button>
+      <button class="sport-btn" data-sport-icon="🎾" onclick="switchSport(6)" data-sport="Tennis">Tennis</button>
     </div>
   </div>
 
-  <!-- PREMIUM PLAYER -->
-  <div class="player-section">
-
+  <!-- ELITE SPORTS PLAYER -->
+  <div class="player-arena">
     <div id="player-container" class="hide">
       <div data-shaka-player-container="" class="shaka-video-container shaka-mobile" shaka-controls="true">
         <video autoplay data-shaka-player id="video" class="shaka-video" poster="#" playsinline></video>
         <canvas class="shaka-canvas-container"></canvas>
         <div class="shaka-controls-container">...</div>
-
         <div class="shaka-client-side-ad-container shaka-hidden"></div>
         <div class="shaka-spinner-container shaka-hidden">
           <div class="shaka-spinner">
@@ -320,88 +478,130 @@
     </div>
   </div>
 
-  <!-- VIP PROMO -->
-  <div class="scroll-content">
-    <h2>🎖️ CMV VIP Benefits</h2>
-    <p style="color: var(--text-muted); font-size: clamp(1.05rem, 2.8vw, 1.15rem); margin-bottom: 2.5rem; line-height: 1.7;">
-      Exclusive access to premium streams from Cricket Memes Verse
-    </p>
-    <ul>
-      <li>🔴 24/7 Live Sports HD</li>
-      <li>⚡ Instant Stream Links</li>
-      <li>📱 Perfect Mobile Experience</li>
-      <li>🌍 Multi-Language Support</li>
-    </ul>
-    <a href="https://t.me/cricketmemesverse873" target="_blank" class="btn-premium" style="max-width: 300px; margin: 2rem auto 0;">
-      Join CMV VIP →
-    </a>
-
+  <!-- ELITE FEATURES SECTION -->
+  <div class="elite-features">
+    <h2>🌟 Elite Sports Benefits</h2>
+    <div class="features-grid">
+      <div class="feature-card" data-icon="📺">
+        <h3>4K Ultra HD Streams</h3>
+        <p>Crisp 4K quality with zero buffering on all devices</p>
+      </div>
+      <div class="feature-card" data-icon="⚡">
+        <h3>Zero Delay Streams</h3>
+        <p>Live action with minimal latency - be first to react</p>
+      </div>
+      <div class="feature-card" data-icon="📱">
+        <h3>Perfect Mobile Experience</h3>
+        <p>Optimized for iOS, Android & Smart TVs</p>
+      </div>
+      <div class="feature-card" data-icon="🌍">
+        <h3>500+ Worldwide Channels</h3>
+        <p>Every major league & tournament covered globally</p>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 4rem;">
+      <a href="https://t.me/sportsstreamelite" target="_blank" class="btn-elite" style="max-width: 350px; display: inline-block;">
+        🚀 Join Elite Sports Now
+      </a>
+    </div>
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js" crossorigin="anonymous"></script>
 <script>
-  const streams = {
-    1: {
-      manifestUri: "https://otte.live.fly.ww.aiv-cdn.net/iad-nitro/live/dash/enc/rlisfyx9vd/out/v1/61b8f61b22ac469297cbd4f1224f0ec8/cenc.mpd",
-      drmKeyId: "f159241d40e659d58e81bc17ca30da31",
-      drmKey: "6b7fe24f7a16343bd447b0b30f68b7b2"
+  // Elite Sports Streams (Replace with your actual stream URLs)
+  const eliteSports = {
+    1: { // Premier League
+      manifestUri: "https://your-premier-league-stream.mpd",
+      drmKeyId: "your-drm-key-id",
+      drmKey: "your-drm-key"
     },
-    2: {
-      manifestUri: "https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd",
-      drmKeyId: "620e51b82596475517a27aa425c52280",
-      drmKey: "2b9ba811e9c5aeafc8ae1b71cdca4d6a"
+    2: { // LaLiga
+      manifestUri: "https://your-laliga-stream.mpd",
+      drmKeyId: "your-drm-key-id",
+      drmKey: "your-drm-key"
+    },
+    3: { // Champions League
+      manifestUri: "https://your-ucl-stream.mpd",
+      drmKeyId: "your-drm-key-id",
+      drmKey: "your-drm-key"
+    },
+    4: { // NBA
+      manifestUri: "https://your-nba-stream.mpd",
+      drmKeyId: "your-drm-key-id",
+      drmKey: "your-drm-key"
+    },
+    5: { // NFL
+      manifestUri: "https://your-nfl-stream.mpd",
+      drmKeyId: "your-drm-key-id",
+      drmKey: "your-drm-key"
+    },
+    6: { // Tennis
+      manifestUri: "https://your-tennis-stream.mpd",
+      drmKeyId: "your-drm-key-id",
+      drmKey: "your-drm-key"
     }
   };
 
-  let currentStream = 1, player = null;
+  let currentSport = 1, player = null;
 
-
-  function startStream() {
+  function unlockSports() {
     document.getElementById("popup").classList.add("hide");
     document.getElementById("main-content").style.display = "block";
     setTimeout(() => {
-      document.getElementById("stream-switcher").classList.add("show");
-
+      document.getElementById("sports-selector").classList.add("show");
       document.getElementById("player-container").classList.remove("hide");
       initPlayer();
-    }, 500);
+    }, 600);
   }
 
-  function switchStream(streamId) {
-    if (currentStream === streamId) return;
-    currentStream = streamId;
-    document.querySelectorAll('.switch-btn').forEach((btn, i) => {
-      btn.classList.toggle('active', i + 1 === streamId);
+  function switchSport(sportId) {
+    if (currentSport === sportId) return;
+    currentSport = sportId;
+    document.querySelectorAll('.sport-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', i + 1 === sportId);
     });
-    if (player) loadStream(streamId);
+    if (player) loadStream(sportId);
   }
 
   async function initPlayer() {
-
     const video = document.getElementById('video');
     const ui = video['ui'];
     player = ui.getControls().getPlayer();
-    player.addEventListener('error', e => console.error('Stream Error:', e.detail));
-    await loadStream(currentStream);
+    player.addEventListener('error', e => {
+      console.error('Sports Stream Error:', e.detail);
+      alert('Stream temporarily unavailable. Try another sport.');
+    });
+    await loadStream(currentSport);
   }
 
-  async function loadStream(streamId) {
+  async function loadStream(sportId) {
     try {
-      const stream = streams[streamId];
-      player.configure({ drm: { clearKeys: { [stream.drmKeyId]: stream.drmKey } } });
-      await player.load(stream.manifestUri);
-      console.log(`CMV: Loaded ${streamId === 1 ? 'PRIME' : 'LALIGA'}`);
-    } catch (e) { console.error('Load error:', e); }
+      const sport = eliteSports[sportId];
+      if (!sport.manifestUri || sport.manifestUri === "https://your-premier-league-stream.mpd") {
+        console.log(`Elite Sports: Stream ${sportId} not configured yet`);
+        return;
+      }
+      player.configure({ drm: { clearKeys: { [sport.drmKeyId]: sport.drmKey } } });
+      await player.load(sport.manifestUri);
+      console.log(`🏆 Elite Sports: Loaded Sport ${sportId}`);
+    } catch (e) { 
+      console.error('Stream Load Error:', e); 
+    }
   }
 
+  // Anti-iframe protection
   if (window.top !== window.self) {
-    document.body.innerHTML = '<div style="position:fixed;inset:0;background:var(--primary-dark);color:white;display:flex;align-items:center;justify-content:center;font-size:clamp(1.2rem,5vw,2rem);z-index:9999;font-weight:700;text-align:center;padding:2rem;">CMV Premium<br><small>Direct Access Required</small></div>';
+    document.body.innerHTML = `
+      <div style="position:fixed;inset:0;background:var(--primary-dark);color:var(--text-light);display:flex;align-items:center;justify-content:center;font-size:clamp(1.4rem,6vw,2.5rem);z-index:9999;font-weight:800;text-align:center;padding:3rem;font-family:'Inter',sans-serif;">
+        <div>
+          🏆 SportsStream Elite<br>
+          <span style="font-size:0.6em;font-weight:400;color:var(--text-muted);">Direct Access Only</span>
+        </div>
+      </div>
+    `;
   }
 </script>
 
 </body>
 </html>
-
-
-
