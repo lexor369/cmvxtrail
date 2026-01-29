@@ -1,438 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="referrer" content="no-referrer">
-  <title>EliteStream Premium - Prime & LaLiga</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-   
-    :root {
-        --primary-gold: #FFD700;
-        --primary-dark: #0A0E17;
-        --secondary-dark: #1A1F2E;
-        --accent-red: #FF4444;
-        --text-light: #F8FAFC;
-        --text-muted: #94A3B8;
-        --glass-bg: rgba(26, 31, 46, 0.92);
-        --shadow-light: 0 8px 32px rgba(0,0,0,0.5);
-        --shadow-hover: 0 20px 60px rgba(255, 215, 0, 0.3);
-        --gradient-main: linear-gradient(135deg, #0A0E17 0%, #1A1F2E 50%, #000 100%);
-    }
-   
-    html, body {
-        height: 100%;
-        overflow-y: auto;
-        background: var(--gradient-main);
-        color: var(--text-light);
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        line-height: 1.6;
-        scroll-behavior: smooth;
-    }
-   
-    body { min-height: 300vh; }
-   
-    /* PREMIUM HEADER */
-    .header {
-        position: sticky; top: 0; z-index: 1000;
-        background: linear-gradient(180deg, rgba(10,14,23,0.98), rgba(0,0,0,0.97));
-        backdrop-filter: blur(40px); 
-        border-bottom: 1px solid rgba(255, 215, 0, 0.15);
-        padding: clamp(1rem, 4vw, 2rem) clamp(1rem, 5vw, 3rem);
-        text-align: center;
-    }
-   
-    .elite-logo {
-        display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
-        animation: eliteGlow 2.5s ease-in-out infinite alternate;
-    }
-   
-    .elite-title {
-        font-size: clamp(2.2rem, 8vw, 4.5rem);
-        font-weight: 900; letter-spacing: -0.03em;
-        background: linear-gradient(45deg, var(--primary-gold), #FFA500, #FF6B35);
-        -webkit-background-clip: text; background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 50px rgba(255, 215, 0, 0.7);
-        margin: 0;
-    }
-   
-    .elite-subtitle {
-        font-size: clamp(0.85rem, 2.5vw, 1rem);
-        color: var(--text-muted);
-        font-weight: 500;
-        letter-spacing: 0.05em;
-    }
-   
-    .telegram-elite {
-        font-size: clamp(0.9rem, 3vw, 1.1rem);
-        font-weight: 600; color: var(--text-muted);
-        display: flex; align-items: center; gap: 0.5rem;
-        padding: 0.75rem 1.75rem; 
-        background: rgba(255, 215, 0, 0.1);
-        border: 1px solid rgba(255, 215, 0, 0.3); 
-        border-radius: 50px;
-        backdrop-filter: blur(20px); 
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        animation: eliteFloat 4s ease-in-out infinite;
-        text-decoration: none;
-    }
-   
-    .telegram-elite:hover {
-        background: rgba(255, 215, 0, 0.2); 
-        border-color: var(--primary-gold);
-        transform: translateY(-3px); 
-        box-shadow: 0 12px 35px rgba(255, 215, 0, 0.3);
-    }
-   
-    /* PREMIUM POPUP */
-    .elite-popup {
-        position: fixed; inset: 0;
-        background: linear-gradient(135deg, rgba(10,14,23,0.98), rgba(0,0,0,0.99));
-        backdrop-filter: blur(30px);
-        display: flex; justify-content: center; align-items: center;
-        z-index: 9999; padding: 1rem;
-    }
-    .elite-popup.hide { display: none; }
-   
-    .popup-content {
-        background: linear-gradient(145deg, var(--secondary-dark), var(--glass-bg));
-        backdrop-filter: blur(40px); 
-        border-radius: 32px;
-        padding: clamp(2.5rem, 7vw, 4rem); 
-        max-width: 500px; width: 92vw;
-        box-shadow: var(--shadow-light), inset 0 1px 0 rgba(255,255,255,0.1);
-        border: 1px solid rgba(255, 215, 0, 0.3);
-        text-align: center;
-    }
-   
-    .popup-content h2 {
-        font-size: clamp(2rem, 6vw, 3rem); 
-        font-weight: 900;
-        background: linear-gradient(45deg, var(--primary-gold), #FFA500);
-        -webkit-background-clip: text; 
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 1.5rem; 
-    }
-   
-    /* PREMIUM BUTTONS */
-    .btn-elite {
-        display: inline-block; 
-        background: linear-gradient(145deg, #fff, #f0f2f5);
-        color: var(--accent-red); 
-        font-weight: 800; 
-        font-size: clamp(1.1rem, 3.5vw, 1.3rem);
-        padding: 1.4rem 3rem; 
-        border-radius: 25px; 
-        border: 3px solid var(--accent-red);
-        text-decoration: none; 
-        margin: 0 auto 1.5rem; 
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: var(--shadow-light); 
-        position: relative; 
-        overflow: hidden;
-    }
-   
-    .btn-elite:hover {
-        background: var(--accent-red); 
-        color: white; 
-        transform: translateY(-6px);
-        box-shadow: var(--shadow-hover);
-    }
-   
-    .btn-elite-secondary {
-        background: transparent; 
-        color: var(--primary-gold); 
-        font-size: clamp(1rem, 3vw, 1.15rem);
-        padding: 1.2rem 2.5rem; 
-        border: 2px solid var(--primary-gold); 
-        border-radius: 20px;
-        cursor: pointer; 
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        font-weight: 700; 
-    }
-   
-    .btn-elite-secondary:hover {
-        background: var(--primary-gold); 
-        color: var(--primary-dark); 
-        transform: translateY(-4px);
-    }
-   
-    /* CHANNEL SELECTOR */
-    .channel-selector {
-        position: relative; 
-        margin: clamp(3rem, 8vw, 5rem) auto 0; 
-        width: min(95vw, 600px);
-        background: linear-gradient(145deg, var(--glass-bg), rgba(10,14,23,0.95));
-        backdrop-filter: blur(45px); 
-        border-radius: 32px;
-        padding: clamp(2rem, 5vw, 3rem) clamp(3rem, 8vw, 4rem);
-        border: 1px solid rgba(255, 215, 0, 0.4); 
-        box-shadow: var(--shadow-light);
-        display: none;
-    }
-   
-    .channel-selector.show { display: block; }
-   
-    .channel-grid {
-        display: flex; 
-        gap: clamp(1.5rem, 3vw, 2rem); 
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-   
-    .channel-btn {
-        flex: 1; 
-        min-width: clamp(140px, 40vw, 180px);
-        background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-        color: var(--text-light); 
-        border: 2px solid rgba(255, 215, 0, 0.4); 
-        padding: clamp(1.3rem, 4vw, 1.6rem) 2rem;
-        border-radius: 28px; 
-        font-weight: 800; 
-        font-size: clamp(1.1rem, 3.2vw, 1.3rem);
-        cursor: pointer; 
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        backdrop-filter: blur(25px);
-        position: relative;
-    }
-   
-    .channel-btn.active {
-        background: linear-gradient(145deg, var(--primary-gold), #FFA500);
-        color: var(--primary-dark); 
-        border-color: var(--primary-gold);
-        box-shadow: 0 20px 60px rgba(255, 215, 0, 0.5); 
-        transform: scale(1.08);
-    }
-   
-    .channel-btn:hover:not(.active) {
-        transform: translateY(-6px); 
-        border-color: var(--primary-gold);
-        box-shadow: 0 18px 55px rgba(255, 215, 0, 0.4);
-    }
-   
-    /* PREMIUM PLAYER */
-    .player-arena {
-        max-width: min(98vw, 1600px); 
-        margin: clamp(4rem, 10vw, 6rem) auto;
-        padding: clamp(2rem, 5vw, 3rem);
-        background: linear-gradient(145deg, #1A1F2E, #11151D);
-        border-radius: 40px; 
-        box-shadow: var(--shadow-light);
-        border: 2px solid rgba(255, 215, 0, 0.2);
-        height: clamp(450px, 70vh, 850px); 
-        display: flex; 
-        align-items: center; 
-        justify-content: center;
-        position: relative;
-    }
-   
-    .shaka-video-container {
-        width: 100% !important; 
-        height: 100% !important; 
-        max-height: 100% !important;
-        border-radius: 28px; 
-        overflow: hidden !important;
-        box-shadow: 0 30px 90px rgba(0,0,0,0.8);
-    }
-   
-    #main-content { display: none; padding-top: clamp(1.5rem, 4vw, 3rem); min-height: 300vh; }
-    #player-container.hide { display: none; }
-   
-    /* PREMIUM FEATURES */
-    .elite-features {
-        max-width: min(92vw, 900px); 
-        margin: clamp(5rem, 12vw, 8rem) auto;
-        padding: clamp(3rem, 8vw, 5rem) clamp(2.5rem, 6vw, 4rem);
-        background: linear-gradient(145deg, var(--glass-bg), rgba(10,14,23,0.9));
-        backdrop-filter: blur(40px); 
-        border-radius: 36px;
-        border: 1px solid rgba(255, 215, 0, 0.3); 
-        box-shadow: var(--shadow-light);
-    }
-   
-    .elite-features h2 {
-        font-size: clamp(2.2rem, 6vw, 3.2rem); 
-        margin-bottom: 2.5rem;
-        background: linear-gradient(45deg, var(--primary-gold), #FFA500);
-        -webkit-background-clip: text; 
-        -webkit-text-fill-color: transparent;
-        font-weight: 900;
-        text-align: center;
-    }
-   
-    /* LUXURY SCROLLBAR */
-    ::-webkit-scrollbar { width: clamp(12px, 4vw, 20px); }
-    ::-webkit-scrollbar-track { background: rgba(26,31,46,0.7); border-radius: 16px; }
-    ::-webkit-scrollbar-thumb {
-        background: linear-gradient(145deg, var(--primary-gold), #FFA500); 
-        border-radius: 16px; border: 3px solid var(--primary-dark);
-    }
-   
-    /* ANIMATIONS */
-    @keyframes eliteGlow {
-        0%, 100% { text-shadow: 0 0 25px rgba(255, 215, 0, 0.6); }
-        50% { text-shadow: 0 0 50px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.5); }
-    }
-   
-    @keyframes eliteFloat {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-4px); }
-    }
-   
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-        .channel-grid { flex-direction: column; gap: clamp(1.5rem, 4vw, 2rem); }
-        .channel-selector { margin: clamp(2.5rem, 7vw, 4rem) 1rem 0; }
-        .player-arena { margin: clamp(2.5rem, 7vw, 4rem) 1rem; height: clamp(400px, 65vh, 500px); }
-        .elite-features { margin: clamp(4rem, 10vw, 6rem) 1rem; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>CMV PREMIUM | Elite Streaming</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #FFD700;
+            --gold-glow: rgba(255, 215, 0, 0.3);
+            --bg-dark: #05070a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at top right, #1a1a2e, transparent),
+                              radial-gradient(circle at bottom left, #16213e, transparent);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Header Section --- */
+        .header {
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 7, 10, 0.8);
+        }
+
+        .brand-logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            background: linear-gradient(to bottom, #fff 30%, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .tg-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255,255,255,0.07);
+            padding: 6px 15px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .tg-badge:hover { background: var(--gold); color: black; }
+
+        /* --- Global Popup --- */
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(20px);
+        }
+
+        .popup-card {
+            background: linear-gradient(145deg, #111, #000);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,215,0,0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 0 50px rgba(0,0,0,1);
+        }
+
+        /* --- Buttons --- */
+        .btn-main {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+            text-decoration: none;
+        }
+
+        .btn-gold { background: var(--gold); color: #000; border: none; }
+        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 20px var(--gold-glow); }
+        
+        .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+        /* --- Player Container --- */
+        .main-wrapper { max-width: 1100px; margin: 0 auto; padding: 20px; display: none; }
+        
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        #player-container {
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            width: 100% !important; height: 100% !important;
+        }
+
+        /* --- Stream Switcher --- */
+        .switcher {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .s-btn {
+            padding: 15px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .s-btn.active {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* --- VIP Content Section --- */
+        .vip-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 40px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .vip-list { list-style: none; margin: 20px 0; }
+        .vip-list li { 
+            margin-bottom: 12px; 
+            padding-left: 30px; 
+            position: relative; 
+            color: var(--text-dim);
+        }
+        .vip-list li::before {
+            content: '✓'; position: absolute; left: 0; color: var(--gold); font-weight: 900;
+        }
+
+        .hidden { display: none !important; }
+
+        /* --- Mobile Tweaks --- */
+        @media (max-width: 600px) {
+            .brand-logo { font-size: 2rem; }
+            .popup-card { padding: 30px 20px; }
+            .main-wrapper { padding: 10px; }
+        }
+    </style>
 </head>
 <body>
 
-<!-- ELITE HEADER -->
-<div class="header">
-  <div class="elite-logo">
-    <div>
-      <h1 class="elite-title">EliteStream</h1>
-      <div class="elite-subtitle">Premium Channels</div>
+<header class="header">
+    <h1 class="brand-logo">CMV PREMIUM</h1>
+    <a href="https://t.me/cricketmemesverse873" class="tg-badge">@cricketmemesverse873</a>
+</header>
+
+<div id="popup" class="popup-overlay">
+    <div class="popup-card">
+        <div style="font-size: 3rem; margin-bottom: 10px;">👑</div>
+        <h2 style="margin-bottom: 10px;">Premium Access</h2>
+        <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 25px;">
+            Experience ad-free 4K streams by joining our exclusive VIP community.
+        </p>
+        <a href="https://t.me/cricketmemesverse873" class="btn-main btn-gold">JOIN TELEGRAM</a>
+        <button class="btn-main btn-outline" onclick="unlockSite()">I AM ALREADY A MEMBER</button>
     </div>
-    <a href="https://t.me/elitestreamvip" target="_blank" class="telegram-elite" rel="noopener noreferrer">
-      📺 Join Premium VIP
-    </a>
-  </div>
 </div>
 
-<!-- PREMIUM POPUP -->
-<div id="popup" class="elite-popup">
-  <div class="popup-content">
-    <h2>🔥 Premium Channels Live</h2>
-    <p>Prime & LaLiga in 4K Ultra HD - Instant Access for VIP Members</p>
-    <a href="https://t.me/elitestreamvip" target="_blank" rel="noopener noreferrer" class="btn-elite">Join VIP Now</a>
-    <button class="btn-elite-secondary" onclick="unlockPremium()">I'm VIP</button>
-  </div>
-</div>
-
-<!-- PREMIUM CONTENT -->
-<div id="main-content">
-  <!-- CHANNEL SELECTOR -->
-  <div id="channel-selector" class="channel-selector">
-    <div class="channel-grid">
-      <button class="channel-btn active" onclick="switchChannel(1)">PRIME</button>
-      <button class="channel-btn" onclick="switchChannel(2)">LALIGA</button>
+<div id="content" class="main-wrapper">
+    <div class="switcher">
+        <button id="btn1" class="s-btn active" onclick="switchStream(1)">PRIME HD</button>
+        <button id="btn2" class="s-btn" onclick="switchStream(2)">LALIGA 4K</button>
     </div>
-  </div>
 
-  <!-- PREMIUM PLAYER -->
-  <div class="player-arena">
-    <div id="player-container" class="hide">
-      <div data-shaka-player-container="" class="shaka-video-container shaka-mobile" shaka-controls="true">
-        <video autoplay data-shaka-player id="video" class="shaka-video" poster="#" playsinline></video>
-        <canvas class="shaka-canvas-container"></canvas>
-        <div class="shaka-controls-container">...</div>
-        <div class="shaka-client-side-ad-container shaka-hidden"></div>
-        <div class="shaka-spinner-container shaka-hidden">
-          <div class="shaka-spinner">
-            <svg class="shaka-spinner-svg" viewBox="0 0 30 30">
-              <circle class="shaka-spinner-path" cx="15" cy="15" r="14.5" fill="none" stroke-width="1"></circle>
-            </svg>
-          </div>
+    <div class="video-wrapper">
+        <div data-shaka-player-container id="player-container">
+            <video autoplay data-shaka-player id="video" style="width:100%;height:100%;" poster="#" playsinline></video>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!-- VIP FEATURES -->
-  <div class="elite-features">
-    <h2>⭐ VIP Premium Benefits</h2>
-    <div style="text-align: center; color: var(--text-muted); font-size: clamp(1.1rem, 3vw, 1.25rem); margin-bottom: 3rem; line-height: 1.7;">
-      Instant HD access to Prime & LaLiga channels 24/7
+    <div class="vip-card">
+        <h3>VIP Benefits</h3>
+        <ul class="vip-list">
+            <li>Zero Latency Buffering Protocol</li>
+            <li>Multi-Audio Support (Eng/Hindi)</li>
+            <li>No Redirect Ads</li>
+            <li>Dedicated 24/7 Support</li>
+        </ul>
+        <a href="https://t.me/cricketmemesverse873" class="btn-main btn-gold" style="display:inline-block; width: auto; padding: 12px 30px;">Upgrade Experience</a>
     </div>
-    <div style="text-align: center;">
-      <a href="https://t.me/elitestreamvip" target="_blank" class="btn-elite" style="max-width: 350px; display: inline-block;">
-        🔗 Get VIP Access →
-      </a>
-    </div>
-  </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js"></script>
 <script>
-  const premiumChannels = {
-    1: {
-      manifestUri: "https://otte.live.fly.ww.aiv-cdn.net/iad-nitro/live/dash/enc/rlisfyx9vd/out/v1/61b8f61b22ac469297cbd4f1224f0ec8/cenc.mpd",
-      drmKeyId: "f159241d40e659d58e81bc17ca30da31",
-      drmKey: "6b7fe24f7a16343bd447b0b30f68b7b2"
-    },
-    2: {
-      manifestUri: "https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd",
-      drmKeyId: "620e51b82596475517a27aa425c52280",
-      drmKey: "2b9ba811e9c5aeafc8ae1b71cdca4d6a"
+    const streams = {
+        1: {
+            url: "https://otte.live.fly.ww.aiv-cdn.net/iad-nitro/live/dash/enc/rlisfyx9vd/out/v1/61b8f61b22ac469297cbd4f1224f0ec8/cenc.mpd",
+            id: "f159241d40e659d58e81bc17ca30da31",
+            key: "6b7fe24f7a16343bd447b0b30f68b7b2"
+        },
+        2: {
+            url: "https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd",
+            id: "620e51b82596475517a27aa425c52280",
+            key: "2b9ba811e9c5aeafc8ae1b71cdca4d6a"
+        }
+    };
+
+    let player, ui, video;
+
+    function unlockSite() {
+        document.getElementById('popup').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('popup').classList.add('hidden');
+            document.getElementById('content').style.display = 'block';
+            initApp();
+        }, 400);
     }
-  };
 
-  let currentChannel = 1, player = null;
-
-  function unlockPremium() {
-    document.getElementById("popup").classList.add("hide");
-    document.getElementById("main-content").style.display = "block";
-    setTimeout(() => {
-      document.getElementById("channel-selector").classList.add("show");
-      document.getElementById("player-container").classList.remove("hide");
-      initPlayer();
-    }, 500);
-  }
-
-  function switchChannel(channelId) {
-    if (currentChannel === channelId) return;
-    currentChannel = channelId;
-    document.querySelectorAll('.channel-btn').forEach((btn, i) => {
-      btn.classList.toggle('active', i + 1 === channelId);
-    });
-    if (player) loadStream(channelId);
-  }
-
-  async function initPlayer() {
-    const video = document.getElementById('video');
-    const ui = video['ui'];
-    player = ui.getControls().getPlayer();
-    player.addEventListener('error', e => {
-      console.error('Stream Error:', e.detail);
-    });
-    await loadStream(currentChannel);
-  }
-
-  async function loadStream(channelId) {
-    try {
-      const channel = premiumChannels[channelId];
-      player.configure({ 
-        drm: { 
-          clearKeys: { 
-            [channel.drmKeyId]: channel.drmKey 
-          } 
-        } 
-      });
-      await player.load(channel.manifestUri);
-      console.log(`✅ Premium Channel ${channelId} Loaded`);
-    } catch (e) { 
-      console.error('Load Error:', e); 
+    async function initApp() {
+        video = document.getElementById('video');
+        ui = video['ui'];
+        player = ui.getControls().getPlayer();
+        
+        // Listen for errors
+        player.addEventListener('error', (e) => console.error('Error code', e.detail.code, 'object', e.detail));
+        
+        loadStream(1);
     }
-  }
 
-  // Anti-iframe protection
-  if (window.top !== window.self) {
-    document.body.innerHTML = `
-      <div style="position:fixed;inset:0;background:var(--primary-dark);color:var(--text-light);display:flex;align-items:center;justify-content:center;font-size:clamp(1.4rem,6vw,2.5rem);z-index:9999;font-weight:800;text-align:center;padding:3rem;font-family:'Inter',sans-serif;">
-        🔥 EliteStream Premium<br>
-        <span style="font-size:0.6em;font-weight:400;color:var(--text-muted);">Direct Access Required</span>
-      </div>
-    `;
-  }
+    async function loadStream(num) {
+        const s = streams[num];
+        try {
+            player.configure({
+                drm: { clearKeys: { [s.id]: s.key } }
+            });
+            await player.load(s.url);
+        } catch (e) {
+            console.error('Load failed', e);
+        }
+    }
+
+    function switchStream(num) {
+        document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn' + num).classList.add('active');
+        loadStream(num);
+    }
+
+    // Protection against iframes
+    if (window.top !== window.self) {
+        document.body.innerHTML = "<div style='display:flex;height:100vh;align-items:center;justify-content:center;background:#000;color:gold;font-weight:bold;'>EXTERNAL ACCESS DENIED</div>";
+    }
 </script>
-
 </body>
 </html>
