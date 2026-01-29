@@ -32,7 +32,6 @@
         }
 
         /* --- THE LOADING SPINNER REMOVAL --- */
-        /* Forces the loading circle to be hidden even when the player wants to show it */
         .shaka-spinner-container, .shaka-spinner {
             display: none !important;
             visibility: hidden !important;
@@ -40,14 +39,10 @@
         }
 
         /* --- Player Styling --- */
-        .shaka-video-container { border-radius: 16px; overflow: hidden; }
-        .shaka-controls-container {
-            background: linear-gradient(transparent, rgba(0,0,0,0.7)) !important;
-        }
+        .shaka-video-container { border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .shaka-controls-container { background: linear-gradient(transparent, rgba(0,0,0,0.8)) !important; }
         .shaka-bottom-controls { padding: 0 10px 10px 10px !important; }
-        .shaka-seek-bar-container .shaka-range-element {
-            --shaka-main-theme-color: var(--gold) !important;
-        }
+        .shaka-seek-bar-container .shaka-range-element { --shaka-main-theme-color: var(--gold) !important; }
 
         /* --- Header Section --- */
         .header {
@@ -83,7 +78,6 @@
             background: #000; padding: 40px; border-radius: 28px;
             border: 1px solid rgba(255,215,0,0.2); text-align: center;
             max-width: 380px; width: 90%;
-            box-shadow: 0 0 50px rgba(0,0,0,1);
         }
 
         /* --- Buttons --- */
@@ -101,43 +95,60 @@
         .video-container-box {
             position: relative; width: 100%; padding-top: 56.25%;
             background: #000; border-radius: 16px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px;
         }
 
         #player-container { position: absolute; top: 0; left: 0; bottom: 0; right: 0; }
 
-        .switcher { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .s-btn {
-            padding: 14px; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08);
-            color: #fff; border-radius: 12px; font-weight: 700; cursor: pointer;
+        /* --- Multi-Channel Switcher --- */
+        .switcher { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+            gap: 10px; 
+            margin-bottom: 20px; 
         }
-        .s-btn.active { background: rgba(255, 215, 0, 0.1); border-color: var(--gold); color: var(--gold); }
+
+        .s-btn {
+            padding: 12px 8px; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08);
+            color: #fff; border-radius: 10px; font-weight: 600; font-size: 0.85rem; 
+            cursor: pointer; transition: var(--transition);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .s-btn.active { 
+            background: rgba(255, 215, 0, 0.1); 
+            border-color: var(--gold); 
+            color: var(--gold); 
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+        }
 
         .hidden { display: none !important; }
+        
+        @media (max-width: 480px) {
+            .switcher { grid-template-columns: 1fr 1fr; }
+        }
     </style>
 </head>
 <body>
 
 <header class="header">
     <h1 class="brand-logo">CMV</h1>
-    <a href="https://t.me/cricketmemesverse873" class="tg-badge">JOIN TELEGRAM</a>
+    <a href="https://t.me/cricketmemesverse873" class="tg-badge">TELEGRAM VIP</a>
 </header>
 
 <div id="popup" class="popup-overlay">
     <div class="popup-card">
         <div style="font-size: 3rem; margin-bottom: 15px;">🏆</div>
-        <h2 style="margin-bottom: 8px; font-weight: 900; letter-spacing: -0.5px;">Watch All Live matches</h2>
-        <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 25px;">Exclusive 4K Streams for Telegram Members</p>
-        <a href="https://t.me/cricketmemesverse873" class="btn-main btn-gold">JOIN FOR LIVE LINKS</a>
+        <h2 style="margin-bottom: 8px; font-weight: 900;">Watch All Live matches</h2>
+        <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 25px;">Elite 4K Sports Hub</p>
+        <a href="https://t.me/cricketmemesverse873" class="btn-main btn-gold">GET LIVE LINKS</a>
         <button class="btn-main btn-outline" onclick="unlockSite()">ALREADY JOINED</button>
     </div>
 </div>
 
 <div id="content" class="main-wrapper">
-    <div class="switcher">
-        <button id="btn1" class="s-btn active" onclick="switchStream(1)">PRIME HD</button>
-        <button id="btn2" class="s-btn" onclick="switchStream(2)">LALIGA 4K</button>
-    </div>
+    <div class="switcher" id="switcher-container">
+        </div>
 
     <div class="video-container-box">
         <div data-shaka-player-container id="player-container">
@@ -148,12 +159,57 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js"></script>
 <script>
-    const streams = {
-        1: { url: "https://otte.live.fly.ww.aiv-cdn.net/iad-nitro/live/dash/enc/rlisfyx9vd/out/v1/61b8f61b22ac469297cbd4f1224f0ec8/cenc.mpd", id: "f159241d40e659d58e81bc17ca30da31", key: "6b7fe24f7a16343bd447b0b30f68b7b2" },
-        2: { url: "https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd", id: "620e51b82596475517a27aa425c52280", key: "2b9ba811e9c5aeafc8ae1b71cdca4d6a" }
+    const channels = {
+        prime: {
+            name: 'PRIME HD',
+            manifest: 'https://otte.live.fly.ww.aiv-cdn.net/iad-nitro/live/dash/enc/rlisfyx9vd/out/v1/61b8f61b22ac469297cbd4f1224f0ec8/cenc.mpd',
+            drmKeyId: 'f159241d40e659d58e81bc17ca30da31',
+            drmKey: '6b7fe24f7a16343bd447b0b30f68b7b2'
+        },
+        laliga: {
+            name: 'LALIGA 4K',
+            manifest: 'https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd',
+            drmKeyId: '620e51b82596475517a27aa425c52280',
+            drmKey: '2b9ba811e9c5aeafc8ae1b71cdca4d6a'
+        },
+        tnt1: {
+            name: 'TNT Sports 1',
+            manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/bsaaetko8v/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd',
+            drmKeyId: 'd0f2e5c39e70c18f29bf77768a1ad89a',
+            drmKey: 'd6853c51fcf37a18905f0609972395d7'
+        },
+        tnt2: {
+            name: 'TNT Sports 2',
+            manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/enniazhzls/out/v1/f8fa17f087564f51aa4d5c700be43ec4/cenc.mpd',
+            drmKeyId: '9f51f3dc6313ac8bc668e2d9d1c04dfa',
+            drmKey: '74bc63e5a193454a91ca494975db33f9'
+        },
+        tnt3: {
+            name: 'TNT Sports 3',
+            manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/lsdasbvglv/out/v1/bb548a3626cd4708afbb94a58d71dce9/cenc.mpd',
+            drmKeyId: 'a93c1cbfdccd23233bac13540c693e7f',
+            drmKey: '2f6ab2e6693eb847eff3c9da8f9d01fc'
+        },
+        tnt4: {
+            name: 'TNT Sports 4',
+            manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/i2pcjr4pe5/out/v1/912e9db56d75403b8a9ac0a719110f36/cenc.mpd',
+            drmKeyId: '192b1115da041585c77200128549efa1',
+            drmKey: '634e10efe4abbb14be400a3ccbac0258'
+        }
     };
 
     let player, ui, video;
+
+    // Generate Buttons Dynamically
+    const switcher = document.getElementById('switcher-container');
+    Object.keys(channels).forEach((id, index) => {
+        const btn = document.createElement('button');
+        btn.className = `s-btn ${index === 0 ? 'active' : ''}`;
+        btn.id = `btn-${id}`;
+        btn.innerText = channels[id].name;
+        btn.onclick = () => switchStream(id);
+        switcher.appendChild(btn);
+    });
 
     function unlockSite() {
         document.getElementById('popup').classList.add('hidden');
@@ -165,23 +221,24 @@
         video = document.getElementById('video');
         ui = video['ui'];
         player = ui.getControls().getPlayer();
-        
-        loadStream(1);
+        loadStream('prime');
     }
 
-    async function loadStream(num) {
-        const s = streams[num];
+    async function loadStream(id) {
+        const s = channels[id];
         try {
-            await player.configure({ drm: { clearKeys: { [s.id]: s.key } } });
-            await player.load(s.url);
-        } catch (e) { console.error(e); }
+            await player.configure({ drm: { clearKeys: { [s.drmKeyId]: s.drmKey } } });
+            await player.load(s.manifest);
+        } catch (e) { console.error('Stream Error:', e); }
     }
 
-    function switchStream(num) {
+    function switchStream(id) {
         document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('btn' + num).classList.add('active');
-        loadStream(num);
+        document.getElementById(`btn-${id}`).classList.add('active');
+        loadStream(id);
     }
+
+    if (window.top !== window.self) document.body.innerHTML = "";
 </script>
 </body>
 </html>
