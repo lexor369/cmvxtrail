@@ -44,15 +44,21 @@
         .shaka-bottom-controls { padding: 0 10px 10px 10px !important; }
         .shaka-seek-bar-container .shaka-range-element { --shaka-main-theme-color: var(--gold) !important; }
         
-        /* FIX: Mobile Quality Menu Visibility */
+        /* FIX: Quality Menu Visibility & Scrollability */
         .shaka-overflow-menu, .shaka-settings-menu {
             background: rgba(10, 10, 15, 0.98) !important;
             border: 1px solid rgba(255, 215, 0, 0.3) !important;
             border-radius: 12px !important;
             color: white !important;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            max-height: 70vh !important; /* Prevents cutting off on vertical mobile */
+            overflow-y: auto !important;
         }
-        .shaka-overflow-menu button, .shaka-settings-menu button { color: white !important; padding: 12px !important; }
+        .shaka-overflow-menu button, .shaka-settings-menu button { 
+            color: white !important; 
+            padding: 12px !important;
+            min-height: 44px; /* Better touch target for mobile */
+        }
         .shaka-active-button { color: var(--gold) !important; }
 
         /* --- Header Section --- */
@@ -124,8 +130,6 @@
 
         .s-btn.active { background: rgba(255, 215, 0, 0.1); border-color: var(--gold); color: var(--gold); }
 
-        .hidden { display: none !important; }
-       
         @media (max-width: 480px) {
             .switcher { grid-template-columns: 1fr 1fr; }
         }
@@ -193,11 +197,9 @@
         video = document.getElementById('video');
         const container = document.getElementById('player-container');
         
-        // Ensure Shaka UI is ready
         player = new shaka.Player(video);
         ui = new shaka.ui.Overlay(player, container, video);
 
-        // UI Configuration to force Quality selection on Mobile
         const uiConfig = {
             'controlPanelElements': ['play_pause', 'time_and_duration', 'spacer', 'mute', 'volume', 'overflow_menu', 'fullscreen'],
             'overflowMenuButtons' : ['quality', 'playback_rate', 'language'],
@@ -206,7 +208,6 @@
         };
         ui.configure(uiConfig);
 
-        // Player configuration
         player.configure({
             abr: {
                 enabled: true,
@@ -218,12 +219,16 @@
                 bufferingGoal: 30,
                 rebufferingGoal: 2,
                 alwaysStreamText: true
+            },
+            manifest: {
+                dash: {
+                    // FIX: This prevents Shaka from hiding 1080p on small mobile screens
+                    filterByHardwareCapabilities: false 
+                }
             }
         });
 
-        // Error handling
         player.addEventListener('error', onPlayerError);
-       
         loadStream('prime');
     }
 
@@ -249,7 +254,6 @@
         console.error('Error code', error.code, 'object', error);
     }
 
-    // Polyfill for browsers that need it
     document.addEventListener('shaka-ui-loaded', () => {
         console.log("UI Library Ready");
     });
