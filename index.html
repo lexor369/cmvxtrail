@@ -89,6 +89,7 @@
         position: fixed; inset: 0;
         background: linear-gradient(135deg, rgba(15,20,25,0.97), rgba(0,0,0,0.98));
         backdrop-filter: blur(25px);
+
         display: flex; justify-content: center; align-items: center;
         z-index: 9999; padding: 1rem;
     }
@@ -278,6 +279,7 @@
 </div>
 
 <!-- PREMIUM TELEGRAM POPUP -->
+
 <div id="popup" class="popup">
   <div class="popup-content">
     <h2>⚡ Premium Live Streams</h2>
@@ -299,11 +301,13 @@
 
   <!-- PREMIUM PLAYER -->
   <div class="player-section">
+
     <div id="player-container" class="hide">
       <div data-shaka-player-container="" class="shaka-video-container shaka-mobile" shaka-controls="true">
         <video autoplay data-shaka-player id="video" class="shaka-video" poster="#" playsinline></video>
         <canvas class="shaka-canvas-container"></canvas>
         <div class="shaka-controls-container">...</div>
+
         <div class="shaka-client-side-ad-container shaka-hidden"></div>
         <div class="shaka-spinner-container shaka-hidden">
           <div class="shaka-spinner">
@@ -331,6 +335,7 @@
     <a href="https://t.me/cricketmemesverse873" target="_blank" class="btn-premium" style="max-width: 300px; margin: 2rem auto 0;">
       Join CMV VIP →
     </a>
+
   </div>
 </div>
 
@@ -351,11 +356,13 @@
 
   let currentStream = 1, player = null;
 
+
   function startStream() {
     document.getElementById("popup").classList.add("hide");
     document.getElementById("main-content").style.display = "block";
     setTimeout(() => {
       document.getElementById("stream-switcher").classList.add("show");
+
       document.getElementById("player-container").classList.remove("hide");
       initPlayer();
     }, 500);
@@ -371,6 +378,7 @@
   }
 
   async function initPlayer() {
+
     const video = document.getElementById('video');
     const ui = video['ui'];
     player = ui.getControls().getPlayer();
@@ -394,3 +402,6 @@
 
 </body>
 </html>
+
+
+
