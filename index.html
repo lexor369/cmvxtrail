@@ -28,161 +28,91 @@
                               radial-gradient(circle at bottom left, #0d1117, transparent);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
-            line-height: 1.6;
             min-height: 100vh;
         }
 
-        /* --- Custom Shaka UI Overrides (Removes Black Bar) --- */
+        /* --- THE SPINNER FIX --- */
+        /* This hides the spinner by default when the video is active */
+        .shaka-spinner-container {
+            display: none !important;
+        }
+        
+        /* If you still see a ghost loading bar/circle, this targets the inner SVG */
+        .shaka-spinner {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
         .shaka-video-container { border-radius: 16px; overflow: hidden; }
         .shaka-controls-container {
             background: linear-gradient(transparent, rgba(0,0,0,0.7)) !important;
-            display: flex !important;
         }
         .shaka-bottom-controls { padding: 0 10px 10px 10px !important; }
-        .shaka-range-element { color: var(--gold) !important; }
         .shaka-seek-bar-container .shaka-range-element {
             --shaka-main-theme-color: var(--gold) !important;
         }
-        .shaka-spinner-path { stroke: var(--gold) !important; stroke-width: 4px !important; }
-        .shaka-current-time { font-weight: 700; color: var(--gold); }
 
-        /* --- Header Section --- */
+        /* --- Layout --- */
         .header {
             padding: 15px 20px;
             text-align: center;
             backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            position: sticky; top: 0; z-index: 100;
             background: rgba(5, 7, 10, 0.85);
         }
 
         .brand-logo {
-            font-size: 2rem;
-            font-weight: 900;
-            letter-spacing: -1.5px;
+            font-size: 2rem; font-weight: 900; letter-spacing: -1.5px;
             background: linear-gradient(to bottom, #fff 40%, var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 4px;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .tg-badge {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(255,255,255,0.05);
-            padding: 5px 12px;
-            border-radius: 50px;
-            text-decoration: none;
-            color: var(--gold);
-            font-size: 0.75rem;
-            font-weight: 600;
+            display: inline-flex; align-items: center; background: rgba(255,255,255,0.05);
+            padding: 5px 12px; border-radius: 50px; text-decoration: none;
+            color: var(--gold); font-size: 0.75rem; font-weight: 600;
             border: 1px solid rgba(255, 215, 0, 0.15);
-            transition: var(--transition);
         }
 
-        /* --- Popup Overlay --- */
         .popup-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.96);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            backdrop-filter: blur(15px);
-            transition: opacity 0.5s ease;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.96);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999; backdrop-filter: blur(15px);
         }
 
         .popup-card {
-            background: #000;
-            padding: 40px;
-            border-radius: 28px;
-            border: 1px solid rgba(255,215,0,0.2);
-            text-align: center;
-            max-width: 380px;
-            width: 90%;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            background: #000; padding: 40px; border-radius: 28px;
+            border: 1px solid rgba(255,215,0,0.2); text-align: center;
+            max-width: 380px; width: 90%;
         }
 
-        /* --- Buttons --- */
         .btn-main {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 12px;
-            text-decoration: none;
+            display: block; width: 100%; padding: 14px; border-radius: 12px;
+            font-size: 0.95rem; font-weight: 700; cursor: pointer;
+            transition: var(--transition); margin-top: 12px; text-decoration: none;
         }
         .btn-gold { background: var(--gold); color: #000; border: none; }
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--gold-glow); }
         .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.15); }
 
-        /* --- Main Content --- */
         .main-wrapper { max-width: 1000px; margin: 0 auto; padding: 15px; display: none; }
         
         .video-container-box {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* 16:9 ratio */
-            background: #000;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            position: relative; width: 100%; padding-top: 56.25%;
+            background: #000; border-radius: 16px; overflow: hidden;
             border: 1px solid rgba(255,255,255,0.05);
         }
 
-        #player-container {
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-        }
+        #player-container { position: absolute; top: 0; left: 0; bottom: 0; right: 0; }
 
-        /* --- Switcher Grid --- */
-        .switcher {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
+        .switcher { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .s-btn {
-            padding: 14px;
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: #fff;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
+            padding: 14px; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08);
+            color: #fff; border-radius: 12px; font-weight: 700; cursor: pointer;
         }
+        .s-btn.active { background: rgba(255, 215, 0, 0.1); border-color: var(--gold); color: var(--gold); }
 
-        .s-btn.active {
-            background: rgba(255, 215, 0, 0.1);
-            border-color: var(--gold);
-            color: var(--gold);
-            box-shadow: inset 0 0 10px rgba(255,215,0,0.1);
-        }
-
-        .vip-info {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 25px;
-            margin-top: 25px;
-            text-align: center;
-        }
-
-        .hidden { display: none !important; opacity: 0; }
-
-        @media (max-width: 600px) {
-            .brand-logo { font-size: 1.7rem; }
-            .main-wrapper { padding: 10px; }
-            .btn-main { padding: 12px; }
-        }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -194,11 +124,8 @@
 
 <div id="popup" class="popup-overlay">
     <div class="popup-card">
-        <div style="font-size: 2.5rem; margin-bottom: 10px;">⚡</div>
         <h2 style="margin-bottom: 8px;">VIP Access</h2>
-        <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 20px;">
-            Join our Telegram for direct 4K links and no-lag streams.
-        </p>
+        <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 20px;">Join Telegram for HD streams.</p>
         <a href="https://t.me/cricketmemesverse873" class="btn-main btn-gold">JOIN CHANNEL</a>
         <button class="btn-main btn-outline" onclick="unlockSite()">ALREADY JOINED</button>
     </div>
@@ -212,29 +139,16 @@
 
     <div class="video-container-box">
         <div data-shaka-player-container id="player-container">
-            <video autoplay data-shaka-player id="video" poster="#" playsinline></video>
+            <video autoplay data-shaka-player id="video" playsinline></video>
         </div>
-    </div>
-
-    <div class="vip-info">
-        <h3 style="color: var(--gold); margin-bottom: 10px;">Premium Features Active</h3>
-        <p style="font-size: 0.85rem; color: var(--text-dim);">You are currently watching CMV VIP Encrypted Stream. For multi-language support, check settings in the player.</p>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js"></script>
 <script>
     const streams = {
-        1: {
-            url: "https://otte.live.fly.ww.aiv-cdn.net/iad-nitro/live/dash/enc/rlisfyx9vd/out/v1/61b8f61b22ac469297cbd4f1224f0ec8/cenc.mpd",
-            id: "f159241d40e659d58e81bc17ca30da31",
-            key: "6b7fe24f7a16343bd447b0b30f68b7b2"
-        },
-        2: {
-            url: "https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd",
-            id: "620e51b82596475517a27aa425c52280",
-            key: "2b9ba811e9c5aeafc8ae1b71cdca4d6a"
-        }
+        1: { url: "https://otte.live.fly.ww.aiv-cdn.net/iad-nitro/live/dash/enc/rlisfyx9vd/out/v1/61b8f61b22ac469297cbd4f1224f0ec8/cenc.mpd", id: "f159241d40e659d58e81bc17ca30da31", key: "6b7fe24f7a16343bd447b0b30f68b7b2" },
+        2: { url: "https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd", id: "620e51b82596475517a27aa425c52280", key: "2b9ba811e9c5aeafc8ae1b71cdca4d6a" }
     };
 
     let player, ui, video;
@@ -250,31 +164,27 @@
         ui = video['ui'];
         player = ui.getControls().getPlayer();
         
-        player.addEventListener('error', (e) => console.error('Error:', e.detail));
+        // Listen for the playing event to ensure the UI is clean
+        video.addEventListener('playing', () => {
+            const loaders = document.querySelectorAll('.shaka-spinner-container, .shaka-spinner');
+            loaders.forEach(el => el.style.display = 'none');
+        });
+
         loadStream(1);
     }
 
     async function loadStream(num) {
         const s = streams[num];
         try {
-            await player.configure({
-                drm: { clearKeys: { [s.id]: s.key } }
-            });
+            await player.configure({ drm: { clearKeys: { [s.id]: s.key } } });
             await player.load(s.url);
-        } catch (e) {
-            console.error('Load failed', e);
-        }
+        } catch (e) { console.error(e); }
     }
 
     function switchStream(num) {
         document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('btn' + num).classList.add('active');
         loadStream(num);
-    }
-
-    // Block Iframes
-    if (window.top !== window.self) {
-        document.body.innerHTML = "";
     }
 </script>
 </body>
