@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="referrer" content="no-referrer">
     <title>CMV PREMIUM | Elite Streaming</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --gold: #FFD700;
-            --gold-glow: rgba(255, 215, 0, 0.3);
+            --gold-glow: rgba(255, 215, 0, 0.4);
             --bg-dark: #05070a;
-            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.04);
             --text-main: #ffffff;
             --text-dim: #a0a0a0;
             --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
@@ -25,126 +25,135 @@
         body {
             background-color: var(--bg-dark);
             background-image: radial-gradient(circle at top right, #1a1a2e, transparent),
-                              radial-gradient(circle at bottom left, #16213e, transparent);
+                              radial-gradient(circle at bottom left, #0d1117, transparent);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            overflow-x: hidden;
+            min-height: 100vh;
         }
+
+        /* --- Custom Shaka UI Overrides (Removes Black Bar) --- */
+        .shaka-video-container { border-radius: 16px; overflow: hidden; }
+        .shaka-controls-container {
+            background: linear-gradient(transparent, rgba(0,0,0,0.7)) !important;
+            display: flex !important;
+        }
+        .shaka-bottom-controls { padding: 0 10px 10px 10px !important; }
+        .shaka-range-element { color: var(--gold) !important; }
+        .shaka-seek-bar-container .shaka-range-element {
+            --shaka-main-theme-color: var(--gold) !important;
+        }
+        .shaka-spinner-path { stroke: var(--gold) !important; stroke-width: 4px !important; }
+        .shaka-current-time { font-weight: 700; color: var(--gold); }
 
         /* --- Header Section --- */
         .header {
-            padding: 20px;
+            padding: 15px 20px;
             text-align: center;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(5, 7, 10, 0.8);
+            background: rgba(5, 7, 10, 0.85);
         }
 
         .brand-logo {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 900;
-            letter-spacing: -2px;
-            background: linear-gradient(to bottom, #fff 30%, var(--gold));
+            letter-spacing: -1.5px;
+            background: linear-gradient(to bottom, #fff 40%, var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .tg-badge {
             display: inline-flex;
             align-items: center;
-            background: rgba(255,255,255,0.07);
-            padding: 6px 15px;
+            background: rgba(255,255,255,0.05);
+            padding: 5px 12px;
             border-radius: 50px;
             text-decoration: none;
             color: var(--gold);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            border: 1px solid rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.15);
             transition: var(--transition);
         }
 
-        .tg-badge:hover { background: var(--gold); color: black; }
-
-        /* --- Global Popup --- */
+        /* --- Popup Overlay --- */
         .popup-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.96);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(15px);
+            transition: opacity 0.5s ease;
         }
 
         .popup-card {
-            background: linear-gradient(145deg, #111, #000);
+            background: #000;
             padding: 40px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 28px;
+            border: 1px solid rgba(255,215,0,0.2);
             text-align: center;
-            max-width: 400px;
+            max-width: 380px;
             width: 90%;
-            box-shadow: 0 0 50px rgba(0,0,0,1);
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
         }
 
         /* --- Buttons --- */
         .btn-main {
             display: block;
             width: 100%;
-            padding: 16px;
-            border-radius: 15px;
-            font-size: 1rem;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
             transition: var(--transition);
-            margin-top: 15px;
+            margin-top: 12px;
             text-decoration: none;
         }
-
         .btn-gold { background: var(--gold); color: #000; border: none; }
-        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 20px var(--gold-glow); }
-        
-        .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.2); }
-        .btn-outline:hover { background: rgba(255,255,255,0.1); }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--gold-glow); }
+        .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.15); }
 
-        /* --- Player Container --- */
-        .main-wrapper { max-width: 1100px; margin: 0 auto; padding: 20px; display: none; }
+        /* --- Main Content --- */
+        .main-wrapper { max-width: 1000px; margin: 0 auto; padding: 15px; display: none; }
         
-        .video-wrapper {
+        .video-container-box {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            padding-top: 56.25%; /* 16:9 ratio */
             background: #000;
-            border-radius: 20px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.05);
         }
 
         #player-container {
             position: absolute;
             top: 0; left: 0; bottom: 0; right: 0;
-            width: 100% !important; height: 100% !important;
         }
 
-        /* --- Stream Switcher --- */
+        /* --- Switcher Grid --- */
         .switcher {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 25px 0;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .s-btn {
-            padding: 15px;
+            padding: 14px;
             background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.08);
             color: #fff;
             border-radius: 12px;
             font-weight: 700;
@@ -156,35 +165,23 @@
             background: rgba(255, 215, 0, 0.1);
             border-color: var(--gold);
             color: var(--gold);
+            box-shadow: inset 0 0 10px rgba(255,215,0,0.1);
         }
 
-        /* --- VIP Content Section --- */
-        .vip-card {
+        .vip-info {
             background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            margin-top: 40px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 25px;
+            text-align: center;
         }
 
-        .vip-list { list-style: none; margin: 20px 0; }
-        .vip-list li { 
-            margin-bottom: 12px; 
-            padding-left: 30px; 
-            position: relative; 
-            color: var(--text-dim);
-        }
-        .vip-list li::before {
-            content: '✓'; position: absolute; left: 0; color: var(--gold); font-weight: 900;
-        }
+        .hidden { display: none !important; opacity: 0; }
 
-        .hidden { display: none !important; }
-
-        /* --- Mobile Tweaks --- */
         @media (max-width: 600px) {
-            .brand-logo { font-size: 2rem; }
-            .popup-card { padding: 30px 20px; }
+            .brand-logo { font-size: 1.7rem; }
             .main-wrapper { padding: 10px; }
+            .btn-main { padding: 12px; }
         }
     </style>
 </head>
@@ -197,13 +194,13 @@
 
 <div id="popup" class="popup-overlay">
     <div class="popup-card">
-        <div style="font-size: 3rem; margin-bottom: 10px;">👑</div>
-        <h2 style="margin-bottom: 10px;">Premium Access</h2>
-        <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 25px;">
-            Experience ad-free 4K streams by joining our exclusive VIP community.
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">⚡</div>
+        <h2 style="margin-bottom: 8px;">VIP Access</h2>
+        <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 20px;">
+            Join our Telegram for direct 4K links and no-lag streams.
         </p>
-        <a href="https://t.me/cricketmemesverse873" class="btn-main btn-gold">JOIN TELEGRAM</a>
-        <button class="btn-main btn-outline" onclick="unlockSite()">I AM ALREADY A MEMBER</button>
+        <a href="https://t.me/cricketmemesverse873" class="btn-main btn-gold">JOIN CHANNEL</a>
+        <button class="btn-main btn-outline" onclick="unlockSite()">ALREADY JOINED</button>
     </div>
 </div>
 
@@ -213,21 +210,15 @@
         <button id="btn2" class="s-btn" onclick="switchStream(2)">LALIGA 4K</button>
     </div>
 
-    <div class="video-wrapper">
+    <div class="video-container-box">
         <div data-shaka-player-container id="player-container">
-            <video autoplay data-shaka-player id="video" style="width:100%;height:100%;" poster="#" playsinline></video>
+            <video autoplay data-shaka-player id="video" poster="#" playsinline></video>
         </div>
     </div>
 
-    <div class="vip-card">
-        <h3>VIP Benefits</h3>
-        <ul class="vip-list">
-            <li>Zero Latency Buffering Protocol</li>
-            <li>Multi-Audio Support (Eng/Hindi)</li>
-            <li>No Redirect Ads</li>
-            <li>Dedicated 24/7 Support</li>
-        </ul>
-        <a href="https://t.me/cricketmemesverse873" class="btn-main btn-gold" style="display:inline-block; width: auto; padding: 12px 30px;">Upgrade Experience</a>
+    <div class="vip-info">
+        <h3 style="color: var(--gold); margin-bottom: 10px;">Premium Features Active</h3>
+        <p style="font-size: 0.85rem; color: var(--text-dim);">You are currently watching CMV VIP Encrypted Stream. For multi-language support, check settings in the player.</p>
     </div>
 </div>
 
@@ -249,12 +240,9 @@
     let player, ui, video;
 
     function unlockSite() {
-        document.getElementById('popup').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('popup').classList.add('hidden');
-            document.getElementById('content').style.display = 'block';
-            initApp();
-        }, 400);
+        document.getElementById('popup').classList.add('hidden');
+        document.getElementById('content').style.display = 'block';
+        initApp();
     }
 
     async function initApp() {
@@ -262,16 +250,14 @@
         ui = video['ui'];
         player = ui.getControls().getPlayer();
         
-        // Listen for errors
-        player.addEventListener('error', (e) => console.error('Error code', e.detail.code, 'object', e.detail));
-        
+        player.addEventListener('error', (e) => console.error('Error:', e.detail));
         loadStream(1);
     }
 
     async function loadStream(num) {
         const s = streams[num];
         try {
-            player.configure({
+            await player.configure({
                 drm: { clearKeys: { [s.id]: s.key } }
             });
             await player.load(s.url);
@@ -286,9 +272,9 @@
         loadStream(num);
     }
 
-    // Protection against iframes
+    // Block Iframes
     if (window.top !== window.self) {
-        document.body.innerHTML = "<div style='display:flex;height:100vh;align-items:center;justify-content:center;background:#000;color:gold;font-weight:bold;'>EXTERNAL ACCESS DENIED</div>";
+        document.body.innerHTML = "";
     }
 </script>
 </body>
