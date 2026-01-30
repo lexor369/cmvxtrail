@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="referrer" content="no-referrer">
     <title>CMV | Elite Streaming</title>
-   
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 
@@ -29,17 +29,28 @@
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* --- LOADING SPINNER REMOVAL --- */
-        .shaka-spinner-container, .shaka-spinner {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
+        /* --- MOBILE FULLSCREEN & UI FIXES --- */
+        .shaka-video-container { 
+            border-radius: 16px; 
+            overflow: hidden; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            touch-action: manipulation;
         }
+        
+        /* Force player to fill screen in fullscreen mode */
+        .shaka-video-container:fullscreen { border-radius: 0; width: 100vw; height: 100vh; }
+        .shaka-video-container:-webkit-full-screen { border-radius: 0; width: 100vw; height: 100vh; }
 
-        /* --- Player Styling --- */
-        .shaka-video-container { border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* Hide native iOS/Android play buttons */
+        video::-webkit-media-controls, 
+        video::-webkit-media-controls-enclosure { display:none !important; }
+
+        .shaka-spinner-container, .shaka-spinner { display: none !important; }
+
+        /* --- UI Styling --- */
         .shaka-controls-container { background: linear-gradient(transparent, rgba(0,0,0,0.8)) !important; }
         .shaka-bottom-controls { padding: 0 10px 10px 10px !important; }
         .shaka-seek-bar-container .shaka-range-element { --shaka-main-theme-color: var(--gold) !important; }
@@ -65,7 +76,6 @@
             border: 1px solid rgba(255, 215, 0, 0.2); transition: var(--transition);
             text-transform: uppercase; letter-spacing: 1px;
         }
-        .tg-badge:hover { background: var(--gold); color: #000; transform: scale(1.05); }
 
         /* --- Popup Overlay --- */
         .popup-overlay {
@@ -90,7 +100,7 @@
 
         /* --- Content Layout --- */
         .main-wrapper { max-width: 1000px; margin: 0 auto; padding: 15px; display: none; }
-       
+        
         .video-container-box {
             position: relative; width: 100%; padding-top: 56.25%;
             background: #000; border-radius: 16px; overflow: hidden;
@@ -112,9 +122,8 @@
         }
 
         .s-btn.active { background: rgba(255, 215, 0, 0.1); border-color: var(--gold); color: var(--gold); }
-
         .hidden { display: none !important; }
-       
+        
         @media (max-width: 480px) {
             .switcher { grid-template-columns: 1fr 1fr; }
         }
@@ -124,22 +133,20 @@
 
 <header class="header">
     <h1 class="brand-logo">CMV</h1>
-    <a href="https://t.me/cricketmemesverse873" target="_blank" rel="noopener noreferrer" class="tg-badge">Join Channel</a>
+    <a href="https://t.me/cricketmemesverse873" target="_blank" class="tg-badge">Join Channel</a>
 </header>
 
 <div id="popup" class="popup-overlay">
     <div class="popup-card">
-        <div style="font-size: 3rem; margin-bottom: 15px;">🏆</div>
         <h2 style="margin-bottom: 8px; font-weight: 900;">Watch All Live matches</h2>
         <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 25px;">Elite 4K Sports Hub</p>
-        <a href="https://t.me/cricketmemesverse873" target="_blank" rel="noopener noreferrer" class="btn-main btn-gold">JOIN FOR LIVE LINKS</a>
+        <a href="https://t.me/cricketmemesverse873" target="_blank" class="btn-main btn-gold">JOIN FOR LIVE LINKS</a>
         <button class="btn-main btn-outline" onclick="unlockSite()">ALREADY JOINED</button>
     </div>
 </div>
 
 <div id="content" class="main-wrapper">
     <div class="switcher" id="switcher-container"></div>
-
     <div class="video-container-box">
         <div data-shaka-player-container id="player-container">
             <video autoplay data-shaka-player id="video" playsinline></video>
@@ -158,7 +165,7 @@
         tnt4: { name: 'TNT Sports 4', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/i2pcjr4pe5/out/v1/912e9db56d75403b8a9ac0a719110f36/cenc.mpd', drmKeyId: '192b1115da041585c77200128549efa1', drmKey: '634e10efe4abbb14be400a3ccbac0258' }
     };
 
-    let player, ui, video;
+    let player, ui, video, controls;
 
     const switcher = document.getElementById('switcher-container');
     Object.keys(channels).forEach((id, index) => {
@@ -178,32 +185,40 @@
 
     async function initApp() {
         video = document.getElementById('video');
+        const container = document.getElementById('player-container');
+        
+        // Initialize UI and Player
         ui = video['ui'];
-        player = ui.getControls().getPlayer();
+        controls = ui.getControls();
+        player = controls.getPlayer();
 
-        // FULL QUALITY CONFIGURATION
-        player.configure({
-            abr: {
-                enabled: true,
-                defaultBandwidthEstimate: 10000000, // 10Mbps start
-                switchInterval: 1, // Faster switching
-                restrictToMaxBitrate: false
-            },
-            streaming: {
-                bufferingGoal: 30,
-                rebufferingGoal: 2,
-                alwaysStreamText: true
-            }
+        // Fix: Auto-hide controls when video plays to prevent stuck pause button
+        video.addEventListener('playing', () => {
+            setTimeout(() => controls.hideControls(), 2000);
         });
-       
+
+        player.configure({
+            abr: { enabled: true, defaultBandwidthEstimate: 10000000 },
+            streaming: { bufferingGoal: 30, rebufferingGoal: 2 }
+        });
+
+        // UI Configuration for better mobile handling
+        ui.configure({
+            'controlPanelElements': ['play_pause', 'mute', 'volume', 'spacer', 'fullscreen', 'overflow_menu'],
+            'addLanguageControls': true,
+            'addSettingControls': true
+        });
+        
         loadStream('prime');
     }
 
     async function loadStream(id) {
         const s = channels[id];
         try {
+            await player.unload();
             await player.configure({ drm: { clearKeys: { [s.drmKeyId]: s.drmKey } } });
             await player.load(s.manifest);
+            video.play(); // Explicitly call play for mobile state sync
         } catch (e) { console.error('Error', e); }
     }
 
