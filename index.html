@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+
+<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+<script type="text/javascript">
+    aclib.runPop({
+        zoneId: '10973950',
+    });
+</script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="referrer" content="no-referrer">
     <title>CMV | Elite Streaming</title>
-    
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 
@@ -29,23 +38,23 @@
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            overflow-x: hidden; 
+            overflow-x: hidden;
             width: 100%;
         }
 
-        .shaka-video-container { 
-            border-radius: 16px; 
-            overflow: hidden; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-            width: 100% !important; 
+        .shaka-video-container {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 100% !important;
         }
 
         .shaka-video-container:fullscreen { border-radius: 0; }
-        
+       
         #video {
             width: 100% !important;
             height: 100% !important;
-            object-fit: contain; 
+            object-fit: contain;
         }
 
         video::-webkit-media-controls, video::-webkit-media-controls-enclosure { display:none !important; }
@@ -56,18 +65,9 @@
             opacity: 0 !important;
         }
 
-        .shaka-controls-container { 
-            background: transparent !important; 
-        }
-        
-        .shaka-bottom-controls { 
-            padding: 0 10px 10px 10px !important; 
-            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.8)); 
-        }
-
-        .shaka-seek-bar-container .shaka-range-element { 
-            --shaka-main-theme-color: var(--gold) !important; 
-        }
+        .shaka-controls-container { background: linear-gradient(transparent, rgba(0,0,0,0.8)) !important; }
+        .shaka-bottom-controls { padding: 0 10px 10px 10px !important; }
+        .shaka-seek-bar-container .shaka-range-element { --shaka-main-theme-color: var(--gold) !important; }
 
         .header {
             padding: 20px; text-align: center; backdrop-filter: blur(15px);
@@ -112,7 +112,7 @@
         .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.15); }
 
         .main-wrapper { max-width: 1000px; margin: 0 auto; padding: 15px; display: none; }
-        
+       
         .video-container-box {
             position: relative; width: 100%; padding-top: 56.25%;
             background: #000; border-radius: 16px; overflow: hidden;
@@ -136,7 +136,7 @@
         .s-btn.active { background: rgba(255, 215, 0, 0.1); border-color: var(--gold); color: var(--gold); }
 
         .hidden { display: none !important; }
-        
+       
         @media (max-width: 480px) {
             .switcher { grid-template-columns: 1fr 1fr; }
         }
@@ -170,20 +170,18 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js"></script>
 <script>
-    // Updated channel list - TNT 1-4 removed
     const channels = {
-        prime: { 
-            name: 'PRIME HD', 
-            manifest: 'https://a109aivottepl-a.akamaihd.net/syd-nitro/live/clients/dash/enc/bynuls0umq/out/v1/8f460e2902ee422e9ee8229e6de25719/cenc.mpd', 
-            drmKeyId: 'ed76c18710d621a87c89dedc7c13019f', 
-            drmKey: '7241c82fe48525a9dc6be6d7bb86611f' 
+        prime: {
+            name: 'PRIME HD',
+            manifest: 'https://a109aivottepl-a.akamaihd.net/syd-nitro/live/clients/dash/enc/bynuls0umq/out/v1/8f460e2902ee422e9ee8229e6de25719/cenc.mpd',
+            drmKeyId: 'ed76c18710d621a87c89dedc7c13019f',
+            drmKey: '7241c82fe48525a9dc6be6d7bb86611f'
         },
-        laliga: { 
-            name: 'LALIGA 4K', 
-            manifest: 'https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd', 
-            drmKeyId: '620e51b82596475517a27aa425c52280', 
-            drmKey: '2b9ba811e9c5aeafc8ae1b71cdca4d6a' 
-        }
+        laliga: { name: 'LALIGA 4K', manifest: 'https://abclxdjaaaaaaaamkqb6y4p6ie2zk.ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/k0duzgfejg/out/v1/70a50b1bda944628b8e7e66ab4069419/cenc.mpd', drmKeyId: '620e51b82596475517a27aa425c52280', drmKey: '2b9ba811e9c5aeafc8ae1b71cdca4d6a' },
+        tnt1: { name: 'TNT Sports 1', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/bsaaetko8v/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd', drmKeyId: 'd0f2e5c39e70c18f29bf77768a1ad89a', drmKey: 'd6853c51fcf37a18905f0609972395d7' },
+        tnt2: { name: 'TNT Sports 2', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/enniazhzls/out/v1/f8fa17f087564f51aa4d5c700be43ec4/cenc.mpd', drmKeyId: '9f51f3dc6313ac8bc668e2d9d1c04dfa', drmKey: '74bc63e5a193454a91ca494975db33f9' },
+        tnt3: { name: 'TNT Sports 3', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/lsdasbvglv/out/v1/bb548a3626cd4708afbb94a58d71dce9/cenc.mpd', drmKeyId: 'a93c1cbfdccd23233bac13540c693e7f', drmKey: '2f6ab2e6693eb847eff3c9da8f9d01fc' },
+        tnt4: { name: 'TNT Sports 4', manifest: 'https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/i2pcjr4pe5/out/v1/912e9db56d75403b8a9ac0a719110f36/cenc.mpd', drmKeyId: '192b1115da041585c77200128549efa1', drmKey: '634e10efe4abbb14be400a3ccbac0258' }
     };
 
     let player, ui, video, controls;
@@ -227,7 +225,7 @@
                 alwaysStreamText: true
             }
         });
-        
+       
         loadStream('prime');
     }
 
@@ -249,3 +247,11 @@
 </script>
 </body>
 </html>
+
+<div>
+    <script type="text/javascript">
+        aclib.runBanner({
+            zoneId: '10973938',
+        });
+    </script>
+</div>
